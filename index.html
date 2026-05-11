@@ -212,8 +212,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .pkg-icon{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;transition:all .32s var(--e)}
 .pkg-card:hover .pkg-icon{background:rgba(255,13,74,.14);border-color:rgba(255,13,74,.35);transform:scale(1.1) rotate(-4deg)}
 .pkg-card.sel .pkg-icon{background:rgba(255,13,74,.2);border-color:rgba(255,13,74,.5);box-shadow:0 0 20px rgba(255,13,74,.35);transform:scale(1.05)}
-.pkg-check{width:20px;height:20px;border-radius:50%;border:1.5px solid rgba(255,255,255,.22);background:rgba(0,0,0,.4);flex-shrink:0;position:relative;transition:all .3s var(--e);margin-top:2px}
-.pkg-card.sel .pkg-check{background:var(--red);border-color:var(--red);box-shadow:0 0 16px rgba(255,13,74,.55)}
+.pkg-check{width:20px;height:20px;border-radius:6px;border:1.5px solid rgba(255,255,255,.22);background:rgba(0,0,0,.4);flex-shrink:0;position:relative;transition:all .3s var(--e);margin-top:2px}
+.pkg-card.sel .pkg-check{background:var(--red);border-color:var(--red);box-shadow:0 0 16px rgba(255,13,74,.55);border-radius:6px}
 .pkg-card.sel .pkg-check::after{content:"";position:absolute;left:5px;top:2px;width:6px;height:10px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg)}
 .pkg-name{font-family:var(--fb);font-size:14px;letter-spacing:-.01em;text-transform:uppercase;color:var(--ink);line-height:1.2;transition:color .25s}
 .pkg-card.sel .pkg-name{color:#fff}
@@ -623,7 +623,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <div class="modal-overlay" id="pkgModal" onclick="if(event.target===this)closePkgModal()">
   <div class="modal">
     <div class="modal-head">
-      <div class="modal-title">Choose your<br><span class="r">package.</span><small>Select the one that matches your current priority</small></div>
+      <div class="modal-title">Choose your<br><span class="r">packages.</span><small>Select all that apply — you can pick more than one</small></div>
       <button class="modal-close" onclick="closePkgModal()">✕</button>
     </div>
     <div class="pkg-grid" id="pkgList">
@@ -855,7 +855,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     setRv('rv-product_link', fval('product_link'));
     setRv('rv-hero_sku', fval('hero_sku'));
     setRv('rv-category', fval('category'));
-    setRv('rv-preferred_package', fval('preferred_package'));
+    const pkgVal = fval('preferred_package');
+    const pkgEl = document.getElementById('rv-preferred_package');
+    if (pkgEl) {
+      if (pkgVal) {
+        pkgEl.innerHTML = pkgVal.split(', ').map(p => '<span class="pill">' + p + '</span>').join('');
+      } else {
+        pkgEl.textContent = '—';
+      }
+    }
     const sq = fval('sample_quantity');
     setRv('rv-sample_quantity', sq ? sq + ' units' : 'None');
     setRv('rv-current_monthly_gmv', fval('current_monthly_gmv'));
@@ -916,33 +924,44 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 })();
 
 // Package modal
-let pendingPkg = null;
+let pendingPkgs = new Set();
 function openPkgModal() {
   document.getElementById('pkgModal').classList.add('open');
   document.body.style.overflow = 'hidden';
   const cur = document.getElementById('pkg_hidden').value;
-  if (cur) {
-    document.querySelectorAll('.pkg-card').forEach(el => el.classList.toggle('sel', el.dataset.pkg === cur));
-    pendingPkg = cur;
-    document.getElementById('pkgConfirm').disabled = false;
-  }
+  pendingPkgs = new Set(cur ? cur.split(', ') : []);
+  document.querySelectorAll('.pkg-card').forEach(el => {
+    el.classList.toggle('sel', pendingPkgs.has(el.dataset.pkg));
+  });
+  document.getElementById('pkgConfirm').disabled = pendingPkgs.size === 0;
 }
 function closePkgModal() {
   document.getElementById('pkgModal').classList.remove('open');
   document.body.style.overflow = '';
-  pendingPkg = null;
 }
 function selectPkg(el) {
-  document.querySelectorAll('.pkg-card').forEach(i => i.classList.remove('sel'));
-  el.classList.add('sel');
-  pendingPkg = el.dataset.pkg;
-  document.getElementById('pkgConfirm').disabled = false;
+  const pkg = el.dataset.pkg;
+  if (pendingPkgs.has(pkg)) {
+    pendingPkgs.delete(pkg);
+    el.classList.remove('sel');
+  } else {
+    pendingPkgs.add(pkg);
+    el.classList.add('sel');
+  }
+  document.getElementById('pkgConfirm').disabled = pendingPkgs.size === 0;
 }
 function confirmPkg() {
-  if (!pendingPkg) return;
-  document.getElementById('pkg_hidden').value = pendingPkg;
-  document.getElementById('pkgBtnLabel').textContent = pendingPkg;
-  document.getElementById('pkgBtn').classList.add('selected');
+  if (pendingPkgs.size === 0) return;
+  const selected = Array.from(pendingPkgs);
+  document.getElementById('pkg_hidden').value = selected.join(', ');
+  const btn = document.getElementById('pkgBtn');
+  const label = document.getElementById('pkgBtnLabel');
+  if (selected.length === 1) {
+    label.textContent = selected[0];
+  } else {
+    label.textContent = selected.length + ' packages selected';
+  }
+  btn.classList.add('selected');
   closePkgModal();
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closePkgModal(); });
