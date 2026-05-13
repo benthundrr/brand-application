@@ -55,11 +55,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .lang-anim{display:inline-block;transition:opacity .18s,transform .18s}
 
 /* ── Language Picker — inline first screen ── */
-#lpScreen{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px 48px;background:#0a0a0c;position:relative;z-index:10}
+#lpScreen{display:block;padding:40px 24px;background:#0a0a0c;position:relative;z-index:10}
 #lpScreen.hidden{display:none}
+#lpScreen .lp-card{margin:0 auto}
 #mainContent{display:none}
 #mainContent.visible{display:block}
-html,body{background:#0a0a0c!important;min-height:unset}
 .lp-card{position:relative;background:linear-gradient(160deg,rgba(22,22,28,.98),rgba(10,10,14,1));border:1px solid rgba(255,255,255,.1);border-radius:32px;padding:48px 44px 40px;width:100%;max-width:480px;box-shadow:0 60px 120px rgba(0,0,0,.8),0 0 80px rgba(255,13,74,.08),inset 0 1px 0 rgba(255,255,255,.09);animation:fadeUp .6s var(--e) both}
 .lp-card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;border-radius:32px 32px 0 0;background:linear-gradient(90deg,transparent 5%,rgba(255,13,74,.6) 30%,rgba(255,255,255,.7) 50%,rgba(255,13,74,.6) 70%,transparent 95%)}
 .lp-card::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(255,13,74,.09),transparent 65%);pointer-events:none}
