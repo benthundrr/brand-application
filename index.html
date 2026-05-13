@@ -1113,6 +1113,8 @@ function pickLang(lang) {
   }
   document.getElementById('lpScreen').classList.add('hidden');
   document.getElementById('mainContent').classList.add('visible');
+  // Tell parent to resize iframe to fit full form
+  try { window.parent.postMessage({type:'resize',height:3200},'*'); } catch(e){}
 }
 </script>
 
