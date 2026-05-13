@@ -445,7 +445,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
               <div class="slabel" data-t="gmvLabel">Monthly TikTok Shop GMV</div>
               <div class="gmv-block">
                 <div class="gmv-top"><div class="gmv-val" id="gmvDisp">$0–$5K</div><div class="gmv-lbl" data-t="perMonth">per month</div></div>
-                <div class="gmv-wrap"><div class="gmv-track"><div class="gmv-fill" id="gmvFill" style="width:0%"></div></div><input type="range" min="0" max="6" step="1" value="0" class="gmv-range" id="gmvIn" name="gmv_slider"></div>
+                <div class="gmv-wrap"><div class="gmv-track"><div class="gmv-fill" id="gmvFill" style="width:0%"></div></div><input type="range" min="0" max="6" step="1" value="0" class="gmv-range" id="gmvIn"></div>
                 <div class="gmv-ticks"><span>$0</span><span>$25K</span><span>$100K</span><span>$500K</span><span>$1M</span><span>$5M</span><span>$10M+</span></div>
                 <input type="hidden" name="current_monthly_gmv" id="gmvHid" value="$0–$5K">
               </div>
@@ -454,7 +454,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
               <div class="slabel" data-t="affGmvLabel">Current affiliate GMV</div>
               <div class="gmv-block">
                 <div class="gmv-top"><div class="gmv-val" id="affDisp">$0–$5K</div><div class="gmv-lbl" data-t="perMonth">per month</div></div>
-                <div class="gmv-wrap"><div class="gmv-track"><div class="gmv-fill" id="affFill" style="width:0%"></div></div><input type="range" min="0" max="6" step="1" value="0" class="gmv-range" id="affIn" name="aff_gmv_slider"></div>
+                <div class="gmv-wrap"><div class="gmv-track"><div class="gmv-fill" id="affFill" style="width:0%"></div></div><input type="range" min="0" max="6" step="1" value="0" class="gmv-range" id="affIn"></div>
                 <div class="gmv-ticks"><span>$0</span><span>$25K</span><span>$100K</span><span>$500K</span><span>$1M</span><span>$5M</span><span>$10M+</span></div>
                 <input type="hidden" name="current_affiliate_gmv" id="affHid" value="$0–$5K">
               </div>
@@ -855,14 +855,11 @@ let currentLang = 'en';
 function setLang(lang) {
   currentLang = lang;
   const T = TRANSLATIONS[lang];
-  // Update toggle buttons
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-  // Update all data-t elements
   document.querySelectorAll('[data-t]').forEach(el => {
     const key = el.getAttribute('data-t');
     if (T[key] !== undefined) el.innerHTML = T[key];
   });
-  // Update pkg button label if already selected
   const pkgVal = document.getElementById('pkg_hidden').value;
   if (pkgVal) {
     const parts = pkgVal.split(', ');
@@ -870,10 +867,8 @@ function setLang(lang) {
     if (parts.length === 1) label.textContent = parts[0];
     else label.textContent = parts.length + ' ' + T.pkgSelectedN;
   }
-  // Keep hidden form field in sync so Formspree receives it
   const langField = document.getElementById('form_language');
   if (langField) langField.value = lang === 'zh' ? 'Chinese' : 'English';
-  // Recalculate step height after text reflow
   setTimeout(() => {
     const active = document.querySelector('.step.active');
     if (active && window._setH) window._setH(active);
@@ -1065,19 +1060,16 @@ function setLang(lang) {
     const btn = document.getElementById('submitBtn');
     btn.classList.add('loading'); btn.disabled = true;
     try {
-      // Build JSON payload
       const payload = {};
       new FormData(form).forEach((v, k) => { payload[k] = v; });
       payload.usage_rights_summary = multi('usage_rights').join(', ');
 
-      // Send to Formspree (stores submission + sends email)
       const res = await fetch(form.action, {
         method: 'POST',
         body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
       });
 
-      // Also fire directly to Cloudflare worker as JSON (populates Monday)
       fetch('https://formspree-monday.solitary-flower-a201.workers.dev/', {
         method: 'POST',
         body: JSON.stringify(payload),
