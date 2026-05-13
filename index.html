@@ -43,6 +43,44 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .back .arr{transition:transform .25s}
 .back:hover .arr{transform:translateX(-4px)}
 
+/* ── Lang Toggle ── */
+.topbar-right{display:flex;align-items:center;gap:10px}
+.lang-toggle{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:var(--pill);border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);cursor:pointer;transition:all .3s var(--e);white-space:nowrap}
+.lang-toggle:hover{color:var(--ink);border-color:rgba(255,255,255,.26);background:rgba(255,255,255,.08)}
+.lang-toggle.zh{border-color:rgba(255,13,74,.35);background:rgba(255,13,74,.08);color:var(--red-soft)}
+.lang-toggle.zh:hover{border-color:rgba(255,13,74,.55);background:rgba(255,13,74,.14);color:#fff}
+.lang-flag{font-size:14px;line-height:1}
+.lang-anim{display:inline-block;transition:opacity .18s,transform .18s}
+
+/* ── Language Picker Popup ── */
+.lp-overlay{position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);opacity:0;transition:opacity .5s var(--e)}
+.lp-overlay.visible{opacity:1}
+.lp-overlay.hidden{opacity:0;pointer-events:none}
+.lp-card{position:relative;background:linear-gradient(160deg,rgba(22,22,28,.98),rgba(10,10,14,1));border:1px solid rgba(255,255,255,.1);border-radius:32px;padding:48px 44px 40px;width:100%;max-width:480px;box-shadow:0 60px 120px rgba(0,0,0,.8),0 0 80px rgba(255,13,74,.08),inset 0 1px 0 rgba(255,255,255,.09);transform:scale(.9) translateY(24px);transition:transform .55s var(--e),opacity .55s var(--e);opacity:0}
+.lp-card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;border-radius:32px 32px 0 0;background:linear-gradient(90deg,transparent 5%,rgba(255,13,74,.6) 30%,rgba(255,255,255,.7) 50%,rgba(255,13,74,.6) 70%,transparent 95%)}
+.lp-card::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(255,13,74,.09),transparent 65%);pointer-events:none}
+.lp-overlay.visible .lp-card{transform:scale(1) translateY(0);opacity:1}
+.lp-logo{display:flex;align-items:center;gap:10px;font-family:var(--fb);font-size:16px;letter-spacing:-.03em;text-transform:uppercase;margin-bottom:32px;justify-content:center}
+.lp-logo .dot{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 14px rgba(255,13,74,.9);animation:pulse 2.5s ease-in-out infinite}
+.lp-heading{font-family:var(--fb);font-size:clamp(22px,5vw,30px);line-height:1;letter-spacing:-.03em;text-transform:uppercase;text-align:center;margin-bottom:6px}
+.lp-heading .r{color:var(--red)}
+.lp-sub{font-family:var(--fm);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);text-align:center;margin-bottom:36px}
+.lp-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.lp-opt{position:relative;padding:28px 20px 24px;background:rgba(0,0,0,.38);border:1.5px solid rgba(255,255,255,.09);border-radius:20px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:10px;overflow:hidden;transition:all .32s var(--e)}
+.lp-opt::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(145deg,rgba(255,13,74,.14),transparent 55%);opacity:0;transition:opacity .3s;pointer-events:none}
+.lp-opt:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.05);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.4)}
+.lp-opt:hover::before{opacity:.6}
+.lp-opt:active{transform:translateY(-1px) scale(.98)}
+.lp-flag{font-size:38px;line-height:1;filter:drop-shadow(0 4px 12px rgba(0,0,0,.5));transition:transform .3s var(--eb)}
+.lp-opt:hover .lp-flag{transform:scale(1.12) rotate(-3deg)}
+.lp-lang{font-family:var(--fb);font-size:17px;letter-spacing:-.01em;text-transform:uppercase;color:var(--ink)}
+.lp-lang-sub{font-family:var(--fm);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.lp-opt-en:hover,.lp-opt-en:focus{border-color:rgba(100,160,255,.5);box-shadow:0 0 0 3px rgba(100,160,255,.12),0 16px 48px rgba(0,0,0,.4)}
+.lp-opt-zh:hover,.lp-opt-zh:focus{border-color:rgba(255,13,74,.5);box-shadow:0 0 0 3px rgba(255,13,74,.12),0 16px 48px rgba(0,0,0,.4)}
+.lp-opt-zh:hover::before,.lp-opt-zh:focus::before{opacity:1}
+.lp-divider{position:relative;text-align:center;margin:4px 0 0}
+.lp-divider span{font-family:var(--fm);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute2)}
+
 /* ── Intro ── */
 .intro{padding:100px 24px 22px;text-align:center;max-width:900px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:14px;animation:fadeUp .8s var(--e) .1s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
@@ -307,6 +345,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .modal-sub{padding:8px 18px 14px}
   .pkg-i{padding:14px 18px;gap:12px}
   .modal-footer{padding:14px 18px 20px}
+  .lang-toggle{font-size:10px;padding:7px 10px}
 }
 @media(max-width:460px){
   .chips{grid-template-columns:1fr 1fr}
@@ -325,6 +364,28 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 </head>
 <body>
 
+<!-- ══ Language Picker Popup ══ -->
+<div class="lp-overlay" id="lpOverlay" role="dialog" aria-modal="true" aria-label="Choose language">
+  <div class="lp-card" id="lpCard">
+    <div class="lp-logo"><span class="dot"></span>THUNDRR</div>
+    <h2 class="lp-heading">Choose your <span class="r">language.</span><br>选择您的<span class="r">语言。</span></h2>
+    <p class="lp-sub">Select to continue &nbsp;·&nbsp; 选择以继续</p>
+    <div class="lp-options">
+      <button class="lp-opt lp-opt-en" onclick="pickLang('en')" aria-label="English">
+        <span class="lp-flag">🇺🇸</span>
+        <span class="lp-lang">English</span>
+        <span class="lp-lang-sub">Continue in English</span>
+      </button>
+      <button class="lp-opt lp-opt-zh" onclick="pickLang('zh')" aria-label="中文">
+        <span class="lp-flag">🇨🇳</span>
+        <span class="lp-lang">中文</span>
+        <span class="lp-lang-sub">继续使用中文</span>
+      </button>
+    </div>
+    <div class="lp-divider"><span>You can switch at any time &nbsp;·&nbsp; 随时可切换语言</span></div>
+  </div>
+</div>
+
 <div class="atmos">
   <div class="atmos-mesh"></div>
   <div class="orb orb1"></div>
@@ -334,21 +395,27 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 <header class="topbar" id="topbar">
   <a href="https://www.thundrrshop.com" class="logo"><span class="dot"></span>THUNDRR</a>
-  <a href="https://www.thundrrshop.com/brands" class="back"><span class="arr">←</span>Back to brands</a>
+  <div class="topbar-right">
+    <button class="lang-toggle" id="langToggle" onclick="toggleLang()">
+      <span class="lang-flag" id="langFlag">🇺🇸</span>
+      <span class="lang-anim" id="langLabel">中文</span>
+    </button>
+    <a href="https://www.thundrrshop.com/brands" class="back"><span class="arr">←</span><span data-t="back">Back to brands</span></a>
+  </div>
 </header>
 
 <section class="intro">
-  <div class="eyebrow">Brand Application</div>
-  <div class="eyemeta"><span class="dot2"></span><strong>~5 minutes · 4 steps</strong></div>
+  <div class="eyebrow" data-t="eyebrow">Brand Application</div>
+  <div class="eyemeta"><span class="dot2"></span><strong data-t="eyemeta-strong">~5 minutes · 4 steps</strong></div>
 </section>
 
 <main class="stage">
   <div class="progress" id="progress">
     <div class="pline"><div class="pline-fill" id="plineFill"></div></div>
-    <div class="pstep ac" data-step="1"><div class="pcirc"><span class="pnum">1</span><span class="pcheck">✓</span></div><div class="plabel">Contact</div></div>
-    <div class="pstep" data-step="2"><div class="pcirc"><span class="pnum">2</span><span class="pcheck">✓</span></div><div class="plabel">GMV &amp; Budget</div></div>
-    <div class="pstep" data-step="3"><div class="pcirc"><span class="pnum">3</span><span class="pcheck">✓</span></div><div class="plabel">Creator Goals</div></div>
-    <div class="pstep" data-step="4"><div class="pcirc"><span class="pnum">4</span><span class="pcheck">✓</span></div><div class="plabel">Review</div></div>
+    <div class="pstep ac" data-step="1"><div class="pcirc"><span class="pnum">1</span><span class="pcheck">✓</span></div><div class="plabel" data-t="step1-label">Contact</div></div>
+    <div class="pstep" data-step="2"><div class="pcirc"><span class="pnum">2</span><span class="pcheck">✓</span></div><div class="plabel" data-t="step2-label">GMV &amp; Budget</div></div>
+    <div class="pstep" data-step="3"><div class="pcirc"><span class="pnum">3</span><span class="pcheck">✓</span></div><div class="plabel" data-t="step3-label">Creator Goals</div></div>
+    <div class="pstep" data-step="4"><div class="pcirc"><span class="pnum">4</span><span class="pcheck">✓</span></div><div class="plabel" data-t="step4-label">Review</div></div>
   </div>
 
   <div class="card">
@@ -358,93 +425,93 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
         <!-- ══ STEP 1 ══ -->
         <div class="step active" data-step="1">
-          <div class="smeta"><span><span class="n">01</span> Product</span><span>25%</span></div>
-          <h2 class="stitle">Your product <span class="r">setup.</span></h2>
-          <p class="sdesc">Your details and TikTok Shop setup.</p>
+          <div class="smeta"><span><span class="n">01</span> <span data-t="s1-meta">Product</span></span><span>25%</span></div>
+          <h2 class="stitle" data-t="s1-title">Your product <span class="r">setup.</span></h2>
+          <p class="sdesc" data-t="s1-desc">Your details and TikTok Shop setup.</p>
           <div class="fields">
             <div class="frow two">
               <div class="field" data-req>
                 <input id="contact_name" name="name" placeholder=" " required>
-                <label for="contact_name">Full name</label>
+                <label for="contact_name" data-t="f-name">Full name</label>
               </div>
               <div class="field" data-req data-email>
                 <input type="email" id="contact_email" name="email" placeholder=" " required>
-                <label for="contact_email">Email address</label>
+                <label for="contact_email" data-t="f-email">Email address</label>
               </div>
             </div>
             <div class="frow two">
               <div class="field" data-req>
                 <input type="tel" id="contact_phone" name="phone" placeholder=" " required>
-                <label for="contact_phone">Phone number</label>
+                <label for="contact_phone" data-t="f-phone">Phone number</label>
               </div>
               <div class="field">
                 <input id="wechat_id" name="wechat_id" placeholder=" ">
-                <label for="wechat_id">WeChat ID <span style="color:var(--mute2)">(optional)</span></label>
+                <label for="wechat_id"><span data-t="f-wechat">WeChat ID</span> <span style="color:var(--mute2)" data-t="optional">(optional)</span></label>
               </div>
             </div>
             <div class="field" data-req>
               <input type="url" id="product_link" name="product_link" placeholder=" " required>
-              <label for="product_link">TikTok Shop product link</label>
-              <span class="field-hint">tiktok.com/view/product/…</span>
+              <label for="product_link" data-t="f-product-link">TikTok Shop product link</label>
+              <span class="field-hint" data-t="h-product-link">tiktok.com/view/product/…</span>
             </div>
             <div class="field" data-req>
               <input id="hero_sku" name="hero_sku" placeholder=" " required>
-              <label for="hero_sku">Hero SKU name</label>
-              <span class="field-hint">Your primary product to push</span>
+              <label for="hero_sku" data-t="f-hero-sku">Hero SKU name</label>
+              <span class="field-hint" data-t="h-hero-sku">Your primary product to push</span>
             </div>
             <div>
-              <div class="slabel">Product category</div>
+              <div class="slabel" data-t="sl-category">Product category</div>
               <div class="chips" data-cg="category">
-                <label class="chip" data-v="Beauty &amp; Skincare"><input type="radio" name="category" value="Beauty &amp; Skincare"><span class="chip-icon">💄</span><span class="chip-label">Beauty</span><span class="chip-sub">Skincare</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Wellness"><input type="radio" name="category" value="Wellness"><span class="chip-icon">🌿</span><span class="chip-label">Wellness</span><span class="chip-sub">Supplements</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Fashion"><input type="radio" name="category" value="Fashion"><span class="chip-icon">👗</span><span class="chip-label">Fashion</span><span class="chip-sub">Apparel</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Home &amp; Living"><input type="radio" name="category" value="Home &amp; Living"><span class="chip-icon">🏠</span><span class="chip-label">Home</span><span class="chip-sub">Decor</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Tech &amp; Gadgets"><input type="radio" name="category" value="Tech &amp; Gadgets"><span class="chip-icon">⚡</span><span class="chip-label">Tech</span><span class="chip-sub">Gadgets</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Pets"><input type="radio" name="category" value="Pets"><span class="chip-icon">🐾</span><span class="chip-label">Pets</span><span class="chip-sub">Accessories</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Food &amp; Beverage"><input type="radio" name="category" value="Food &amp; Beverage"><span class="chip-icon">🍵</span><span class="chip-label">F&amp;B</span><span class="chip-sub">Drinks</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Other"><input type="radio" name="category" value="Other"><span class="chip-icon">✨</span><span class="chip-label">Other</span><span class="chip-sub">Tell us</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Beauty &amp; Skincare"><input type="radio" name="category" value="Beauty &amp; Skincare"><span class="chip-icon">💄</span><span class="chip-label" data-t="cat-beauty">Beauty</span><span class="chip-sub" data-t="cat-beauty-sub">Skincare</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Wellness"><input type="radio" name="category" value="Wellness"><span class="chip-icon">🌿</span><span class="chip-label" data-t="cat-wellness">Wellness</span><span class="chip-sub" data-t="cat-wellness-sub">Supplements</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Fashion"><input type="radio" name="category" value="Fashion"><span class="chip-icon">👗</span><span class="chip-label" data-t="cat-fashion">Fashion</span><span class="chip-sub" data-t="cat-fashion-sub">Apparel</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Home &amp; Living"><input type="radio" name="category" value="Home &amp; Living"><span class="chip-icon">🏠</span><span class="chip-label" data-t="cat-home">Home</span><span class="chip-sub" data-t="cat-home-sub">Decor</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Tech &amp; Gadgets"><input type="radio" name="category" value="Tech &amp; Gadgets"><span class="chip-icon">⚡</span><span class="chip-label" data-t="cat-tech">Tech</span><span class="chip-sub" data-t="cat-tech-sub">Gadgets</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Pets"><input type="radio" name="category" value="Pets"><span class="chip-icon">🐾</span><span class="chip-label" data-t="cat-pets">Pets</span><span class="chip-sub" data-t="cat-pets-sub">Accessories</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Food &amp; Beverage"><input type="radio" name="category" value="Food &amp; Beverage"><span class="chip-icon">🍵</span><span class="chip-label" data-t="cat-fb">F&amp;B</span><span class="chip-sub" data-t="cat-fb-sub">Drinks</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Other"><input type="radio" name="category" value="Other"><span class="chip-icon">✨</span><span class="chip-label" data-t="cat-other">Other</span><span class="chip-sub" data-t="cat-other-sub">Tell us</span><span class="chip-ck"></span></label>
               </div>
             </div>
             <div>
-              <div class="slabel">Preferred package</div>
+              <div class="slabel" data-t="sl-package">Preferred package</div>
               <input type="hidden" name="preferred_package" id="pkg_hidden" value="">
               <button type="button" class="pkg-btn" id="pkgBtn" onclick="openPkgModal()">
-                <span id="pkgBtnLabel">Select a package →</span>
+                <span id="pkgBtnLabel" data-t="pkg-btn-label">Select a package →</span>
                 <span class="pkg-arr">↗</span>
               </button>
             </div>
-            <div class="slabel">📦 Sample availability</div>
+            <div class="slabel" data-t="sl-samples">📦 Sample availability</div>
             <div class="field">
               <input type="number" id="sample_qty" name="sample_quantity" placeholder=" " min="0" step="1">
-              <label for="sample_qty">How many units can you provide?</label>
-              <span class="field-hint">Enter 0 if none</span>
+              <label for="sample_qty" data-t="f-samples">How many units can you provide?</label>
+              <span class="field-hint" data-t="h-samples">Enter 0 if none</span>
             </div>
           </div>
           <div class="nav">
             <div class="nl"></div>
-            <div class="nr"><button type="button" class="btn btn-p" data-next="2"><span class="bt">Continue</span><span class="a">→</span></button></div>
+            <div class="nr"><button type="button" class="btn btn-p" data-next="2"><span class="bt" data-t="btn-continue">Continue</span><span class="a">→</span></button></div>
           </div>
         </div>
 
         <!-- ══ STEP 2 ══ -->
         <div class="step" data-step="2">
-          <div class="smeta"><span><span class="n">02</span> GMV &amp; Budget</span><span>50%</span></div>
-          <h2 class="stitle">Numbers &amp; <span class="r">budget.</span></h2>
-          <p class="sdesc">Current performance and what you're willing to invest.</p>
+          <div class="smeta"><span><span class="n">02</span> <span data-t="s2-meta">GMV &amp; Budget</span></span><span>50%</span></div>
+          <h2 class="stitle" data-t="s2-title">Numbers &amp; <span class="r">budget.</span></h2>
+          <p class="sdesc" data-t="s2-desc">Current performance and what you're willing to invest.</p>
           <div class="fields">
             <div>
-              <div class="slabel">Monthly TikTok Shop GMV</div>
+              <div class="slabel" data-t="sl-monthly-gmv">Monthly TikTok Shop GMV</div>
               <div class="gmv-block">
-                <div class="gmv-top"><div class="gmv-val" id="gmvDisp">$0–$5K</div><div class="gmv-lbl">per month</div></div>
+                <div class="gmv-top"><div class="gmv-val" id="gmvDisp">$0–$5K</div><div class="gmv-lbl" data-t="gmv-per-month">per month</div></div>
                 <div class="gmv-wrap"><div class="gmv-track"><div class="gmv-fill" id="gmvFill" style="width:0%"></div></div><input type="range" min="0" max="6" step="1" value="0" class="gmv-range" id="gmvIn" name="gmv_slider"></div>
                 <div class="gmv-ticks"><span>$0</span><span>$25K</span><span>$100K</span><span>$500K</span><span>$1M</span><span>$5M</span><span>$10M+</span></div>
                 <input type="hidden" name="current_monthly_gmv" id="gmvHid" value="$0–$5K">
               </div>
             </div>
             <div>
-              <div class="slabel">Current affiliate GMV</div>
+              <div class="slabel" data-t="sl-aff-gmv">Current affiliate GMV</div>
               <div class="gmv-block">
-                <div class="gmv-top"><div class="gmv-val" id="affDisp">$0–$5K</div><div class="gmv-lbl">per month</div></div>
+                <div class="gmv-top"><div class="gmv-val" id="affDisp">$0–$5K</div><div class="gmv-lbl" data-t="gmv-per-month2">per month</div></div>
                 <div class="gmv-wrap"><div class="gmv-track"><div class="gmv-fill" id="affFill" style="width:0%"></div></div><input type="range" min="0" max="6" step="1" value="0" class="gmv-range" id="affIn" name="aff_gmv_slider"></div>
                 <div class="gmv-ticks"><span>$0</span><span>$25K</span><span>$100K</span><span>$500K</span><span>$1M</span><span>$5M</span><span>$10M+</span></div>
                 <input type="hidden" name="current_affiliate_gmv" id="affHid" value="$0–$5K">
@@ -453,58 +520,58 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
             <div class="frow two">
               <div class="field" data-req>
                 <input id="comm_cur" name="current_commission_rate" placeholder=" " required>
-                <label for="comm_cur">Current commission rate</label>
-                <span class="field-hint">e.g. 10%</span>
+                <label for="comm_cur" data-t="f-comm-cur">Current commission rate</label>
+                <span class="field-hint" data-t="h-comm-cur">e.g. 10%</span>
               </div>
               <div class="field" data-req>
                 <input id="comm_max" name="max_commission_rate" placeholder=" " required>
-                <label for="comm_max">Highest commission available</label>
-                <span class="field-hint">For top creators</span>
+                <label for="comm_max" data-t="f-comm-max">Highest commission available</label>
+                <span class="field-hint" data-t="h-comm-max">For top creators</span>
               </div>
             </div>
             <div>
-              <div class="slabel">Budget range</div>
+              <div class="slabel" data-t="sl-budget">Budget range</div>
               <div class="chips" data-cg="budget">
-                <label class="chip" data-v="Under $1K"><input type="radio" name="budget_range" value="Under $1K"><span class="chip-label">Under $1K</span><span class="chip-sub">/mo</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="$1K–$5K"><input type="radio" name="budget_range" value="$1K–$5K"><span class="chip-label">$1K–$5K</span><span class="chip-sub">/mo</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="$5K–$15K"><input type="radio" name="budget_range" value="$5K–$15K"><span class="chip-label">$5K–$15K</span><span class="chip-sub">/mo</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="$15K–$50K"><input type="radio" name="budget_range" value="$15K–$50K"><span class="chip-label">$15K–$50K</span><span class="chip-sub">/mo</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="$50K+"><input type="radio" name="budget_range" value="$50K+"><span class="chip-label">$50K+</span><span class="chip-sub">/mo</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Under $1K"><input type="radio" name="budget_range" value="Under $1K"><span class="chip-label" data-t="bud-1k">Under $1K</span><span class="chip-sub" data-t="bud-mo">/mo</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="$1K–$5K"><input type="radio" name="budget_range" value="$1K–$5K"><span class="chip-label">$1K–$5K</span><span class="chip-sub" data-t="bud-mo2">/mo</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="$5K–$15K"><input type="radio" name="budget_range" value="$5K–$15K"><span class="chip-label">$5K–$15K</span><span class="chip-sub" data-t="bud-mo3">/mo</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="$15K–$50K"><input type="radio" name="budget_range" value="$15K–$50K"><span class="chip-label">$15K–$50K</span><span class="chip-sub" data-t="bud-mo4">/mo</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="$50K+"><input type="radio" name="budget_range" value="$50K+"><span class="chip-label">$50K+</span><span class="chip-sub" data-t="bud-mo5">/mo</span><span class="chip-ck"></span></label>
               </div>
             </div>
             <div>
-              <div class="slabel">Timeline</div>
+              <div class="slabel" data-t="sl-timeline">Timeline</div>
               <div class="chips" data-cg="timeline">
-                <label class="chip" data-v="ASAP"><input type="radio" name="timeline" value="ASAP"><span class="chip-icon">⚡</span><span class="chip-label">ASAP</span><span class="chip-sub">This week</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Within 30 days"><input type="radio" name="timeline" value="Within 30 days"><span class="chip-icon">📅</span><span class="chip-label">30 days</span><span class="chip-sub">Next month</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="1–3 months"><input type="radio" name="timeline" value="1–3 months"><span class="chip-icon">🗓</span><span class="chip-label">1–3 months</span><span class="chip-sub">Planning</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Flexible"><input type="radio" name="timeline" value="Flexible"><span class="chip-icon">🌊</span><span class="chip-label">Flexible</span><span class="chip-sub">No rush</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="ASAP"><input type="radio" name="timeline" value="ASAP"><span class="chip-icon">⚡</span><span class="chip-label" data-t="tl-asap">ASAP</span><span class="chip-sub" data-t="tl-asap-sub">This week</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Within 30 days"><input type="radio" name="timeline" value="Within 30 days"><span class="chip-icon">📅</span><span class="chip-label" data-t="tl-30">30 days</span><span class="chip-sub" data-t="tl-30-sub">Next month</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="1–3 months"><input type="radio" name="timeline" value="1–3 months"><span class="chip-icon">🗓</span><span class="chip-label" data-t="tl-3mo">1–3 months</span><span class="chip-sub" data-t="tl-3mo-sub">Planning</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Flexible"><input type="radio" name="timeline" value="Flexible"><span class="chip-icon">🌊</span><span class="chip-label" data-t="tl-flex">Flexible</span><span class="chip-sub" data-t="tl-flex-sub">No rush</span><span class="chip-ck"></span></label>
               </div>
             </div>
           </div>
           <div class="nav">
-            <div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="1"><span class="a">→</span> Back</button></div>
-            <div class="nr"><button type="button" class="btn btn-p" data-next="3"><span class="bt">Continue</span><span class="a">→</span></button></div>
+            <div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="1"><span class="a">→</span> <span data-t="btn-back">Back</span></button></div>
+            <div class="nr"><button type="button" class="btn btn-p" data-next="3"><span class="bt" data-t="btn-continue2">Continue</span><span class="a">→</span></button></div>
           </div>
         </div>
 
         <!-- ══ STEP 3 ══ -->
         <div class="step" data-step="3">
-          <div class="smeta"><span><span class="n">03</span> Creator Goals</span><span>75%</span></div>
-          <h2 class="stitle">Creator &amp; content <span class="r">goals.</span></h2>
-          <p class="sdesc">Creator output, LIVE, and UGC goals.</p>
+          <div class="smeta"><span><span class="n">03</span> <span data-t="s3-meta">Creator Goals</span></span><span>75%</span></div>
+          <h2 class="stitle" data-t="s3-title">Creator &amp; content <span class="r">goals.</span></h2>
+          <p class="sdesc" data-t="s3-desc">Creator output, LIVE, and UGC goals.</p>
           <div class="fields">
             <div>
-              <div class="slabel">Target number of videos</div>
+              <div class="slabel" data-t="sl-videos">Target number of videos</div>
               <div class="chips" data-cg="videos">
-                <label class="chip" data-v="1–10 videos"><input type="radio" name="target_videos" value="1–10 videos"><span class="chip-label">1–10</span><span class="chip-sub">Testing</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="10–50 videos"><input type="radio" name="target_videos" value="10–50 videos"><span class="chip-label">10–50</span><span class="chip-sub">Growing</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="50–200 videos"><input type="radio" name="target_videos" value="50–200 videos"><span class="chip-label">50–200</span><span class="chip-sub">Scaling</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="200+ videos"><input type="radio" name="target_videos" value="200+ videos"><span class="chip-label">200+</span><span class="chip-sub">Full blast</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="1–10 videos"><input type="radio" name="target_videos" value="1–10 videos"><span class="chip-label" data-t="vid-10">1–10</span><span class="chip-sub" data-t="vid-10-sub">Testing</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="10–50 videos"><input type="radio" name="target_videos" value="10–50 videos"><span class="chip-label" data-t="vid-50">10–50</span><span class="chip-sub" data-t="vid-50-sub">Growing</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="50–200 videos"><input type="radio" name="target_videos" value="50–200 videos"><span class="chip-label" data-t="vid-200">50–200</span><span class="chip-sub" data-t="vid-200-sub">Scaling</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="200+ videos"><input type="radio" name="target_videos" value="200+ videos"><span class="chip-label" data-t="vid-200p">200+</span><span class="chip-sub" data-t="vid-200p-sub">Full blast</span><span class="chip-ck"></span></label>
               </div>
             </div>
             <div>
-              <div class="slabel">Desired creator level</div>
+              <div class="slabel" data-t="sl-creator-level">Desired creator level</div>
               <div class="chips" data-cg="creator_level" style="grid-template-columns:repeat(3,1fr)">
                 <label class="chip" data-v="L1: 1K–10K"><input type="radio" name="creator_gmv_level" value="L1: 1K–10K"><span class="chip-label">L1</span><span class="chip-sub">1K–10K</span><span class="chip-ck"></span></label>
                 <label class="chip" data-v="L2: 10K–25K"><input type="radio" name="creator_gmv_level" value="L2: 10K–25K"><span class="chip-label">L2</span><span class="chip-sub">10K–25K</span><span class="chip-ck"></span></label>
@@ -515,77 +582,77 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
               </div>
             </div>
             <div>
-              <div class="slabel">Usage / ad rights needed</div>
+              <div class="slabel" data-t="sl-usage">Usage / ad rights needed</div>
               <div class="mchips">
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Spark Ads whitelisting"> Spark Ads whitelisting</label>
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Paid ad usage (off-platform)"> Paid ad usage (off-platform)</label>
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Organic reposts only"> Organic reposts only</label>
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Full buyout"> Full buyout</label>
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Not sure yet"> Not sure yet</label>
+                <label class="mchip"><input type="checkbox" name="usage_rights" value="Spark Ads whitelisting"> <span data-t="ur-spark">Spark Ads whitelisting</span></label>
+                <label class="mchip"><input type="checkbox" name="usage_rights" value="Paid ad usage (off-platform)"> <span data-t="ur-paid">Paid ad usage (off-platform)</span></label>
+                <label class="mchip"><input type="checkbox" name="usage_rights" value="Organic reposts only"> <span data-t="ur-organic">Organic reposts only</span></label>
+                <label class="mchip"><input type="checkbox" name="usage_rights" value="Full buyout"> <span data-t="ur-buyout">Full buyout</span></label>
+                <label class="mchip"><input type="checkbox" name="usage_rights" value="Not sure yet"> <span data-t="ur-notsure">Not sure yet</span></label>
               </div>
             </div>
             <div class="field">
               <textarea id="live_goals" name="live_goals" placeholder=" "></textarea>
-              <label for="live_goals">LIVE selling goals <span style="color:var(--mute2)">(optional)</span></label>
-              <span class="field-hint">"2× weekly LIVE, $20K per session"</span>
+              <label for="live_goals"><span data-t="f-live-goals">LIVE selling goals</span> <span style="color:var(--mute2)" data-t="optional2">(optional)</span></label>
+              <span class="field-hint" data-t="h-live-goals">"2× weekly LIVE, $20K per session"</span>
             </div>
             <div class="field">
               <textarea id="ugc_needs" name="ugc_needs" placeholder=" "></textarea>
-              <label for="ugc_needs">UGC needs <span style="color:var(--mute2)">(optional)</span></label>
-              <span class="field-hint">Formats, volume, deliverables</span>
+              <label for="ugc_needs"><span data-t="f-ugc">UGC needs</span> <span style="color:var(--mute2)" data-t="optional3">(optional)</span></label>
+              <span class="field-hint" data-t="h-ugc">Formats, volume, deliverables</span>
             </div>
             <div class="field">
               <textarea id="comments" name="comments" placeholder=" "></textarea>
-              <label for="comments">Other questions or comments <span style="color:var(--mute2)">(optional)</span></label>
-              <span class="field-hint">Anything else we should know</span>
+              <label for="comments"><span data-t="f-comments">Other questions or comments</span> <span style="color:var(--mute2)" data-t="optional4">(optional)</span></label>
+              <span class="field-hint" data-t="h-comments">Anything else we should know</span>
             </div>
           </div>
           <div class="nav">
-            <div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="2"><span class="a">→</span> Back</button></div>
-            <div class="nr"><button type="button" class="btn btn-p" data-next="4"><span class="bt">Review</span><span class="a">→</span></button></div>
+            <div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="2"><span class="a">→</span> <span data-t="btn-back2">Back</span></button></div>
+            <div class="nr"><button type="button" class="btn btn-p" data-next="4"><span class="bt" data-t="btn-review">Review</span><span class="a">→</span></button></div>
           </div>
         </div>
 
         <!-- ══ STEP 4 ══ -->
         <div class="step" data-step="4">
-          <div class="smeta"><span><span class="n">04</span> Review</span><span>100%</span></div>
-          <h2 class="stitle">One last <span class="r">look.</span></h2>
-          <p class="sdesc">Review before you send.</p>
+          <div class="smeta"><span><span class="n">04</span> <span data-t="s4-meta">Review</span></span><span>100%</span></div>
+          <h2 class="stitle" data-t="s4-title">One last <span class="r">look.</span></h2>
+          <p class="sdesc" data-t="s4-desc">Review before you send.</p>
           <div class="review" id="reviewPanel">
-            <div class="r-sec">Contact</div>
-            <div class="r-row"><div class="r-key">Name</div><div class="r-val" id="rv-name">—</div></div>
-            <div class="r-row"><div class="r-key">Email</div><div class="r-val" id="rv-email">—</div></div>
-            <div class="r-row"><div class="r-key">Phone</div><div class="r-val" id="rv-phone">—</div></div>
-            <div class="r-row"><div class="r-key">WeChat</div><div class="r-val" id="rv-wechat">—</div></div>
-            <div class="r-sec">Product</div>
-            <div class="r-row"><div class="r-key">Link</div><div class="r-val" id="rv-product_link">—</div></div>
-            <div class="r-row"><div class="r-key">Hero SKU</div><div class="r-val" id="rv-hero_sku">—</div></div>
-            <div class="r-row"><div class="r-key">Category</div><div class="r-val" id="rv-category">—</div></div>
-            <div class="r-row"><div class="r-key">Package</div><div class="r-val" id="rv-preferred_package">—</div></div>
-            <div class="r-row"><div class="r-key">Samples</div><div class="r-val" id="rv-sample_quantity">—</div></div>
-            <div class="r-sec">GMV / Budget</div>
-            <div class="r-row"><div class="r-key">Monthly GMV</div><div class="r-val" id="rv-current_monthly_gmv">—</div></div>
-            <div class="r-row"><div class="r-key">Aff GMV</div><div class="r-val" id="rv-current_affiliate_gmv">—</div></div>
-            <div class="r-row"><div class="r-key">Cur comm</div><div class="r-val" id="rv-current_commission_rate">—</div></div>
-            <div class="r-row"><div class="r-key">Max comm</div><div class="r-val" id="rv-max_commission_rate">—</div></div>
-            <div class="r-row"><div class="r-key">Budget</div><div class="r-val" id="rv-budget_range">—</div></div>
-            <div class="r-row"><div class="r-key">Timeline</div><div class="r-val" id="rv-timeline">—</div></div>
-            <div class="r-sec">Creator</div>
-            <div class="r-row"><div class="r-key">Videos</div><div class="r-val" id="rv-target_videos">—</div></div>
-            <div class="r-row"><div class="r-key">Creator level</div><div class="r-val" id="rv-creator_gmv_level">—</div></div>
-            <div class="r-row"><div class="r-key">Usage rights</div><div class="r-val" id="rv-usage_rights">—</div></div>
-            <div class="r-row"><div class="r-key">LIVE goals</div><div class="r-val" id="rv-live_goals">—</div></div>
-            <div class="r-row"><div class="r-key">UGC needs</div><div class="r-val" id="rv-ugc_needs">—</div></div>
-            <div class="r-row"><div class="r-key">Comments</div><div class="r-val" id="rv-comments">—</div></div>
+            <div class="r-sec" data-t="rv-sec-contact">Contact</div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-name">Name</div><div class="r-val" id="rv-name">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-email">Email</div><div class="r-val" id="rv-email">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-phone">Phone</div><div class="r-val" id="rv-phone">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-wechat">WeChat</div><div class="r-val" id="rv-wechat">—</div></div>
+            <div class="r-sec" data-t="rv-sec-product">Product</div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-link">Link</div><div class="r-val" id="rv-product_link">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-sku">Hero SKU</div><div class="r-val" id="rv-hero_sku">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-category">Category</div><div class="r-val" id="rv-category">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-package">Package</div><div class="r-val" id="rv-preferred_package">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-samples">Samples</div><div class="r-val" id="rv-sample_quantity">—</div></div>
+            <div class="r-sec" data-t="rv-sec-gmv">GMV / Budget</div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-monthly-gmv">Monthly GMV</div><div class="r-val" id="rv-current_monthly_gmv">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-aff-gmv">Aff GMV</div><div class="r-val" id="rv-current_affiliate_gmv">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-cur-comm">Cur comm</div><div class="r-val" id="rv-current_commission_rate">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-max-comm">Max comm</div><div class="r-val" id="rv-max_commission_rate">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-budget">Budget</div><div class="r-val" id="rv-budget_range">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-timeline">Timeline</div><div class="r-val" id="rv-timeline">—</div></div>
+            <div class="r-sec" data-t="rv-sec-creator">Creator</div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-videos">Videos</div><div class="r-val" id="rv-target_videos">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-creator-level">Creator level</div><div class="r-val" id="rv-creator_gmv_level">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-usage">Usage rights</div><div class="r-val" id="rv-usage_rights">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-live">LIVE goals</div><div class="r-val" id="rv-live_goals">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-ugc">UGC needs</div><div class="r-val" id="rv-ugc_needs">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rv-key-comments">Comments</div><div class="r-val" id="rv-comments">—</div></div>
           </div>
           <label class="consent">
             <input type="checkbox" id="consent" required>
             <span class="cbox"></span>
-            <span class="ctext">By submitting, I agree to <strong>Thundrr reaching out</strong> with a tailored plan.</span>
+            <span class="ctext" data-t="consent-text">By submitting, I agree to <strong>Thundrr reaching out</strong> with a tailored plan.</span>
           </label>
           <div class="nav">
-            <div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="3"><span class="a">→</span> Back</button></div>
-            <div class="nr"><button type="submit" class="btn btn-sub" id="submitBtn"><span class="spinner"></span><span class="bt">Send my application</span><span class="a">→</span></button></div>
+            <div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="3"><span class="a">→</span> <span data-t="btn-back3">Back</span></button></div>
+            <div class="nr"><button type="submit" class="btn btn-sub" id="submitBtn"><span class="spinner"></span><span class="bt" data-t="btn-submit">Send my application</span><span class="a">→</span></button></div>
           </div>
         </div>
 
@@ -596,19 +663,19 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <div class="s-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-        <h2 class="s-title">You're <span class="r">in.</span></h2>
-        <p class="s-sub">Application received. A real human from Thundrr will reach out shortly with a tailored plan.</p>
-        <div class="s-meta"><span>Questions? <strong>jon@thundrrshop.com</strong></span></div>
+        <h2 class="s-title"><span data-t="s-title-1">You're</span> <span class="r" data-t="s-title-2">in.</span></h2>
+        <p class="s-sub" data-t="s-sub">Application received. A real human from Thundrr will reach out shortly with a tailored plan.</p>
+        <div class="s-meta"><span data-t="s-meta">Questions? <strong>jon@thundrrshop.com</strong></span></div>
         <div class="cal-card">
-          <div class="cal-label">Optional next step</div>
-          <div class="cal-title">Book a strategy call</div>
-          <div class="cal-sub">Skip the back-and-forth — lock in a 20-minute call with the Thundrr team directly.</div>
+          <div class="cal-label" data-t="cal-label">Optional next step</div>
+          <div class="cal-title" data-t="cal-title">Book a strategy call</div>
+          <div class="cal-sub" data-t="cal-sub">Skip the back-and-forth — lock in a 20-minute call with the Thundrr team directly.</div>
           <a href="https://calendly.com/jon-thundrrshop/" target="_blank" rel="noopener" class="cal-btn">
-            <span>Book a call</span><span class="a">→</span>
+            <span data-t="cal-btn">Book a call</span><span class="a">→</span>
           </a>
         </div>
         <div class="s-actions" style="margin-top:20px">
-          <a href="https://www.thundrrshop.com/brands" class="btn btn-g"><span class="a" style="transform:scaleX(-1)">→</span> Back to brands</a>
+          <a href="https://www.thundrrshop.com/brands" class="btn btn-g"><span class="a" style="transform:scaleX(-1)">→</span> <span data-t="s-back">Back to brands</span></a>
         </div>
       </div>
 
@@ -616,91 +683,450 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   </div><!-- /card -->
 </main>
 
-<footer class="foot">© 2026 <strong>Thundrr</strong> · TikTok Shop Affiliate Management · TSP · CAP · TAP</footer>
+<footer class="foot"><span data-t="footer">© 2026 <strong>Thundrr</strong> · TikTok Shop Affiliate Management · TSP · CAP · TAP</span></footer>
 <div class="toast" id="toast"></div>
 
 <!-- ══ Package Modal ══ -->
 <div class="modal-overlay" id="pkgModal" onclick="if(event.target===this)closePkgModal()">
   <div class="modal">
     <div class="modal-head">
-      <div class="modal-title">Choose your<br><span class="r">packages.</span><small>Select all that apply — you can pick more than one</small></div>
+      <div class="modal-title"><span data-t="modal-title-1">Choose your</span><br><span class="r" data-t="modal-title-2">packages.</span><small data-t="modal-title-sub">Select all that apply — you can pick more than one</small></div>
       <button class="modal-close" onclick="closePkgModal()">✕</button>
     </div>
     <div class="pkg-grid" id="pkgList">
 
       <div class="pkg-card" data-pkg="Flat-Fee Creator Campaigns" onclick="selectPkg(this)">
-        <div class="pkg-card-top">
-          <div class="pkg-icon">🎯</div>
-          <div class="pkg-check"></div>
-        </div>
-        <div class="pkg-name">Flat-Fee Creator Campaigns</div>
-        <div class="pkg-tag">Guaranteed output</div>
-        <div class="pkg-desc">Defined monthly deliverables from proven affiliates. Ideal for launches and hero SKU pushes. Includes 1 complimentary TAP campaign.</div>
+        <div class="pkg-card-top"><div class="pkg-icon">🎯</div><div class="pkg-check"></div></div>
+        <div class="pkg-name" data-t="pkg1-name">Flat-Fee Creator Campaigns</div>
+        <div class="pkg-tag" data-t="pkg1-tag">Guaranteed output</div>
+        <div class="pkg-desc" data-t="pkg1-desc">Defined monthly deliverables from proven affiliates. Ideal for launches and hero SKU pushes. Includes 1 complimentary TAP campaign.</div>
       </div>
 
       <div class="pkg-card" data-pkg="Affiliate Management" onclick="selectPkg(this)">
-        <div class="pkg-card-top">
-          <div class="pkg-icon">🤝</div>
-          <div class="pkg-check"></div>
-        </div>
-        <div class="pkg-name">Affiliate Management</div>
-        <div class="pkg-tag">Turnkey growth system</div>
-        <div class="pkg-desc">Daily outreach, onboarding, creator comms, sample coordination, incentives, and performance reporting.</div>
-        <div class="pkg-price">Base $3K/mo · Growth $5K/mo · Scale $10K/mo</div>
+        <div class="pkg-card-top"><div class="pkg-icon">🤝</div><div class="pkg-check"></div></div>
+        <div class="pkg-name" data-t="pkg2-name">Affiliate Management</div>
+        <div class="pkg-tag" data-t="pkg2-tag">Turnkey growth system</div>
+        <div class="pkg-desc" data-t="pkg2-desc">Daily outreach, onboarding, creator comms, sample coordination, incentives, and performance reporting.</div>
+        <div class="pkg-price" data-t="pkg2-price">Base $3K/mo · Growth $5K/mo · Scale $10K/mo</div>
       </div>
 
       <div class="pkg-card" data-pkg="LIVE Commerce" onclick="selectPkg(this)">
-        <div class="pkg-card-top">
-          <div class="pkg-icon">🔴</div>
-          <div class="pkg-check"></div>
-        </div>
-        <div class="pkg-name">LIVE Commerce</div>
-        <div class="pkg-tag">Scalable LIVE engine</div>
-        <div class="pkg-desc">Remote LIVE affiliate management — schedules, scripts, giveaways, and GMV tracking.</div>
-        <div class="pkg-price">$2,500/mo + 5% of LIVE GMV</div>
+        <div class="pkg-card-top"><div class="pkg-icon">🔴</div><div class="pkg-check"></div></div>
+        <div class="pkg-name" data-t="pkg3-name">LIVE Commerce</div>
+        <div class="pkg-tag" data-t="pkg3-tag">Scalable LIVE engine</div>
+        <div class="pkg-desc" data-t="pkg3-desc">Remote LIVE affiliate management — schedules, scripts, giveaways, and GMV tracking.</div>
+        <div class="pkg-price" data-t="pkg3-price">$2,500/mo + 5% of LIVE GMV</div>
       </div>
 
       <div class="pkg-card" data-pkg="UGC Content Creation" onclick="selectPkg(this)">
-        <div class="pkg-card-top">
-          <div class="pkg-icon">🎬</div>
-          <div class="pkg-check"></div>
-        </div>
-        <div class="pkg-name">UGC Content Creation</div>
-        <div class="pkg-tag">Performance-ready content</div>
-        <div class="pkg-desc">Videos for ads, Spark Ads, and product pages. Delivered to you — creators do not post.</div>
+        <div class="pkg-card-top"><div class="pkg-icon">🎬</div><div class="pkg-check"></div></div>
+        <div class="pkg-name" data-t="pkg4-name">UGC Content Creation</div>
+        <div class="pkg-tag" data-t="pkg4-tag">Performance-ready content</div>
+        <div class="pkg-desc" data-t="pkg4-desc">Videos for ads, Spark Ads, and product pages. Delivered to you — creators do not post.</div>
       </div>
 
       <div class="pkg-card" data-pkg="TAP Campaigns" onclick="selectPkg(this)">
-        <div class="pkg-card-top">
-          <div class="pkg-icon">🧪</div>
-          <div class="pkg-check"></div>
-        </div>
-        <div class="pkg-name">TAP Campaigns</div>
-        <div class="pkg-tag">Lower-risk testing</div>
-        <div class="pkg-desc">Commission-based via agency links, sample requests &amp; showcases.<em class="fee-note">Setup fee applies.</em></div>
+        <div class="pkg-card-top"><div class="pkg-icon">🧪</div><div class="pkg-check"></div></div>
+        <div class="pkg-name" data-t="pkg5-name">TAP Campaigns</div>
+        <div class="pkg-tag" data-t="pkg5-tag">Lower-risk testing</div>
+        <div class="pkg-desc" data-t="pkg5-desc">Commission-based via agency links, sample requests &amp; showcases.<em class="fee-note" data-t="pkg5-fee">Setup fee applies.</em></div>
       </div>
 
       <div class="pkg-card" data-pkg="Full-Service Growth" onclick="selectPkg(this)">
-        <div class="pkg-card-top">
-          <div class="pkg-icon">🚀</div>
-          <div class="pkg-check"></div>
-        </div>
-        <div class="pkg-name">Full-Service Growth</div>
-        <div class="pkg-tag">Max growth</div>
-        <div class="pkg-desc">Affiliate Management + LIVE Commerce combined — unified reporting and a dedicated growth lead.</div>
-        <div class="pkg-price">$5,000/mo + 5% of total store GMV</div>
+        <div class="pkg-card-top"><div class="pkg-icon">🚀</div><div class="pkg-check"></div></div>
+        <div class="pkg-name" data-t="pkg6-name">Full-Service Growth</div>
+        <div class="pkg-tag" data-t="pkg6-tag">Max growth</div>
+        <div class="pkg-desc" data-t="pkg6-desc">Affiliate Management + LIVE Commerce combined — unified reporting and a dedicated growth lead.</div>
+        <div class="pkg-price" data-t="pkg6-price">$5,000/mo + 5% of total store GMV</div>
       </div>
 
     </div>
     <div class="modal-footer">
-      <div class="modal-hint">Not sure? <strong>We'll advise on the call.</strong></div>
+      <div class="modal-hint" data-t="modal-hint">Not sure? <strong>We'll advise on the call.</strong></div>
       <div style="display:flex;gap:10px">
-        <button type="button" class="btn btn-g" onclick="closePkgModal()">Cancel</button>
-        <button type="button" class="btn btn-p" id="pkgConfirm" onclick="confirmPkg()" disabled><span class="bt">Confirm</span><span class="a">→</span></button>
+        <button type="button" class="btn btn-g" onclick="closePkgModal()"><span data-t="modal-cancel">Cancel</span></button>
+        <button type="button" class="btn btn-p" id="pkgConfirm" onclick="confirmPkg()" disabled><span class="bt" data-t="modal-confirm">Confirm</span><span class="a">→</span></button>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+// ══════════════════════════════════════════
+// TRANSLATIONS
+// ══════════════════════════════════════════
+const TRANSLATIONS = {
+  en: {
+    'back': 'Back to brands',
+    'eyebrow': 'Brand Application',
+    'eyemeta-strong': '~5 minutes · 4 steps',
+    'step1-label': 'Contact',
+    'step2-label': 'GMV & Budget',
+    'step3-label': 'Creator Goals',
+    'step4-label': 'Review',
+    's1-meta': 'Product',
+    's1-title': 'Your product <span class="r">setup.</span>',
+    's1-desc': 'Your details and TikTok Shop setup.',
+    'f-name': 'Full name',
+    'f-email': 'Email address',
+    'f-phone': 'Phone number',
+    'f-wechat': 'WeChat ID',
+    'optional': '(optional)',
+    'optional2': '(optional)',
+    'optional3': '(optional)',
+    'optional4': '(optional)',
+    'f-product-link': 'TikTok Shop product link',
+    'h-product-link': 'tiktok.com/view/product/…',
+    'f-hero-sku': 'Hero SKU name',
+    'h-hero-sku': 'Your primary product to push',
+    'sl-category': 'Product category',
+    'cat-beauty': 'Beauty', 'cat-beauty-sub': 'Skincare',
+    'cat-wellness': 'Wellness', 'cat-wellness-sub': 'Supplements',
+    'cat-fashion': 'Fashion', 'cat-fashion-sub': 'Apparel',
+    'cat-home': 'Home', 'cat-home-sub': 'Decor',
+    'cat-tech': 'Tech', 'cat-tech-sub': 'Gadgets',
+    'cat-pets': 'Pets', 'cat-pets-sub': 'Accessories',
+    'cat-fb': 'F&B', 'cat-fb-sub': 'Drinks',
+    'cat-other': 'Other', 'cat-other-sub': 'Tell us',
+    'sl-package': 'Preferred package',
+    'pkg-btn-label': 'Select a package →',
+    'sl-samples': '📦 Sample availability',
+    'f-samples': 'How many units can you provide?',
+    'h-samples': 'Enter 0 if none',
+    'btn-continue': 'Continue',
+    's2-meta': 'GMV & Budget',
+    's2-title': 'Numbers & <span class="r">budget.</span>',
+    's2-desc': "Current performance and what you're willing to invest.",
+    'sl-monthly-gmv': 'Monthly TikTok Shop GMV',
+    'gmv-per-month': 'per month',
+    'gmv-per-month2': 'per month',
+    'sl-aff-gmv': 'Current affiliate GMV',
+    'f-comm-cur': 'Current commission rate',
+    'h-comm-cur': 'e.g. 10%',
+    'f-comm-max': 'Highest commission available',
+    'h-comm-max': 'For top creators',
+    'sl-budget': 'Budget range',
+    'bud-1k': 'Under $1K',
+    'bud-mo': '/mo', 'bud-mo2': '/mo', 'bud-mo3': '/mo', 'bud-mo4': '/mo', 'bud-mo5': '/mo',
+    'sl-timeline': 'Timeline',
+    'tl-asap': 'ASAP', 'tl-asap-sub': 'This week',
+    'tl-30': '30 days', 'tl-30-sub': 'Next month',
+    'tl-3mo': '1–3 months', 'tl-3mo-sub': 'Planning',
+    'tl-flex': 'Flexible', 'tl-flex-sub': 'No rush',
+    'btn-back': 'Back', 'btn-back2': 'Back', 'btn-back3': 'Back',
+    'btn-continue2': 'Continue',
+    's3-meta': 'Creator Goals',
+    's3-title': 'Creator & content <span class="r">goals.</span>',
+    's3-desc': 'Creator output, LIVE, and UGC goals.',
+    'sl-videos': 'Target number of videos',
+    'vid-10': '1–10', 'vid-10-sub': 'Testing',
+    'vid-50': '10–50', 'vid-50-sub': 'Growing',
+    'vid-200': '50–200', 'vid-200-sub': 'Scaling',
+    'vid-200p': '200+', 'vid-200p-sub': 'Full blast',
+    'sl-creator-level': 'Desired creator level',
+    'sl-usage': 'Usage / ad rights needed',
+    'ur-spark': 'Spark Ads whitelisting',
+    'ur-paid': 'Paid ad usage (off-platform)',
+    'ur-organic': 'Organic reposts only',
+    'ur-buyout': 'Full buyout',
+    'ur-notsure': 'Not sure yet',
+    'f-live-goals': 'LIVE selling goals',
+    'h-live-goals': '"2× weekly LIVE, $20K per session"',
+    'f-ugc': 'UGC needs',
+    'h-ugc': 'Formats, volume, deliverables',
+    'f-comments': 'Other questions or comments',
+    'h-comments': 'Anything else we should know',
+    'btn-review': 'Review',
+    's4-meta': 'Review',
+    's4-title': 'One last <span class="r">look.</span>',
+    's4-desc': 'Review before you send.',
+    'rv-sec-contact': 'Contact',
+    'rv-key-name': 'Name', 'rv-key-email': 'Email', 'rv-key-phone': 'Phone', 'rv-key-wechat': 'WeChat',
+    'rv-sec-product': 'Product',
+    'rv-key-link': 'Link', 'rv-key-sku': 'Hero SKU', 'rv-key-category': 'Category',
+    'rv-key-package': 'Package', 'rv-key-samples': 'Samples',
+    'rv-sec-gmv': 'GMV / Budget',
+    'rv-key-monthly-gmv': 'Monthly GMV', 'rv-key-aff-gmv': 'Aff GMV',
+    'rv-key-cur-comm': 'Cur comm', 'rv-key-max-comm': 'Max comm',
+    'rv-key-budget': 'Budget', 'rv-key-timeline': 'Timeline',
+    'rv-sec-creator': 'Creator',
+    'rv-key-videos': 'Videos', 'rv-key-creator-level': 'Creator level',
+    'rv-key-usage': 'Usage rights', 'rv-key-live': 'LIVE goals',
+    'rv-key-ugc': 'UGC needs', 'rv-key-comments': 'Comments',
+    'consent-text': 'By submitting, I agree to <strong>Thundrr reaching out</strong> with a tailored plan.',
+    'btn-submit': 'Send my application',
+    's-title-1': "You're", 's-title-2': 'in.',
+    's-sub': 'Application received. A real human from Thundrr will reach out shortly with a tailored plan.',
+    's-meta': 'Questions? <strong>jon@thundrrshop.com</strong>',
+    'cal-label': 'Optional next step',
+    'cal-title': 'Book a strategy call',
+    'cal-sub': 'Skip the back-and-forth — lock in a 20-minute call with the Thundrr team directly.',
+    'cal-btn': 'Book a call',
+    's-back': 'Back to brands',
+    'footer': '© 2026 <strong>Thundrr</strong> · TikTok Shop Affiliate Management · TSP · CAP · TAP',
+    'modal-title-1': 'Choose your',
+    'modal-title-2': 'packages.',
+    'modal-title-sub': 'Select all that apply — you can pick more than one',
+    'pkg1-name': 'Flat-Fee Creator Campaigns', 'pkg1-tag': 'Guaranteed output',
+    'pkg1-desc': 'Defined monthly deliverables from proven affiliates. Ideal for launches and hero SKU pushes. Includes 1 complimentary TAP campaign.',
+    'pkg2-name': 'Affiliate Management', 'pkg2-tag': 'Turnkey growth system',
+    'pkg2-desc': 'Daily outreach, onboarding, creator comms, sample coordination, incentives, and performance reporting.',
+    'pkg2-price': 'Base $3K/mo · Growth $5K/mo · Scale $10K/mo',
+    'pkg3-name': 'LIVE Commerce', 'pkg3-tag': 'Scalable LIVE engine',
+    'pkg3-desc': 'Remote LIVE affiliate management — schedules, scripts, giveaways, and GMV tracking.',
+    'pkg3-price': '$2,500/mo + 5% of LIVE GMV',
+    'pkg4-name': 'UGC Content Creation', 'pkg4-tag': 'Performance-ready content',
+    'pkg4-desc': 'Videos for ads, Spark Ads, and product pages. Delivered to you — creators do not post.',
+    'pkg5-name': 'TAP Campaigns', 'pkg5-tag': 'Lower-risk testing',
+    'pkg5-desc': 'Commission-based via agency links, sample requests & showcases.',
+    'pkg5-fee': 'Setup fee applies.',
+    'pkg6-name': 'Full-Service Growth', 'pkg6-tag': 'Max growth',
+    'pkg6-desc': 'Affiliate Management + LIVE Commerce combined — unified reporting and a dedicated growth lead.',
+    'pkg6-price': '$5,000/mo + 5% of total store GMV',
+    'modal-hint': 'Not sure? <strong>We\'ll advise on the call.</strong>',
+    'modal-cancel': 'Cancel',
+    'modal-confirm': 'Confirm',
+    'toast-category': 'Pick a product category',
+    'toast-field': 'Please complete the highlighted field',
+    'toast-consent': 'Tick the consent box to send',
+    'toast-network': 'Network hiccup. Please try again.',
+    'toast-error': 'Something went wrong — email jon@thundrrshop.com',
+  },
+  zh: {
+    'back': '返回品牌页面',
+    'eyebrow': '品牌入驻申请',
+    'eyemeta-strong': '约5分钟 · 4个步骤',
+    'step1-label': '联系方式',
+    'step2-label': 'GMV 与预算',
+    'step3-label': '达人目标',
+    'step4-label': '确认',
+    's1-meta': '产品信息',
+    's1-title': '您的产品 <span class="r">设置。</span>',
+    's1-desc': '您的联系信息和 TikTok Shop 设置。',
+    'f-name': '姓名',
+    'f-email': '电子邮箱',
+    'f-phone': '手机号码',
+    'f-wechat': '微信号',
+    'optional': '（选填）',
+    'optional2': '（选填）',
+    'optional3': '（选填）',
+    'optional4': '（选填）',
+    'f-product-link': 'TikTok Shop 商品链接',
+    'h-product-link': 'tiktok.com/view/product/…',
+    'f-hero-sku': '主推 SKU 名称',
+    'h-hero-sku': '您的主要推广产品',
+    'sl-category': '产品类目',
+    'cat-beauty': '美妆', 'cat-beauty-sub': '护肤',
+    'cat-wellness': '健康', 'cat-wellness-sub': '保健品',
+    'cat-fashion': '时尚', 'cat-fashion-sub': '服装',
+    'cat-home': '家居', 'cat-home-sub': '装饰',
+    'cat-tech': '科技', 'cat-tech-sub': '数码',
+    'cat-pets': '宠物', 'cat-pets-sub': '周边',
+    'cat-fb': '食饮', 'cat-fb-sub': '饮品',
+    'cat-other': '其他', 'cat-other-sub': '请说明',
+    'sl-package': '意向套餐',
+    'pkg-btn-label': '选择套餐 →',
+    'sl-samples': '📦 样品供应情况',
+    'f-samples': '可提供多少件样品？',
+    'h-samples': '如无样品请填写 0',
+    'btn-continue': '下一步',
+    's2-meta': 'GMV 与预算',
+    's2-title': '数据与 <span class="r">预算。</span>',
+    's2-desc': '当前表现及您的投入预算。',
+    'sl-monthly-gmv': '每月 TikTok Shop GMV',
+    'gmv-per-month': '每月',
+    'gmv-per-month2': '每月',
+    'sl-aff-gmv': '当前联盟营销 GMV',
+    'f-comm-cur': '当前佣金比例',
+    'h-comm-cur': '例：10%',
+    'f-comm-max': '最高可提供佣金',
+    'h-comm-max': '面向顶级达人',
+    'sl-budget': '预算范围',
+    'bud-1k': '1千以下',
+    'bud-mo': '/月', 'bud-mo2': '/月', 'bud-mo3': '/月', 'bud-mo4': '/月', 'bud-mo5': '/月',
+    'sl-timeline': '启动时间',
+    'tl-asap': '尽快', 'tl-asap-sub': '本周',
+    'tl-30': '30天内', 'tl-30-sub': '下个月',
+    'tl-3mo': '1–3个月', 'tl-3mo-sub': '规划中',
+    'tl-flex': '时间灵活', 'tl-flex-sub': '不急',
+    'btn-back': '返回', 'btn-back2': '返回', 'btn-back3': '返回',
+    'btn-continue2': '下一步',
+    's3-meta': '达人目标',
+    's3-title': '达人与内容 <span class="r">目标。</span>',
+    's3-desc': '达人产出、直播及 UGC 目标。',
+    'sl-videos': '目标视频数量',
+    'vid-10': '1–10', 'vid-10-sub': '测试阶段',
+    'vid-50': '10–50', 'vid-50-sub': '成长阶段',
+    'vid-200': '50–200', 'vid-200-sub': '规模扩张',
+    'vid-200p': '200+', 'vid-200p-sub': '全力冲量',
+    'sl-creator-level': '目标达人等级',
+    'sl-usage': '素材授权需求',
+    'ur-spark': 'Spark Ads 白名单授权',
+    'ur-paid': '付费广告使用（站外）',
+    'ur-organic': '仅限自然转发',
+    'ur-buyout': '全权买断',
+    'ur-notsure': '暂不确定',
+    'f-live-goals': '直播带货目标',
+    'h-live-goals': '"每周2场直播，每场成交2万美元"',
+    'f-ugc': 'UGC 需求',
+    'h-ugc': '格式、数量、交付物',
+    'f-comments': '其他问题或备注',
+    'h-comments': '其他我们需要了解的信息',
+    'btn-review': '审核确认',
+    's4-meta': '确认',
+    's4-title': '最后 <span class="r">确认。</span>',
+    's4-desc': '提交前请核对信息。',
+    'rv-sec-contact': '联系方式',
+    'rv-key-name': '姓名', 'rv-key-email': '邮箱', 'rv-key-phone': '电话', 'rv-key-wechat': '微信',
+    'rv-sec-product': '产品',
+    'rv-key-link': '链接', 'rv-key-sku': '主推SKU', 'rv-key-category': '类目',
+    'rv-key-package': '套餐', 'rv-key-samples': '样品',
+    'rv-sec-gmv': 'GMV / 预算',
+    'rv-key-monthly-gmv': '月GMV', 'rv-key-aff-gmv': '联盟GMV',
+    'rv-key-cur-comm': '当前佣金', 'rv-key-max-comm': '最高佣金',
+    'rv-key-budget': '预算', 'rv-key-timeline': '时间',
+    'rv-sec-creator': '达人',
+    'rv-key-videos': '视频数', 'rv-key-creator-level': '达人等级',
+    'rv-key-usage': '授权方式', 'rv-key-live': '直播目标',
+    'rv-key-ugc': 'UGC需求', 'rv-key-comments': '备注',
+    'consent-text': '提交即表示我同意 <strong>Thundrr 与我联系</strong>并提供定制化方案。',
+    'btn-submit': '提交申请',
+    's-title-1': '申请', 's-title-2': '成功！',
+    's-sub': '申请已收到。Thundrr 团队成员将尽快联系您，提供定制化增长方案。',
+    's-meta': '有问题？<strong>jon@thundrrshop.com</strong>',
+    'cal-label': '可选下一步',
+    'cal-title': '预约策略沟通',
+    'cal-sub': '省去来回沟通的时间 — 直接与 Thundrr 团队预约20分钟通话。',
+    'cal-btn': '立即预约',
+    's-back': '返回品牌页面',
+    'footer': '© 2026 <strong>Thundrr</strong> · TikTok Shop 联盟营销管理 · TSP · CAP · TAP',
+    'modal-title-1': '选择您的',
+    'modal-title-2': '服务套餐。',
+    'modal-title-sub': '可多选 — 选择所有适合您的套餐',
+    'pkg1-name': '固定费用达人推广', 'pkg1-tag': '保障产出',
+    'pkg1-desc': '来自成熟达人的固定月度内容交付，适合新品发布和主推SKU冲量，含1次 TAP 活动。',
+    'pkg2-name': '联盟营销管理', 'pkg2-tag': '一站式增长系统',
+    'pkg2-desc': '日常拓展招募、达人沟通、样品协调、激励机制及数据报告。',
+    'pkg2-price': '基础版 $3K/月 · 成长版 $5K/月 · 规模版 $10K/月',
+    'pkg3-name': '直播电商', 'pkg3-tag': '可扩展直播引擎',
+    'pkg3-desc': '远程直播联盟管理 — 排期、脚本、抽奖及 GMV 追踪。',
+    'pkg3-price': '$2,500/月 + 直播 GMV 的5%',
+    'pkg4-name': 'UGC 内容创作', 'pkg4-tag': '高转化率内容',
+    'pkg4-desc': '为广告、Spark Ads 及商品页面制作视频素材，交付给您使用 — 达人不自行发布。',
+    'pkg5-name': 'TAP 活动', 'pkg5-tag': '低风险测试',
+    'pkg5-desc': '通过代理链接进行佣金合作，含样品申请和橱窗展示。',
+    'pkg5-fee': '需支付启动费用。',
+    'pkg6-name': '全托管增长', 'pkg6-tag': '最大化增长',
+    'pkg6-desc': '联盟营销管理 + 直播电商组合服务 — 统一数据报告，配备专属增长负责人。',
+    'pkg6-price': '$5,000/月 + 店铺总 GMV 的5%',
+    'modal-hint': '不确定？<strong>我们会在通话中给出建议。</strong>',
+    'modal-cancel': '取消',
+    'modal-confirm': '确认',
+    'toast-category': '请选择产品类目',
+    'toast-field': '请补全高亮显示的必填项',
+    'toast-consent': '请勾选同意条款',
+    'toast-network': '网络异常，请重试。',
+    'toast-error': '出错了，请发邮件至 jon@thundrrshop.com',
+  }
+};
+
+let currentLang = 'en';
+
+function applyTranslations(lang) {
+  const t = TRANSLATIONS[lang];
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const key = el.getAttribute('data-t');
+    if (t[key] !== undefined) {
+      el.innerHTML = t[key];
+    }
+  });
+}
+
+function toggleLang() {
+  const btn = document.getElementById('langToggle');
+  const label = document.getElementById('langLabel');
+  
+  // Animate out
+  label.style.opacity = '0';
+  label.style.transform = 'translateY(-6px)';
+  
+  setTimeout(() => {
+    currentLang = currentLang === 'en' ? 'zh' : 'en';
+    
+    if (currentLang === 'zh') {
+      label.textContent = 'EN';
+      document.getElementById('langFlag').textContent = '🇨🇳';
+      btn.classList.add('zh');
+      document.documentElement.lang = 'zh';
+    } else {
+      label.textContent = '中文';
+      document.getElementById('langFlag').textContent = '🇺🇸';
+      btn.classList.remove('zh');
+      document.documentElement.lang = 'en';
+    }
+    
+    applyTranslations(currentLang);
+    
+    // Re-sync pkg button label if package was already selected
+    const pkgHid = document.getElementById('pkg_hidden');
+    const pkgBtnLabel = document.getElementById('pkgBtnLabel');
+    if (!pkgHid.value) {
+      // Not yet selected — label was just translated via data-t, nothing more needed
+    }
+    
+    // Animate in
+    label.style.transform = 'translateY(6px)';
+    setTimeout(() => {
+      label.style.transition = 'opacity .18s, transform .18s';
+      label.style.opacity = '1';
+      label.style.transform = 'translateY(0)';
+    }, 20);
+    
+    // Update toast messages reference
+    window._toastLang = currentLang;
+    
+  }, 180);
+}
+
+// Override toast messages to use current lang
+function toastMsg(key) {
+  const lang = currentLang || 'en';
+  return TRANSLATIONS[lang][key] || TRANSLATIONS['en'][key] || key;
+}
+
+// ── Language Picker ──
+function pickLang(lang) {
+  const overlay = document.getElementById('lpOverlay');
+  const card = document.getElementById('lpCard');
+
+  // Animate card out first
+  card.style.transform = 'scale(.95) translateY(-16px)';
+  card.style.opacity = '0';
+
+  setTimeout(() => {
+    overlay.classList.add('hidden');
+    document.body.style.overflow = '';
+
+    if (lang === 'zh') {
+      currentLang = 'zh';
+      document.getElementById('langLabel').textContent = 'EN';
+      document.getElementById('langFlag').textContent = '🇨🇳';
+      document.getElementById('langToggle').classList.add('zh');
+      document.documentElement.lang = 'zh';
+      applyTranslations('zh');
+    }
+    // If 'en', nothing to change — default is already English
+  }, 340);
+}
+
+// Show popup on load
+window.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('lpOverlay');
+  document.body.style.overflow = 'hidden';
+  // Small delay so page paint completes first
+  setTimeout(() => overlay.classList.add('visible'), 120);
+});
+</script>
 
 <script>
 (function(){
@@ -712,7 +1138,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   let cur = 1;
   const TOTAL = 4;
 
-  // Scroll topbar
   window.addEventListener('scroll', () => {
     document.getElementById('topbar').classList.toggle('scrolled', scrollY > 30);
   });
@@ -776,11 +1201,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     let ok = true;
     el.querySelectorAll('.field[data-req]').forEach(f => { if (!validateField(f)) ok = false; });
     if (n === 1 && !document.querySelector('[name="category"]:checked')) {
-      toast('Pick a product category'); ok = false;
+      toast(toastMsg('toast-category')); ok = false;
     }
     if (!ok) {
       const fe = el.querySelector('.field.err');
-      if (fe) { const i = fe.querySelector('input,textarea'); if (i) i.focus(); toast('Please complete the highlighted field'); }
+      if (fe) { const i = fe.querySelector('input,textarea'); if (i) i.focus(); toast(toastMsg('toast-field')); }
     }
     return ok;
   }
@@ -865,7 +1290,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       }
     }
     const sq = fval('sample_quantity');
-    setRv('rv-sample_quantity', sq ? sq + ' units' : 'None');
+    const unitsText = currentLang === 'zh' ? '件' : ' units';
+    const noneText = currentLang === 'zh' ? '无' : 'None';
+    setRv('rv-sample_quantity', sq ? sq + unitsText : noneText);
     setRv('rv-current_monthly_gmv', fval('current_monthly_gmv'));
     setRv('rv-current_affiliate_gmv', fval('current_affiliate_gmv'));
     setRv('rv-current_commission_rate', fval('current_commission_rate'));
@@ -884,7 +1311,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     e.preventDefault();
     if (!validateStep(4)) return;
     const consent = document.getElementById('consent');
-    if (!consent.checked) { toast('Tick the consent box to send'); consent.focus(); return; }
+    if (!consent.checked) { toast(toastMsg('toast-consent')); consent.focus(); return; }
     const btn = document.getElementById('submitBtn');
     btn.classList.add('loading'); btn.disabled = true;
     try {
@@ -899,11 +1326,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         if (card) window.scrollTo({ top: card.getBoundingClientRect().top + scrollY - 80, behavior: 'smooth' });
       } else {
         const d = await res.json().catch(() => ({}));
-        toast((d && d.error) || 'Something went wrong — email jon@thundrrshop.com');
+        toast((d && d.error) || toastMsg('toast-error'));
         btn.classList.remove('loading'); btn.disabled = false;
       }
     } catch {
-      toast('Network hiccup. Please try again.');
+      toast(toastMsg('toast-network'));
       btn.classList.remove('loading'); btn.disabled = false;
     }
   });
@@ -921,6 +1348,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     const t = document.getElementById('toast'); t.textContent = msg;
     t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3200);
   }
+  window.toast = toast;
+  window.toastMsg = toastMsg;
 })();
 
 // Package modal
@@ -959,9 +1388,14 @@ function confirmPkg() {
   if (selected.length === 1) {
     label.textContent = selected[0];
   } else {
-    label.textContent = selected.length + ' packages selected';
+    const countText = currentLang === 'zh'
+      ? selected.length + ' 个套餐已选择'
+      : selected.length + ' packages selected';
+    label.textContent = countText;
   }
   btn.classList.add('selected');
+  // Remove data-t so auto translation doesn't overwrite user's selection display
+  label.removeAttribute('data-t');
   closePkgModal();
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closePkgModal(); });
