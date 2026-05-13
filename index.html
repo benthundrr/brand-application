@@ -362,6 +362,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <div class="card">
     <form id="brandForm" action="https://formspree.io/f/xqenkbbp" method="POST" novalidate>
       <input name="_gotcha" style="display:none">
+      <input type="hidden" name="form_language" id="form_language" value="English">
       <div class="svp" id="svp">
 
         <!-- ══ STEP 1 ══ -->
@@ -869,6 +870,9 @@ function setLang(lang) {
     if (parts.length === 1) label.textContent = parts[0];
     else label.textContent = parts.length + ' ' + T.pkgSelectedN;
   }
+  // Keep hidden form field in sync so Formspree receives it
+  const langField = document.getElementById('form_language');
+  if (langField) langField.value = lang === 'zh' ? 'Chinese' : 'English';
   // Recalculate step height after text reflow
   setTimeout(() => {
     const active = document.querySelector('.step.active');
@@ -1063,7 +1067,6 @@ function setLang(lang) {
     try {
       const fd = new FormData(form);
       fd.append('usage_rights_summary', multi('usage_rights').join(', '));
-      fd.append('form_language', currentLang === 'zh' ? 'Chinese' : 'English');
       const res = await fetch(form.action, { method: 'POST', body: fd, headers: { Accept: 'application/json' } });
       if (res.ok) {
         svp.style.display = 'none';
