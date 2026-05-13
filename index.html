@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#0a0a0c">
+<html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<meta name="theme-color" content="#0a0a0c"/>
 <title>Brand Application — Thundrr</title>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;900&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -15,17 +14,25 @@
   --fb:'Archivo Black',sans-serif;--fm:'IBM Plex Mono',monospace;--ff:'Archivo',sans-serif;
   --e:cubic-bezier(.16,1,.3,1);--eb:cubic-bezier(.34,1.56,.64,1);--pill:999px
 }
-html,body{background:#0a0a0c;color:var(--ink);font-family:var(--ff);-webkit-font-smoothing:antialiased;min-height:100%;overflow-x:hidden}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--ff);-webkit-font-smoothing:antialiased;min-height:100%;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+/* ── Atmosphere ── */
 .atmos{position:fixed;inset:0;z-index:-1;background:var(--bg);overflow:hidden}
-.atmos-mesh{position:absolute;inset:0;background:radial-gradient(ellipse 55% 45% at 15% 25%,rgba(255,13,74,.22),transparent 65%),radial-gradient(ellipse 45% 40% at 85% 75%,rgba(255,94,138,.14),transparent 60%),radial-gradient(ellipse 40% 55% at 65% 15%,rgba(255,13,74,.11),transparent 65%);animation:meshDrift 20s ease-in-out infinite alternate}
+.atmos-mesh{position:absolute;inset:0;background:
+  radial-gradient(ellipse 55% 45% at 15% 25%,rgba(255,13,74,.22),transparent 65%),
+  radial-gradient(ellipse 45% 40% at 85% 75%,rgba(255,94,138,.14),transparent 60%),
+  radial-gradient(ellipse 40% 55% at 65% 15%,rgba(255,13,74,.11),transparent 65%);
+  animation:meshDrift 20s ease-in-out infinite alternate}
 @keyframes meshDrift{0%{opacity:.85;transform:scale(1)}100%{opacity:1;transform:scale(1.04)}}
 .orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
 .orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(255,13,74,.42),transparent 70%);top:-100px;left:-80px;animation:breathe 9s ease-in-out infinite}
 .orb2{width:500px;height:500px;background:radial-gradient(circle,rgba(255,94,138,.28),transparent 70%);bottom:-80px;right:-60px;animation:breathe 12s ease-in-out infinite -4s}
 .orb3{width:300px;height:300px;background:radial-gradient(circle,rgba(255,13,74,.18),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:breathe 7s ease-in-out infinite -2s}
 @keyframes breathe{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.08)}}
+
+/* ── Topbar ── */
 .topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 32px;background:linear-gradient(180deg,rgba(10,10,12,.92),transparent);backdrop-filter:blur(12px);transition:background .3s}
 .topbar.scrolled{background:rgba(10,10,12,.95)}
 .logo{display:flex;align-items:center;gap:10px;font-family:var(--fb);font-size:19px;letter-spacing:-.03em;text-transform:uppercase}
@@ -35,21 +42,21 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .back:hover{color:var(--ink);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.05);transform:translateX(-2px)}
 .back .arr{transition:transform .25s}
 .back:hover .arr{transform:translateX(-4px)}
-.topbar-right{display:flex;align-items:center;gap:10px}
-.lang-toggle{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:var(--pill);border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);cursor:pointer;transition:all .3s var(--e);white-space:nowrap}
-.lang-toggle:hover{color:var(--ink);border-color:rgba(255,255,255,.26);background:rgba(255,255,255,.08)}
-.lang-toggle.zh{border-color:rgba(255,13,74,.35);background:rgba(255,13,74,.08);color:var(--red-soft)}
-.lang-toggle.zh:hover{border-color:rgba(255,13,74,.55);background:rgba(255,13,74,.14);color:#fff}
-.lang-flag{font-size:14px;line-height:1}
-.lang-anim{display:inline-block;transition:opacity .18s,transform .18s}
+
+/* ── Intro ── */
 .intro{padding:100px 24px 22px;text-align:center;max-width:900px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:14px;animation:fadeUp .8s var(--e) .1s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 .eyebrow{display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border-radius:var(--pill);background:rgba(255,13,74,.09);border:1px solid rgba(255,13,74,.28);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--red);transition:all .3s var(--e)}
+.eyebrow:hover{background:rgba(255,13,74,.15);border-color:rgba(255,13,74,.5)}
 .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);animation:pulse 2s ease-in-out infinite}
 .eyemeta{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--pill);background:rgba(255,255,255,.03);border:1px solid var(--line);font-family:var(--fm);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
 .eyemeta .dot2{width:4px;height:4px;border-radius:50%;background:var(--red)}
 .eyemeta strong{color:var(--ink)}
+
+/* ── Stage ── */
 .stage{max-width:740px;margin:0 auto;padding:0 20px 40px;animation:fadeUp .8s var(--e) .2s both}
+
+/* ── Progress ── */
 .progress{display:flex;justify-content:space-between;align-items:center;margin-bottom:34px;padding:0 6px;position:relative}
 .pline{position:absolute;top:18px;left:24px;right:24px;height:2px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;z-index:0}
 .pline-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:linear-gradient(90deg,var(--red),var(--red-soft));transition:width .7s var(--e);box-shadow:0 0 10px rgba(255,13,74,.5)}
@@ -62,9 +69,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .pstep.dn .pcirc{background:rgba(255,13,74,.15);border-color:var(--red);color:var(--red)}
 .pstep.dn .plabel{color:var(--ink-soft)}
 .pcheck{display:none}.pstep.dn .pcheck{display:inline}.pstep.dn .pnum{display:none}
+
+/* ── Card ── */
 .card{position:relative;background:linear-gradient(160deg,rgba(28,28,34,.75),rgba(14,14,18,.88));backdrop-filter:blur(32px);border:1px solid rgba(255,255,255,.1);border-radius:28px;padding:46px 46px 38px;box-shadow:0 40px 100px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(255,13,74,.12);overflow:hidden;transition:box-shadow .4s var(--e)}
 .card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 5%,rgba(255,13,74,.55) 30%,rgba(255,255,255,.65) 50%,rgba(255,13,74,.55) 70%,transparent 95%)}
 .card::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(255,13,74,.07),transparent 70%);pointer-events:none}
+.card:hover{box-shadow:0 50px 120px rgba(0,0,0,.65),0 0 60px rgba(255,13,74,.08),inset 0 1px 0 rgba(255,255,255,.1),inset 0 -1px 0 rgba(255,13,74,.15)}
+
+/* ── Steps ── */
 .svp{position:relative;transition:height .5s cubic-bezier(.4,0,.2,1)}
 .step{position:absolute;top:0;left:0;right:0;opacity:0;transform:translateX(40px);transition:opacity .5s cubic-bezier(.4,0,.2,1),transform .5s cubic-bezier(.4,0,.2,1);pointer-events:none}
 .step.active{opacity:1;transform:translateX(0);pointer-events:auto}
@@ -75,13 +87,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .stitle{font-family:var(--fb);font-size:clamp(24px,4.2vw,38px);line-height:.95;letter-spacing:-.03em;text-transform:uppercase;margin-bottom:10px}
 .stitle .r{color:var(--red)}
 .sdesc{font-size:15px;color:var(--ink-soft);line-height:1.65;margin-bottom:28px;max-width:520px}
+
+/* ── Section label ── */
 .slabel{display:flex;align-items:center;gap:11px;margin:22px 0 12px;font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
 .slabel::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* ── Fields ── */
 .fields{display:flex;flex-direction:column;gap:16px}
 .frow{display:grid;grid-template-columns:1fr;gap:14px}
 @media(min-width:600px){.frow.two{grid-template-columns:1fr 1fr}}
 .field{position:relative}
-.field input,.field textarea{width:100%;padding:22px 18px 10px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.09);border-radius:13px;color:var(--ink);font-family:var(--ff);font-size:15px;transition:border-color .28s,background .28s,box-shadow .28s;appearance:none;-webkit-appearance:none}
+.field input,.field textarea{width:100%;padding:22px 18px 10px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.09);border-radius:13px;color:var(--ink);font-family:var(--ff);font-size:15px;transition:border-color .28s,background .28s,box-shadow .28s,transform .2s;appearance:none;-webkit-appearance:none}
 .field textarea{resize:none;min-height:90px;line-height:1.6;padding-top:28px;overflow:hidden}
 .field input::placeholder,.field textarea::placeholder{color:transparent}
 .field label{position:absolute;left:18px;top:16px;font-family:var(--fm);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);pointer-events:none;transform-origin:left;transition:all .28s var(--e)}
@@ -90,6 +106,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .field input:focus+label,.field input:not(:placeholder-shown)+label,.field textarea:focus+label,.field textarea:not(:placeholder-shown)+label{transform:translateY(-9px) scale(.8);color:var(--red);letter-spacing:.16em}
 .field-hint{display:block;margin-top:7px;font-family:var(--fm);font-size:11px;letter-spacing:.07em;color:var(--mute2);padding-left:3px}
 .field.err input,.field.err textarea{border-color:rgba(255,13,74,.5);background:rgba(255,13,74,.05)}
+
+/* ── Chips ── */
 .chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:9px}
 .chip{position:relative;padding:15px 13px;background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.08);border-radius:13px;cursor:pointer;transition:all .3s var(--e);display:flex;flex-direction:column;align-items:flex-start;gap:4px;overflow:hidden}
 .chip::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,13,74,.15),transparent 60%);opacity:0;transition:opacity .3s}
@@ -106,10 +124,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .chip.sel .chip-label{color:#fff}
 .chip.sel .chip-sub{color:var(--red-soft)}
 .chip.sel .chip-ck{opacity:1;transform:scale(1)}
+
+/* ── GMV Slider ── */
 .gmv-block{padding:22px;border-radius:16px;background:rgba(0,0,0,.32);border:1px solid var(--line);transition:border-color .3s,box-shadow .3s}
 .gmv-block:hover{border-color:rgba(255,255,255,.15);box-shadow:0 0 0 1px rgba(255,13,74,.08)}
 .gmv-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px}
-.gmv-val{font-family:var(--fb);font-size:36px;color:var(--red);line-height:1;letter-spacing:-.03em;text-shadow:0 0 30px rgba(255,13,74,.35)}
+.gmv-val{font-family:var(--fb);font-size:36px;color:var(--red);line-height:1;letter-spacing:-.03em;text-shadow:0 0 30px rgba(255,13,74,.35);transition:text-shadow .2s}
 .gmv-lbl{font-family:var(--fm);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:600}
 .gmv-wrap{position:relative;padding:8px 0}
 .gmv-track{width:100%;height:7px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden;position:relative}
@@ -119,6 +139,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .gmv-range::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.18)}
 .gmv-range::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--red);cursor:grab}
 .gmv-ticks{display:flex;justify-content:space-between;margin-top:12px;font-family:var(--fm);font-size:10px;color:var(--mute2);letter-spacing:.06em}
+
+/* ── Multi chips ── */
 .mchips{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:9px;margin-bottom:12px}
 .mchip{position:relative;padding:13px 15px 13px 42px;background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.08);border-radius:13px;cursor:pointer;transition:all .28s var(--e);font-family:var(--ff);font-size:14px;font-weight:500;color:var(--ink-soft)}
 .mchip::before{content:"";position:absolute;left:13px;top:50%;transform:translateY(-50%);width:17px;height:17px;border-radius:5px;border:1.5px solid rgba(255,255,255,.17);background:rgba(0,0,0,.4);transition:all .22s var(--e)}
@@ -127,9 +149,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .mchip.ck{border-color:var(--red);background:rgba(255,13,74,.08);color:#fff;box-shadow:0 0 0 3px rgba(255,13,74,.1)}
 .mchip.ck::before{background:var(--red);border-color:var(--red);box-shadow:0 0 10px rgba(255,13,74,.4)}
 .mchip.ck::after{content:"";position:absolute;left:18px;top:calc(50% - 4px);width:5px;height:8px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg)}
+
+/* ── Nav ── */
 .nav{display:flex;justify-content:space-between;align-items:center;margin-top:32px;padding-top:24px;border-top:1px dashed var(--line);gap:14px;flex-wrap:wrap}
 .nav .nl{display:flex;align-items:center;gap:12px}
 .nav .nr{display:flex;align-items:center;gap:12px;margin-left:auto}
+
+/* ── Buttons ── */
 .btn{display:inline-flex;align-items:center;gap:9px;padding:15px 24px;font-family:var(--fm);font-size:12px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;border-radius:var(--pill);border:1px solid transparent;transition:all .3s var(--e);cursor:pointer;white-space:nowrap;position:relative;overflow:hidden}
 .btn::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(110deg,transparent 40%,rgba(255,255,255,.2) 50%,transparent 60%);transform:translateX(-150%);transition:transform .7s cubic-bezier(.7,0,.3,1)}
 .btn:hover::after{transform:translateX(150%)}
@@ -148,12 +174,16 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .btn.loading .spinner{display:inline-block}
 .btn.loading .a,.btn.loading .bt{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── Package select button ── */
 .pkg-btn{width:100%;padding:18px 20px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.09);border-radius:13px;color:var(--ink-soft);font-family:var(--ff);font-size:15px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all .3s var(--e);text-align:left}
 .pkg-btn:hover{border-color:rgba(255,255,255,.22);background:rgba(0,0,0,.48);transform:translateY(-1px)}
 .pkg-btn.selected{border-color:var(--red);color:var(--ink);box-shadow:0 0 0 4px rgba(255,13,74,.1)}
 .pkg-arr{font-family:var(--fb);font-size:14px;color:var(--mute);transition:transform .25s}
 .pkg-btn:hover .pkg-arr{transform:translateX(4px)}
 .pkg-btn.selected .pkg-arr{color:var(--red);transform:rotate(90deg)}
+
+/* ── Modal ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .38s}
 .modal-overlay.open{opacity:1;pointer-events:auto}
 .modal{background:linear-gradient(168deg,rgba(18,18,24,.99) 0%,rgba(10,10,14,1) 100%);border:1px solid rgba(255,255,255,.1);border-radius:28px;width:100%;max-width:820px;max-height:90vh;overflow-y:auto;overflow-x:hidden;box-shadow:0 60px 140px rgba(0,0,0,.8),0 0 80px rgba(255,13,74,.07),0 0 0 1px rgba(255,255,255,.04) inset;position:relative;transform:scale(.93) translateY(28px);transition:transform .42s var(--e)}
@@ -166,32 +196,41 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .modal-title small{display:block;font-family:var(--fm);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);font-weight:600;margin-top:8px}
 .modal-close{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--mute);cursor:pointer;transition:all .28s;flex-shrink:0;margin-top:4px}
 .modal-close:hover{background:rgba(255,13,74,.2);border-color:var(--red);color:#fff;transform:rotate(90deg) scale(1.1)}
+
+/* Package grid */
 .pkg-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:24px 32px 8px;position:relative;z-index:2}
 .pkg-card{position:relative;background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.08);border-radius:18px;padding:22px;cursor:pointer;transition:all .32s var(--e);overflow:hidden;display:flex;flex-direction:column;gap:10px}
 .pkg-card::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,13,74,.13),transparent 55%);opacity:0;transition:opacity .3s;pointer-events:none}
 .pkg-card::after{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,13,74,.5),transparent);opacity:0;transition:opacity .3s}
 .pkg-card:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.055);transform:translateY(-4px);box-shadow:0 16px 50px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.07) inset}
-.pkg-card:hover::before{opacity:.7}.pkg-card:hover::after{opacity:1}
+.pkg-card:hover::before{opacity:.7}
+.pkg-card:hover::after{opacity:1}
 .pkg-card.sel{border-color:var(--red);background:linear-gradient(145deg,rgba(255,13,74,.14),rgba(255,13,74,.03));box-shadow:0 0 0 3px rgba(255,13,74,.2),0 20px 60px rgba(255,13,74,.22),0 0 0 1px rgba(255,13,74,.12) inset;transform:translateY(-2px)}
-.pkg-card.sel::before{opacity:1}.pkg-card.sel::after{opacity:1}
+.pkg-card.sel::before{opacity:1}
+.pkg-card.sel::after{opacity:1}
 .pkg-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .pkg-icon{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;transition:all .32s var(--e)}
 .pkg-card:hover .pkg-icon{background:rgba(255,13,74,.14);border-color:rgba(255,13,74,.35);transform:scale(1.1) rotate(-4deg)}
 .pkg-card.sel .pkg-icon{background:rgba(255,13,74,.2);border-color:rgba(255,13,74,.5);box-shadow:0 0 20px rgba(255,13,74,.35);transform:scale(1.05)}
 .pkg-check{width:20px;height:20px;border-radius:6px;border:1.5px solid rgba(255,255,255,.22);background:rgba(0,0,0,.4);flex-shrink:0;position:relative;transition:all .3s var(--e);margin-top:2px}
-.pkg-card.sel .pkg-check{background:var(--red);border-color:var(--red);box-shadow:0 0 16px rgba(255,13,74,.55)}
+.pkg-card.sel .pkg-check{background:var(--red);border-color:var(--red);box-shadow:0 0 16px rgba(255,13,74,.55);border-radius:6px}
 .pkg-card.sel .pkg-check::after{content:"";position:absolute;left:5px;top:2px;width:6px;height:10px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg)}
 .pkg-name{font-family:var(--fb);font-size:14px;letter-spacing:-.01em;text-transform:uppercase;color:var(--ink);line-height:1.2;transition:color .25s}
 .pkg-card.sel .pkg-name{color:#fff}
 .pkg-tag{display:inline-block;padding:3px 10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--pill);font-family:var(--fm);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:600;transition:all .28s;width:fit-content}
+.pkg-card:hover .pkg-tag{border-color:rgba(255,255,255,.18);color:var(--ink-soft)}
 .pkg-card.sel .pkg-tag{background:rgba(255,13,74,.18);border-color:rgba(255,13,74,.4);color:var(--red-soft)}
 .pkg-desc{font-size:12.5px;color:var(--ink-soft);line-height:1.65;flex:1}
 .pkg-price{font-family:var(--fm);font-size:10px;letter-spacing:.08em;color:var(--red-soft);font-weight:700;padding-top:10px;border-top:1px solid rgba(255,255,255,.07);margin-top:2px}
 .pkg-card.sel .pkg-price{border-color:rgba(255,13,74,.22)}
 .fee-note{font-style:italic;font-size:11px;color:var(--mute);display:block;margin-top:4px;font-weight:400}
+.pkg-card.full{grid-column:1/-1}
+
 .modal-footer{padding:20px 32px 28px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);position:relative;z-index:2}
 .modal-hint{font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute2)}
 .modal-hint strong{color:var(--mute)}
+
+/* ── Review ── */
 .review{display:flex;flex-direction:column;margin-bottom:22px;padding:24px;border-radius:16px;background:rgba(0,0,0,.32);border:1px solid var(--line)}
 .r-sec{font-family:var(--fm);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:700;padding:14px 0 8px;border-bottom:1px solid var(--line);margin-bottom:2px}
 .r-sec:first-child{padding-top:0}
@@ -200,6 +239,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .r-key{font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:600;padding-top:2px}
 .r-val{font-family:var(--ff);font-size:14px;color:var(--ink);line-height:1.5;word-break:break-word}
 .r-val .pill{display:inline-block;padding:2px 9px;background:rgba(255,13,74,.12);border:1px solid rgba(255,13,74,.28);border-radius:var(--pill);font-family:var(--fm);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--red);margin:0 5px 4px 0;font-weight:600}
+
+/* ── Consent ── */
 .consent{display:flex;align-items:flex-start;gap:11px;padding:16px;border-radius:13px;background:rgba(255,255,255,.03);border:1px solid var(--line);margin-bottom:6px;cursor:pointer;transition:all .28s}
 .consent:hover{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.05)}
 .consent input{position:absolute;opacity:0;pointer-events:none}
@@ -208,6 +249,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .consent input:checked+.cbox::after{content:"";position:absolute;left:4px;top:1px;width:6px;height:10px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg)}
 .ctext{font-size:14px;color:var(--ink-soft);line-height:1.55}
 .ctext strong{color:var(--ink);font-weight:600}
+
+/* ── Success ── */
 .success{display:none;text-align:center;padding:36px 0}
 .success.active{display:block;animation:fadeUp .7s var(--e)}
 .s-icon{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,rgba(255,13,74,.18),rgba(255,13,74,.05));border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;box-shadow:0 0 0 12px rgba(255,13,74,.07),0 20px 60px rgba(255,13,74,.24);animation:popIn .6s var(--eb)}
@@ -222,6 +265,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .s-meta{display:inline-block;padding:11px 20px;border-radius:var(--pill);background:rgba(255,255,255,.04);border:1px solid var(--line);margin-bottom:28px;font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
 .s-meta strong{color:var(--ink)}
 .s-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+/* Calendly CTA */
 .cal-card{margin:24px auto 8px;max-width:420px;background:linear-gradient(135deg,rgba(255,13,74,.1),rgba(255,13,74,.04));border:1px solid rgba(255,13,74,.3);border-radius:18px;padding:24px;text-align:center;position:relative;overflow:hidden;transition:all .3s var(--e)}
 .cal-card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,13,74,.08),transparent);pointer-events:none}
 .cal-card:hover{border-color:rgba(255,13,74,.5);box-shadow:0 0 40px rgba(255,13,74,.15);transform:translateY(-2px)}
@@ -232,29 +276,49 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .cal-btn:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 14px 40px rgba(255,13,74,.55)}
 .cal-btn .a{font-family:var(--fb);transition:transform .2s}
 .cal-btn:hover .a{transform:translateX(3px)}
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(90px);background:rgba(20,20,26,.97);backdrop-filter:blur(18px);border:1px solid rgba(255,13,74,.32);border-radius:12px;padding:13px 18px 13px 46px;font-family:var(--fm);font-size:12px;color:var(--ink);box-shadow:0 18px 44px rgba(0,0,0,.5);z-index:600;opacity:0;transition:all .38s var(--e);max-width:88vw}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(90px);background:rgba(20,20,26,.97);backdrop-filter:blur(18px);border:1px solid rgba(255,13,74,.32);border-radius:12px;padding:13px 18px 13px 46px;font-family:var(--fm);font-size:12px;color:var(--ink);box-shadow:0 18px 44px rgba(0,0,0,.5);z-index:600;opacity:0;transition:all .38s var(--e);max-width:88vw;position:fixed}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-.toast::before{content:"!";position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-family:var(--fb);font-size:12px;line-height:20px;text-align:center}
+.toast::before{content:"!";position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-family:var(--fb);font-size:12px;display:flex;align-items:center;justify-content:center;line-height:20px;text-align:center}
+
+/* ── Footer ── */
 .foot{padding:20px 24px 28px;text-align:center;font-family:var(--fm);font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--mute2);max-width:740px;margin:0 auto}
 .foot strong{color:var(--mute)}
+
+/* ── Mobile ── */
 @media(max-width:740px){
-  .topbar{padding:14px 18px}.intro{padding:82px 18px 16px}.stage{padding:0 14px 28px}
-  .card{padding:28px 22px 28px;border-radius:22px}.pline{left:16px;right:16px}
-  .stitle{font-size:24px}.sdesc{font-size:14px;margin-bottom:22px}
+  .topbar{padding:14px 18px}
+  .intro{padding:82px 18px 16px}
+  .stage{padding:0 14px 28px}
+  .card{padding:28px 22px 28px;border-radius:22px}
+  .pline{left:16px;right:16px}
+  .stitle{font-size:24px}
+  .sdesc{font-size:14px;margin-bottom:22px}
   .nav{flex-direction:column-reverse;gap:10px;align-items:stretch}
-  .nav .nl,.nav .nr{width:100%}.nav .nr{margin-left:0;justify-content:flex-end}
-  .btn{justify-content:center;padding:13px 20px}.btn-sub{padding:16px 26px}
+  .nav .nl,.nav .nr{width:100%}
+  .nav .nr{margin-left:0;justify-content:flex-end}
+  .btn{justify-content:center;padding:13px 20px}
+  .btn-sub{padding:16px 26px}
   .r-row{grid-template-columns:1fr;gap:3px;padding-bottom:12px}
-  .pcirc{width:30px;height:30px;font-size:11px}.gmv-val{font-size:28px}
-  .modal-head{padding:20px 18px 0}.modal-footer{padding:14px 18px 20px}
-  .lang-toggle{font-size:10px;padding:7px 10px}
+  .pcirc{width:30px;height:30px;font-size:11px}
+  .gmv-val{font-size:28px}
+  .modal-head{padding:20px 18px 0}
+  .modal-sub{padding:8px 18px 14px}
+  .pkg-i{padding:14px 18px;gap:12px}
+  .modal-footer{padding:14px 18px 20px}
 }
-@media(max-width:460px){.chips{grid-template-columns:1fr 1fr}.mchips{grid-template-columns:1fr}}
+@media(max-width:460px){
+  .chips{grid-template-columns:1fr 1fr}
+  .mchips{grid-template-columns:1fr}
+}
 @media(max-width:620px){
   .pkg-grid{grid-template-columns:1fr;padding:18px 18px 8px;gap:10px}
+  .pkg-card.full{grid-column:auto}
   .modal-head{padding:24px 20px 0}
   .modal-footer{padding:16px 20px 22px;flex-direction:column;gap:12px;align-items:stretch}
-  .modal-hint{text-align:center}.modal-footer>div{justify-content:stretch}
+  .modal-hint{text-align:center}
+  .modal-footer>div{justify-content:stretch}
   .modal-footer>div .btn{flex:1;justify-content:center}
 }
 </style>
@@ -270,27 +334,21 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 <header class="topbar" id="topbar">
   <a href="https://www.thundrrshop.com" class="logo"><span class="dot"></span>THUNDRR</a>
-  <div class="topbar-right">
-    <button class="lang-toggle" id="langToggle" onclick="toggleLang()">
-      <span class="lang-flag" id="langFlag">🇺🇸</span>
-      <span class="lang-anim" id="langLabel">中文</span>
-    </button>
-    <a href="https://www.thundrrshop.com/brands" class="back"><span class="arr">←</span><span data-t="back">Back to brands</span></a>
-  </div>
+  <a href="https://www.thundrrshop.com/brands" class="back"><span class="arr">←</span>Back to brands</a>
 </header>
 
 <section class="intro">
-  <div class="eyebrow" data-t="eyebrow">Brand Application</div>
-  <div class="eyemeta"><span class="dot2"></span><strong data-t="eyemeta-strong">~5 minutes · 4 steps</strong></div>
+  <div class="eyebrow">Brand Application</div>
+  <div class="eyemeta"><span class="dot2"></span><strong>~5 minutes · 4 steps</strong></div>
 </section>
 
 <main class="stage">
   <div class="progress" id="progress">
     <div class="pline"><div class="pline-fill" id="plineFill"></div></div>
-    <div class="pstep ac" data-step="1"><div class="pcirc"><span class="pnum">1</span><span class="pcheck">✓</span></div><div class="plabel" data-t="step1-label">Contact</div></div>
-    <div class="pstep" data-step="2"><div class="pcirc"><span class="pnum">2</span><span class="pcheck">✓</span></div><div class="plabel" data-t="step2-label">GMV &amp; Budget</div></div>
-    <div class="pstep" data-step="3"><div class="pcirc"><span class="pnum">3</span><span class="pcheck">✓</span></div><div class="plabel" data-t="step3-label">Creator Goals</div></div>
-    <div class="pstep" data-step="4"><div class="pcirc"><span class="pnum">4</span><span class="pcheck">✓</span></div><div class="plabel" data-t="step4-label">Review</div></div>
+    <div class="pstep ac" data-step="1"><div class="pcirc"><span class="pnum">1</span><span class="pcheck">✓</span></div><div class="plabel">Contact</div></div>
+    <div class="pstep" data-step="2"><div class="pcirc"><span class="pnum">2</span><span class="pcheck">✓</span></div><div class="plabel">GMV &amp; Budget</div></div>
+    <div class="pstep" data-step="3"><div class="pcirc"><span class="pnum">3</span><span class="pcheck">✓</span></div><div class="plabel">Creator Goals</div></div>
+    <div class="pstep" data-step="4"><div class="pcirc"><span class="pnum">4</span><span class="pcheck">✓</span></div><div class="plabel">Review</div></div>
   </div>
 
   <div class="card">
@@ -298,68 +356,116 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <input name="_gotcha" style="display:none">
       <div class="svp" id="svp">
 
-        <!-- STEP 1 -->
+        <!-- ══ STEP 1 ══ -->
         <div class="step active" data-step="1">
-          <div class="smeta"><span><span class="n">01</span> <span data-t="s1-meta">Product</span></span><span>25%</span></div>
-          <h2 class="stitle" data-t="s1-title">Your product <span class="r">setup.</span></h2>
-          <p class="sdesc" data-t="s1-desc">Your details and TikTok Shop setup.</p>
+          <div class="smeta"><span><span class="n">01</span> Product</span><span>25%</span></div>
+          <h2 class="stitle">Your product <span class="r">setup.</span></h2>
+          <p class="sdesc">Your details and TikTok Shop setup.</p>
           <div class="fields">
             <div class="frow two">
-              <div class="field" data-req><input id="contact_name" name="name" placeholder=" " required><label for="contact_name" data-t="f-name">Full name</label></div>
-              <div class="field" data-req data-email><input type="email" id="contact_email" name="email" placeholder=" " required><label for="contact_email" data-t="f-email">Email address</label></div>
+              <div class="field" data-req>
+                <input id="contact_name" name="name" placeholder=" " required>
+                <label for="contact_name">Full name</label>
+              </div>
+              <div class="field" data-req data-email>
+                <input type="email" id="contact_email" name="email" placeholder=" " required>
+                <label for="contact_email">Email address</label>
+              </div>
             </div>
             <div class="frow two">
-              <div class="field" data-req><input type="tel" id="contact_phone" name="phone" placeholder=" " required><label for="contact_phone" data-t="f-phone">Phone number</label></div>
-              <div class="field"><input id="wechat_id" name="wechat_id" placeholder=" "><label for="wechat_id"><span data-t="f-wechat">WeChat ID</span> <span style="color:var(--mute2)" data-t="optional">(optional)</span></label></div>
+              <div class="field" data-req>
+                <input type="tel" id="contact_phone" name="phone" placeholder=" " required>
+                <label for="contact_phone">Phone number</label>
+              </div>
+              <div class="field">
+                <input id="wechat_id" name="wechat_id" placeholder=" ">
+                <label for="wechat_id">WeChat ID <span style="color:var(--mute2)">(optional)</span></label>
+              </div>
             </div>
-            <div class="field" data-req><input type="url" id="product_link" name="product_link" placeholder=" " required><label for="product_link" data-t="f-product-link">TikTok Shop product link</label><span class="field-hint" data-t="h-product-link">tiktok.com/view/product/…</span></div>
-            <div class="field" data-req><input id="hero_sku" name="hero_sku" placeholder=" " required><label for="hero_sku" data-t="f-hero-sku">Hero SKU name</label><span class="field-hint" data-t="h-hero-sku">Your primary product to push</span></div>
+            <div class="field" data-req>
+              <input type="url" id="product_link" name="product_link" placeholder=" " required>
+              <label for="product_link">TikTok Shop product link</label>
+              <span class="field-hint">tiktok.com/view/product/…</span>
+            </div>
+            <div class="field" data-req>
+              <input id="hero_sku" name="hero_sku" placeholder=" " required>
+              <label for="hero_sku">Hero SKU name</label>
+              <span class="field-hint">Your primary product to push</span>
+            </div>
             <div>
-              <div class="slabel" data-t="sl-category">Product category</div>
+              <div class="slabel">Product category</div>
               <div class="chips" data-cg="category">
-                <label class="chip" data-v="Beauty &amp; Skincare"><input type="radio" name="category" value="Beauty &amp; Skincare"><span class="chip-icon">💄</span><span class="chip-label" data-t="cat-beauty">Beauty</span><span class="chip-sub" data-t="cat-beauty-sub">Skincare</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Wellness"><input type="radio" name="category" value="Wellness"><span class="chip-icon">🌿</span><span class="chip-label" data-t="cat-wellness">Wellness</span><span class="chip-sub" data-t="cat-wellness-sub">Supplements</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Fashion"><input type="radio" name="category" value="Fashion"><span class="chip-icon">👗</span><span class="chip-label" data-t="cat-fashion">Fashion</span><span class="chip-sub" data-t="cat-fashion-sub">Apparel</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Home &amp; Living"><input type="radio" name="category" value="Home &amp; Living"><span class="chip-icon">🏠</span><span class="chip-label" data-t="cat-home">Home</span><span class="chip-sub" data-t="cat-home-sub">Decor</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Tech &amp; Gadgets"><input type="radio" name="category" value="Tech &amp; Gadgets"><span class="chip-icon">⚡</span><span class="chip-label" data-t="cat-tech">Tech</span><span class="chip-sub" data-t="cat-tech-sub">Gadgets</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Pets"><input type="radio" name="category" value="Pets"><span class="chip-icon">🐾</span><span class="chip-label" data-t="cat-pets">Pets</span><span class="chip-sub" data-t="cat-pets-sub">Accessories</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Food &amp; Beverage"><input type="radio" name="category" value="Food &amp; Beverage"><span class="chip-icon">🍵</span><span class="chip-label" data-t="cat-fb">F&amp;B</span><span class="chip-sub" data-t="cat-fb-sub">Drinks</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Other"><input type="radio" name="category" value="Other"><span class="chip-icon">✨</span><span class="chip-label" data-t="cat-other">Other</span><span class="chip-sub" data-t="cat-other-sub">Tell us</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Beauty &amp; Skincare"><input type="radio" name="category" value="Beauty &amp; Skincare"><span class="chip-icon">💄</span><span class="chip-label">Beauty</span><span class="chip-sub">Skincare</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Wellness"><input type="radio" name="category" value="Wellness"><span class="chip-icon">🌿</span><span class="chip-label">Wellness</span><span class="chip-sub">Supplements</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Fashion"><input type="radio" name="category" value="Fashion"><span class="chip-icon">👗</span><span class="chip-label">Fashion</span><span class="chip-sub">Apparel</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Home &amp; Living"><input type="radio" name="category" value="Home &amp; Living"><span class="chip-icon">🏠</span><span class="chip-label">Home</span><span class="chip-sub">Decor</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Tech &amp; Gadgets"><input type="radio" name="category" value="Tech &amp; Gadgets"><span class="chip-icon">⚡</span><span class="chip-label">Tech</span><span class="chip-sub">Gadgets</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Pets"><input type="radio" name="category" value="Pets"><span class="chip-icon">🐾</span><span class="chip-label">Pets</span><span class="chip-sub">Accessories</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Food &amp; Beverage"><input type="radio" name="category" value="Food &amp; Beverage"><span class="chip-icon">🍵</span><span class="chip-label">F&amp;B</span><span class="chip-sub">Drinks</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Other"><input type="radio" name="category" value="Other"><span class="chip-icon">✨</span><span class="chip-label">Other</span><span class="chip-sub">Tell us</span><span class="chip-ck"></span></label>
               </div>
             </div>
             <div>
-              <div class="slabel" data-t="sl-package">Preferred package</div>
+              <div class="slabel">Preferred package</div>
               <input type="hidden" name="preferred_package" id="pkg_hidden" value="">
-              <button type="button" class="pkg-btn" id="pkgBtn" onclick="openPkgModal()"><span id="pkgBtnLabel" data-t="pkg-btn-label">Select a package →</span><span class="pkg-arr">↗</span></button>
+              <button type="button" class="pkg-btn" id="pkgBtn" onclick="openPkgModal()">
+                <span id="pkgBtnLabel">Select a package →</span>
+                <span class="pkg-arr">↗</span>
+              </button>
             </div>
-            <div class="slabel" data-t="sl-samples">📦 Sample availability</div>
-            <div class="field"><input type="number" id="sample_qty" name="sample_quantity" placeholder=" " min="0" step="1"><label for="sample_qty" data-t="f-samples">How many units can you provide?</label><span class="field-hint" data-t="h-samples">Enter 0 if none</span></div>
+            <div class="slabel">📦 Sample availability</div>
+            <div class="field">
+              <input type="number" id="sample_qty" name="sample_quantity" placeholder=" " min="0" step="1">
+              <label for="sample_qty">How many units can you provide?</label>
+              <span class="field-hint">Enter 0 if none</span>
+            </div>
           </div>
-          <div class="nav"><div class="nl"></div><div class="nr"><button type="button" class="btn btn-p" data-next="2"><span class="bt" data-t="btn-continue">Continue</span><span class="a">→</span></button></div></div>
+          <div class="nav">
+            <div class="nl"></div>
+            <div class="nr"><button type="button" class="btn btn-p" data-next="2"><span class="bt">Continue</span><span class="a">→</span></button></div>
+          </div>
         </div>
 
-        <!-- STEP 2 -->
+        <!-- ══ STEP 2 ══ -->
         <div class="step" data-step="2">
-          <div class="smeta"><span><span class="n">02</span> <span data-t="s2-meta">GMV &amp; Budget</span></span><span>50%</span></div>
-          <h2 class="stitle" data-t="s2-title">Numbers &amp; <span class="r">budget.</span></h2>
-          <p class="sdesc" data-t="s2-desc">Current performance and what you're willing to invest.</p>
+          <div class="smeta"><span><span class="n">02</span> GMV &amp; Budget</span><span>50%</span></div>
+          <h2 class="stitle">Numbers &amp; <span class="r">budget.</span></h2>
+          <p class="sdesc">Current performance and what you're willing to invest.</p>
           <div class="fields">
             <div>
-              <div class="slabel" data-t="sl-monthly-gmv">Monthly TikTok Shop GMV</div>
-              <div class="gmv-block"><div class="gmv-top"><div class="gmv-val" id="gmvDisp">$0–$5K</div><div class="gmv-lbl" data-t="gmv-per-month">per month</div></div><div class="gmv-wrap"><div class="gmv-track"><div class="gmv-fill" id="gmvFill" style="width:0%"></div></div><input type="range" min="0" max="6" step="1" value="0" class="gmv-range" id="gmvIn" name="gmv_slider"></div><div class="gmv-ticks"><span>$0</span><span>$25K</span><span>$100K</span><span>$500K</span><span>$1M</span><span>$5M</span><span>$10M+</span></div><input type="hidden" name="current_monthly_gmv" id="gmvHid" value="$0–$5K"></div>
+              <div class="slabel">Monthly TikTok Shop GMV</div>
+              <div class="gmv-block">
+                <div class="gmv-top"><div class="gmv-val" id="gmvDisp">$0–$5K</div><div class="gmv-lbl">per month</div></div>
+                <div class="gmv-wrap"><div class="gmv-track"><div class="gmv-fill" id="gmvFill" style="width:0%"></div></div><input type="range" min="0" max="6" step="1" value="0" class="gmv-range" id="gmvIn" name="gmv_slider"></div>
+                <div class="gmv-ticks"><span>$0</span><span>$25K</span><span>$100K</span><span>$500K</span><span>$1M</span><span>$5M</span><span>$10M+</span></div>
+                <input type="hidden" name="current_monthly_gmv" id="gmvHid" value="$0–$5K">
+              </div>
             </div>
             <div>
-              <div class="slabel" data-t="sl-aff-gmv">Current affiliate GMV</div>
-              <div class="gmv-block"><div class="gmv-top"><div class="gmv-val" id="affDisp">$0–$5K</div><div class="gmv-lbl" data-t="gmv-per-month2">per month</div></div><div class="gmv-wrap"><div class="gmv-track"><div class="gmv-fill" id="affFill" style="width:0%"></div></div><input type="range" min="0" max="6" step="1" value="0" class="gmv-range" id="affIn" name="aff_gmv_slider"></div><div class="gmv-ticks"><span>$0</span><span>$25K</span><span>$100K</span><span>$500K</span><span>$1M</span><span>$5M</span><span>$10M+</span></div><input type="hidden" name="current_affiliate_gmv" id="affHid" value="$0–$5K"></div>
+              <div class="slabel">Current affiliate GMV</div>
+              <div class="gmv-block">
+                <div class="gmv-top"><div class="gmv-val" id="affDisp">$0–$5K</div><div class="gmv-lbl">per month</div></div>
+                <div class="gmv-wrap"><div class="gmv-track"><div class="gmv-fill" id="affFill" style="width:0%"></div></div><input type="range" min="0" max="6" step="1" value="0" class="gmv-range" id="affIn" name="aff_gmv_slider"></div>
+                <div class="gmv-ticks"><span>$0</span><span>$25K</span><span>$100K</span><span>$500K</span><span>$1M</span><span>$5M</span><span>$10M+</span></div>
+                <input type="hidden" name="current_affiliate_gmv" id="affHid" value="$0–$5K">
+              </div>
             </div>
             <div class="frow two">
-              <div class="field" data-req><input id="comm_cur" name="current_commission_rate" placeholder=" " required><label for="comm_cur" data-t="f-comm-cur">Current commission rate</label><span class="field-hint" data-t="h-comm-cur">e.g. 10%</span></div>
-              <div class="field" data-req><input id="comm_max" name="max_commission_rate" placeholder=" " required><label for="comm_max" data-t="f-comm-max">Highest commission available</label><span class="field-hint" data-t="h-comm-max">For top creators</span></div>
+              <div class="field" data-req>
+                <input id="comm_cur" name="current_commission_rate" placeholder=" " required>
+                <label for="comm_cur">Current commission rate</label>
+                <span class="field-hint">e.g. 10%</span>
+              </div>
+              <div class="field" data-req>
+                <input id="comm_max" name="max_commission_rate" placeholder=" " required>
+                <label for="comm_max">Highest commission available</label>
+                <span class="field-hint">For top creators</span>
+              </div>
             </div>
             <div>
-              <div class="slabel" data-t="sl-budget">Budget range</div>
+              <div class="slabel">Budget range</div>
               <div class="chips" data-cg="budget">
-                <label class="chip" data-v="Under $1K"><input type="radio" name="budget_range" value="Under $1K"><span class="chip-label" data-t="bud-1k">Under $1K</span><span class="chip-sub" data-t="bud-mo">/mo</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Under $1K"><input type="radio" name="budget_range" value="Under $1K"><span class="chip-label">Under $1K</span><span class="chip-sub">/mo</span><span class="chip-ck"></span></label>
                 <label class="chip" data-v="$1K–$5K"><input type="radio" name="budget_range" value="$1K–$5K"><span class="chip-label">$1K–$5K</span><span class="chip-sub">/mo</span><span class="chip-ck"></span></label>
                 <label class="chip" data-v="$5K–$15K"><input type="radio" name="budget_range" value="$5K–$15K"><span class="chip-label">$5K–$15K</span><span class="chip-sub">/mo</span><span class="chip-ck"></span></label>
                 <label class="chip" data-v="$15K–$50K"><input type="radio" name="budget_range" value="$15K–$50K"><span class="chip-label">$15K–$50K</span><span class="chip-sub">/mo</span><span class="chip-ck"></span></label>
@@ -367,35 +473,38 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
               </div>
             </div>
             <div>
-              <div class="slabel" data-t="sl-timeline">Timeline</div>
+              <div class="slabel">Timeline</div>
               <div class="chips" data-cg="timeline">
-                <label class="chip" data-v="ASAP"><input type="radio" name="timeline" value="ASAP"><span class="chip-icon">⚡</span><span class="chip-label" data-t="tl-asap">ASAP</span><span class="chip-sub" data-t="tl-asap-sub">This week</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Within 30 days"><input type="radio" name="timeline" value="Within 30 days"><span class="chip-icon">📅</span><span class="chip-label" data-t="tl-30">30 days</span><span class="chip-sub" data-t="tl-30-sub">Next month</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="1–3 months"><input type="radio" name="timeline" value="1–3 months"><span class="chip-icon">🗓</span><span class="chip-label" data-t="tl-3mo">1–3 months</span><span class="chip-sub" data-t="tl-3mo-sub">Planning</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Flexible"><input type="radio" name="timeline" value="Flexible"><span class="chip-icon">🌊</span><span class="chip-label" data-t="tl-flex">Flexible</span><span class="chip-sub" data-t="tl-flex-sub">No rush</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="ASAP"><input type="radio" name="timeline" value="ASAP"><span class="chip-icon">⚡</span><span class="chip-label">ASAP</span><span class="chip-sub">This week</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Within 30 days"><input type="radio" name="timeline" value="Within 30 days"><span class="chip-icon">📅</span><span class="chip-label">30 days</span><span class="chip-sub">Next month</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="1–3 months"><input type="radio" name="timeline" value="1–3 months"><span class="chip-icon">🗓</span><span class="chip-label">1–3 months</span><span class="chip-sub">Planning</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="Flexible"><input type="radio" name="timeline" value="Flexible"><span class="chip-icon">🌊</span><span class="chip-label">Flexible</span><span class="chip-sub">No rush</span><span class="chip-ck"></span></label>
               </div>
             </div>
           </div>
-          <div class="nav"><div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="1"><span class="a">→</span> <span data-t="btn-back">Back</span></button></div><div class="nr"><button type="button" class="btn btn-p" data-next="3"><span class="bt" data-t="btn-continue2">Continue</span><span class="a">→</span></button></div></div>
+          <div class="nav">
+            <div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="1"><span class="a">→</span> Back</button></div>
+            <div class="nr"><button type="button" class="btn btn-p" data-next="3"><span class="bt">Continue</span><span class="a">→</span></button></div>
+          </div>
         </div>
 
-        <!-- STEP 3 -->
+        <!-- ══ STEP 3 ══ -->
         <div class="step" data-step="3">
-          <div class="smeta"><span><span class="n">03</span> <span data-t="s3-meta">Creator Goals</span></span><span>75%</span></div>
-          <h2 class="stitle" data-t="s3-title">Creator &amp; content <span class="r">goals.</span></h2>
-          <p class="sdesc" data-t="s3-desc">Creator output, LIVE, and UGC goals.</p>
+          <div class="smeta"><span><span class="n">03</span> Creator Goals</span><span>75%</span></div>
+          <h2 class="stitle">Creator &amp; content <span class="r">goals.</span></h2>
+          <p class="sdesc">Creator output, LIVE, and UGC goals.</p>
           <div class="fields">
             <div>
-              <div class="slabel" data-t="sl-videos">Target number of videos</div>
+              <div class="slabel">Target number of videos</div>
               <div class="chips" data-cg="videos">
-                <label class="chip" data-v="1–10 videos"><input type="radio" name="target_videos" value="1–10 videos"><span class="chip-label" data-t="vid-10">1–10</span><span class="chip-sub" data-t="vid-10-sub">Testing</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="10–50 videos"><input type="radio" name="target_videos" value="10–50 videos"><span class="chip-label" data-t="vid-50">10–50</span><span class="chip-sub" data-t="vid-50-sub">Growing</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="50–200 videos"><input type="radio" name="target_videos" value="50–200 videos"><span class="chip-label" data-t="vid-200">50–200</span><span class="chip-sub" data-t="vid-200-sub">Scaling</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="200+ videos"><input type="radio" name="target_videos" value="200+ videos"><span class="chip-label" data-t="vid-200p">200+</span><span class="chip-sub" data-t="vid-200p-sub">Full blast</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="1–10 videos"><input type="radio" name="target_videos" value="1–10 videos"><span class="chip-label">1–10</span><span class="chip-sub">Testing</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="10–50 videos"><input type="radio" name="target_videos" value="10–50 videos"><span class="chip-label">10–50</span><span class="chip-sub">Growing</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="50–200 videos"><input type="radio" name="target_videos" value="50–200 videos"><span class="chip-label">50–200</span><span class="chip-sub">Scaling</span><span class="chip-ck"></span></label>
+                <label class="chip" data-v="200+ videos"><input type="radio" name="target_videos" value="200+ videos"><span class="chip-label">200+</span><span class="chip-sub">Full blast</span><span class="chip-ck"></span></label>
               </div>
             </div>
             <div>
-              <div class="slabel" data-t="sl-creator-level">Desired creator level</div>
+              <div class="slabel">Desired creator level</div>
               <div class="chips" data-cg="creator_level" style="grid-template-columns:repeat(3,1fr)">
                 <label class="chip" data-v="L1: 1K–10K"><input type="radio" name="creator_gmv_level" value="L1: 1K–10K"><span class="chip-label">L1</span><span class="chip-sub">1K–10K</span><span class="chip-ck"></span></label>
                 <label class="chip" data-v="L2: 10K–25K"><input type="radio" name="creator_gmv_level" value="L2: 10K–25K"><span class="chip-label">L2</span><span class="chip-sub">10K–25K</span><span class="chip-ck"></span></label>
@@ -406,63 +515,87 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
               </div>
             </div>
             <div>
-              <div class="slabel" data-t="sl-usage">Usage / ad rights needed</div>
+              <div class="slabel">Usage / ad rights needed</div>
               <div class="mchips">
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Spark Ads whitelisting"> <span data-t="ur-spark">Spark Ads whitelisting</span></label>
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Paid ad usage (off-platform)"> <span data-t="ur-paid">Paid ad usage (off-platform)</span></label>
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Organic reposts only"> <span data-t="ur-organic">Organic reposts only</span></label>
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Full buyout"> <span data-t="ur-buyout">Full buyout</span></label>
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Not sure yet"> <span data-t="ur-notsure">Not sure yet</span></label>
+                <label class="mchip"><input type="checkbox" name="usage_rights" value="Spark Ads whitelisting"> Spark Ads whitelisting</label>
+                <label class="mchip"><input type="checkbox" name="usage_rights" value="Paid ad usage (off-platform)"> Paid ad usage (off-platform)</label>
+                <label class="mchip"><input type="checkbox" name="usage_rights" value="Organic reposts only"> Organic reposts only</label>
+                <label class="mchip"><input type="checkbox" name="usage_rights" value="Full buyout"> Full buyout</label>
+                <label class="mchip"><input type="checkbox" name="usage_rights" value="Not sure yet"> Not sure yet</label>
               </div>
             </div>
-            <div class="field"><textarea id="live_goals" name="live_goals" placeholder=" "></textarea><label for="live_goals"><span data-t="f-live-goals">LIVE selling goals</span> <span style="color:var(--mute2)" data-t="optional2">(optional)</span></label><span class="field-hint" data-t="h-live-goals">"2× weekly LIVE, $20K per session"</span></div>
-            <div class="field"><textarea id="ugc_needs" name="ugc_needs" placeholder=" "></textarea><label for="ugc_needs"><span data-t="f-ugc">UGC needs</span> <span style="color:var(--mute2)" data-t="optional3">(optional)</span></label><span class="field-hint" data-t="h-ugc">Formats, volume, deliverables</span></div>
-            <div class="field"><textarea id="comments" name="comments" placeholder=" "></textarea><label for="comments"><span data-t="f-comments">Other questions or comments</span> <span style="color:var(--mute2)" data-t="optional4">(optional)</span></label><span class="field-hint" data-t="h-comments">Anything else we should know</span></div>
+            <div class="field">
+              <textarea id="live_goals" name="live_goals" placeholder=" "></textarea>
+              <label for="live_goals">LIVE selling goals <span style="color:var(--mute2)">(optional)</span></label>
+              <span class="field-hint">"2× weekly LIVE, $20K per session"</span>
+            </div>
+            <div class="field">
+              <textarea id="ugc_needs" name="ugc_needs" placeholder=" "></textarea>
+              <label for="ugc_needs">UGC needs <span style="color:var(--mute2)">(optional)</span></label>
+              <span class="field-hint">Formats, volume, deliverables</span>
+            </div>
+            <div class="field">
+              <textarea id="comments" name="comments" placeholder=" "></textarea>
+              <label for="comments">Other questions or comments <span style="color:var(--mute2)">(optional)</span></label>
+              <span class="field-hint">Anything else we should know</span>
+            </div>
           </div>
-          <div class="nav"><div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="2"><span class="a">→</span> <span data-t="btn-back2">Back</span></button></div><div class="nr"><button type="button" class="btn btn-p" data-next="4"><span class="bt" data-t="btn-review">Review</span><span class="a">→</span></button></div></div>
+          <div class="nav">
+            <div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="2"><span class="a">→</span> Back</button></div>
+            <div class="nr"><button type="button" class="btn btn-p" data-next="4"><span class="bt">Review</span><span class="a">→</span></button></div>
+          </div>
         </div>
 
-        <!-- STEP 4 -->
+        <!-- ══ STEP 4 ══ -->
         <div class="step" data-step="4">
-          <div class="smeta"><span><span class="n">04</span> <span data-t="s4-meta">Review</span></span><span>100%</span></div>
-          <h2 class="stitle" data-t="s4-title">One last <span class="r">look.</span></h2>
-          <p class="sdesc" data-t="s4-desc">Review before you send.</p>
+          <div class="smeta"><span><span class="n">04</span> Review</span><span>100%</span></div>
+          <h2 class="stitle">One last <span class="r">look.</span></h2>
+          <p class="sdesc">Review before you send.</p>
           <div class="review" id="reviewPanel">
-            <div class="r-sec" data-t="rv-sec-contact">Contact</div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-name">Name</div><div class="r-val" id="rv-name">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-email">Email</div><div class="r-val" id="rv-email">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-phone">Phone</div><div class="r-val" id="rv-phone">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-wechat">WeChat</div><div class="r-val" id="rv-wechat">—</div></div>
-            <div class="r-sec" data-t="rv-sec-product">Product</div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-link">Link</div><div class="r-val" id="rv-product_link">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-sku">Hero SKU</div><div class="r-val" id="rv-hero_sku">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-category">Category</div><div class="r-val" id="rv-category">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-package">Package</div><div class="r-val" id="rv-preferred_package">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-samples">Samples</div><div class="r-val" id="rv-sample_quantity">—</div></div>
-            <div class="r-sec" data-t="rv-sec-gmv">GMV / Budget</div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-monthly-gmv">Monthly GMV</div><div class="r-val" id="rv-current_monthly_gmv">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-aff-gmv">Aff GMV</div><div class="r-val" id="rv-current_affiliate_gmv">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-cur-comm">Cur comm</div><div class="r-val" id="rv-current_commission_rate">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-max-comm">Max comm</div><div class="r-val" id="rv-max_commission_rate">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-budget">Budget</div><div class="r-val" id="rv-budget_range">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-timeline">Timeline</div><div class="r-val" id="rv-timeline">—</div></div>
-            <div class="r-sec" data-t="rv-sec-creator">Creator</div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-videos">Videos</div><div class="r-val" id="rv-target_videos">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-creator-level">Creator level</div><div class="r-val" id="rv-creator_gmv_level">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-usage">Usage rights</div><div class="r-val" id="rv-usage_rights">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-live">LIVE goals</div><div class="r-val" id="rv-live_goals">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-ugc">UGC needs</div><div class="r-val" id="rv-ugc_needs">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rv-key-comments">Comments</div><div class="r-val" id="rv-comments">—</div></div>
+            <div class="r-sec">Contact</div>
+            <div class="r-row"><div class="r-key">Name</div><div class="r-val" id="rv-name">—</div></div>
+            <div class="r-row"><div class="r-key">Email</div><div class="r-val" id="rv-email">—</div></div>
+            <div class="r-row"><div class="r-key">Phone</div><div class="r-val" id="rv-phone">—</div></div>
+            <div class="r-row"><div class="r-key">WeChat</div><div class="r-val" id="rv-wechat">—</div></div>
+            <div class="r-sec">Product</div>
+            <div class="r-row"><div class="r-key">Link</div><div class="r-val" id="rv-product_link">—</div></div>
+            <div class="r-row"><div class="r-key">Hero SKU</div><div class="r-val" id="rv-hero_sku">—</div></div>
+            <div class="r-row"><div class="r-key">Category</div><div class="r-val" id="rv-category">—</div></div>
+            <div class="r-row"><div class="r-key">Package</div><div class="r-val" id="rv-preferred_package">—</div></div>
+            <div class="r-row"><div class="r-key">Samples</div><div class="r-val" id="rv-sample_quantity">—</div></div>
+            <div class="r-sec">GMV / Budget</div>
+            <div class="r-row"><div class="r-key">Monthly GMV</div><div class="r-val" id="rv-current_monthly_gmv">—</div></div>
+            <div class="r-row"><div class="r-key">Aff GMV</div><div class="r-val" id="rv-current_affiliate_gmv">—</div></div>
+            <div class="r-row"><div class="r-key">Cur comm</div><div class="r-val" id="rv-current_commission_rate">—</div></div>
+            <div class="r-row"><div class="r-key">Max comm</div><div class="r-val" id="rv-max_commission_rate">—</div></div>
+            <div class="r-row"><div class="r-key">Budget</div><div class="r-val" id="rv-budget_range">—</div></div>
+            <div class="r-row"><div class="r-key">Timeline</div><div class="r-val" id="rv-timeline">—</div></div>
+            <div class="r-sec">Creator</div>
+            <div class="r-row"><div class="r-key">Videos</div><div class="r-val" id="rv-target_videos">—</div></div>
+            <div class="r-row"><div class="r-key">Creator level</div><div class="r-val" id="rv-creator_gmv_level">—</div></div>
+            <div class="r-row"><div class="r-key">Usage rights</div><div class="r-val" id="rv-usage_rights">—</div></div>
+            <div class="r-row"><div class="r-key">LIVE goals</div><div class="r-val" id="rv-live_goals">—</div></div>
+            <div class="r-row"><div class="r-key">UGC needs</div><div class="r-val" id="rv-ugc_needs">—</div></div>
+            <div class="r-row"><div class="r-key">Comments</div><div class="r-val" id="rv-comments">—</div></div>
           </div>
-          <label class="consent"><input type="checkbox" id="consent" required><span class="cbox"></span><span class="ctext" data-t="consent-text">By submitting, I agree to <strong>Thundrr reaching out</strong> with a tailored plan.</span></label>
-          <div class="nav"><div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="3"><span class="a">→</span> <span data-t="btn-back3">Back</span></button></div><div class="nr"><button type="submit" class="btn btn-sub" id="submitBtn"><span class="spinner"></span><span class="bt" data-t="btn-submit">Send my application</span><span class="a">→</span></button></div></div>
+          <label class="consent">
+            <input type="checkbox" id="consent" required>
+            <span class="cbox"></span>
+            <span class="ctext">By submitting, I agree to <strong>Thundrr reaching out</strong> with a tailored plan.</span>
+          </label>
+          <div class="nav">
+            <div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="3"><span class="a">→</span> Back</button></div>
+            <div class="nr"><button type="submit" class="btn btn-sub" id="submitBtn"><span class="spinner"></span><span class="bt">Send my application</span><span class="a">→</span></button></div>
+          </div>
         </div>
 
-      </div>
+      </div><!-- /svp -->
 
-      <!-- SUCCESS -->
+      <!-- ══ SUCCESS ══ -->
       <div class="success" id="successScreen">
-        <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
         <h2 class="s-title">You're <span class="r">in.</span></h2>
         <p class="s-sub">Application received. A real human from Thundrr will reach out shortly with a tailored plan.</p>
         <div class="s-meta"><span>Questions? <strong>jon@thundrrshop.com</strong></span></div>
@@ -470,18 +603,23 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
           <div class="cal-label">Optional next step</div>
           <div class="cal-title">Book a strategy call</div>
           <div class="cal-sub">Skip the back-and-forth — lock in a 20-minute call with the Thundrr team directly.</div>
-          <a href="https://calendly.com/jon-thundrrshop/" target="_blank" rel="noopener" class="cal-btn"><span>Book a call</span><span class="a">→</span></a>
+          <a href="https://calendly.com/jon-thundrrshop/" target="_blank" rel="noopener" class="cal-btn">
+            <span>Book a call</span><span class="a">→</span>
+          </a>
         </div>
-        <div class="s-actions" style="margin-top:20px"><a href="https://www.thundrrshop.com/brands" class="btn btn-g"><span class="a" style="transform:scaleX(-1)">→</span> Back to brands</a></div>
+        <div class="s-actions" style="margin-top:20px">
+          <a href="https://www.thundrrshop.com/brands" class="btn btn-g"><span class="a" style="transform:scaleX(-1)">→</span> Back to brands</a>
+        </div>
       </div>
+
     </form>
-  </div>
+  </div><!-- /card -->
 </main>
 
 <footer class="foot">© 2026 <strong>Thundrr</strong> · TikTok Shop Affiliate Management · TSP · CAP · TAP</footer>
 <div class="toast" id="toast"></div>
 
-<!-- Package Modal -->
+<!-- ══ Package Modal ══ -->
 <div class="modal-overlay" id="pkgModal" onclick="if(event.target===this)closePkgModal()">
   <div class="modal">
     <div class="modal-head">
@@ -489,12 +627,70 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <button class="modal-close" onclick="closePkgModal()">✕</button>
     </div>
     <div class="pkg-grid" id="pkgList">
-      <div class="pkg-card" data-pkg="Flat-Fee Creator Campaigns" onclick="selectPkg(this)"><div class="pkg-card-top"><div class="pkg-icon">🎯</div><div class="pkg-check"></div></div><div class="pkg-name">Flat-Fee Creator Campaigns</div><div class="pkg-tag">Guaranteed output</div><div class="pkg-desc">Defined monthly deliverables from proven affiliates. Ideal for launches and hero SKU pushes. Includes 1 complimentary TAP campaign.</div></div>
-      <div class="pkg-card" data-pkg="Affiliate Management" onclick="selectPkg(this)"><div class="pkg-card-top"><div class="pkg-icon">🤝</div><div class="pkg-check"></div></div><div class="pkg-name">Affiliate Management</div><div class="pkg-tag">Turnkey growth system</div><div class="pkg-desc">Daily outreach, onboarding, creator comms, sample coordination, incentives, and performance reporting.</div><div class="pkg-price">Base $3K/mo · Growth $5K/mo · Scale $10K/mo</div></div>
-      <div class="pkg-card" data-pkg="LIVE Commerce" onclick="selectPkg(this)"><div class="pkg-card-top"><div class="pkg-icon">🔴</div><div class="pkg-check"></div></div><div class="pkg-name">LIVE Commerce</div><div class="pkg-tag">Scalable LIVE engine</div><div class="pkg-desc">Remote LIVE affiliate management — schedules, scripts, giveaways, and GMV tracking.</div><div class="pkg-price">$2,500/mo + 5% of LIVE GMV</div></div>
-      <div class="pkg-card" data-pkg="UGC Content Creation" onclick="selectPkg(this)"><div class="pkg-card-top"><div class="pkg-icon">🎬</div><div class="pkg-check"></div></div><div class="pkg-name">UGC Content Creation</div><div class="pkg-tag">Performance-ready content</div><div class="pkg-desc">Videos for ads, Spark Ads, and product pages. Delivered to you — creators do not post.</div></div>
-      <div class="pkg-card" data-pkg="TAP Campaigns" onclick="selectPkg(this)"><div class="pkg-card-top"><div class="pkg-icon">🧪</div><div class="pkg-check"></div></div><div class="pkg-name">TAP Campaigns</div><div class="pkg-tag">Lower-risk testing</div><div class="pkg-desc">Commission-based via agency links, sample requests &amp; showcases.<em class="fee-note">Setup fee applies.</em></div></div>
-      <div class="pkg-card" data-pkg="Full-Service Growth" onclick="selectPkg(this)"><div class="pkg-card-top"><div class="pkg-icon">🚀</div><div class="pkg-check"></div></div><div class="pkg-name">Full-Service Growth</div><div class="pkg-tag">Max growth</div><div class="pkg-desc">Affiliate Management + LIVE Commerce combined — unified reporting and a dedicated growth lead.</div><div class="pkg-price">$5,000/mo + 5% of total store GMV</div></div>
+
+      <div class="pkg-card" data-pkg="Flat-Fee Creator Campaigns" onclick="selectPkg(this)">
+        <div class="pkg-card-top">
+          <div class="pkg-icon">🎯</div>
+          <div class="pkg-check"></div>
+        </div>
+        <div class="pkg-name">Flat-Fee Creator Campaigns</div>
+        <div class="pkg-tag">Guaranteed output</div>
+        <div class="pkg-desc">Defined monthly deliverables from proven affiliates. Ideal for launches and hero SKU pushes. Includes 1 complimentary TAP campaign.</div>
+      </div>
+
+      <div class="pkg-card" data-pkg="Affiliate Management" onclick="selectPkg(this)">
+        <div class="pkg-card-top">
+          <div class="pkg-icon">🤝</div>
+          <div class="pkg-check"></div>
+        </div>
+        <div class="pkg-name">Affiliate Management</div>
+        <div class="pkg-tag">Turnkey growth system</div>
+        <div class="pkg-desc">Daily outreach, onboarding, creator comms, sample coordination, incentives, and performance reporting.</div>
+        <div class="pkg-price">Base $3K/mo · Growth $5K/mo · Scale $10K/mo</div>
+      </div>
+
+      <div class="pkg-card" data-pkg="LIVE Commerce" onclick="selectPkg(this)">
+        <div class="pkg-card-top">
+          <div class="pkg-icon">🔴</div>
+          <div class="pkg-check"></div>
+        </div>
+        <div class="pkg-name">LIVE Commerce</div>
+        <div class="pkg-tag">Scalable LIVE engine</div>
+        <div class="pkg-desc">Remote LIVE affiliate management — schedules, scripts, giveaways, and GMV tracking.</div>
+        <div class="pkg-price">$2,500/mo + 5% of LIVE GMV</div>
+      </div>
+
+      <div class="pkg-card" data-pkg="UGC Content Creation" onclick="selectPkg(this)">
+        <div class="pkg-card-top">
+          <div class="pkg-icon">🎬</div>
+          <div class="pkg-check"></div>
+        </div>
+        <div class="pkg-name">UGC Content Creation</div>
+        <div class="pkg-tag">Performance-ready content</div>
+        <div class="pkg-desc">Videos for ads, Spark Ads, and product pages. Delivered to you — creators do not post.</div>
+      </div>
+
+      <div class="pkg-card" data-pkg="TAP Campaigns" onclick="selectPkg(this)">
+        <div class="pkg-card-top">
+          <div class="pkg-icon">🧪</div>
+          <div class="pkg-check"></div>
+        </div>
+        <div class="pkg-name">TAP Campaigns</div>
+        <div class="pkg-tag">Lower-risk testing</div>
+        <div class="pkg-desc">Commission-based via agency links, sample requests &amp; showcases.<em class="fee-note">Setup fee applies.</em></div>
+      </div>
+
+      <div class="pkg-card" data-pkg="Full-Service Growth" onclick="selectPkg(this)">
+        <div class="pkg-card-top">
+          <div class="pkg-icon">🚀</div>
+          <div class="pkg-check"></div>
+        </div>
+        <div class="pkg-name">Full-Service Growth</div>
+        <div class="pkg-tag">Max growth</div>
+        <div class="pkg-desc">Affiliate Management + LIVE Commerce combined — unified reporting and a dedicated growth lead.</div>
+        <div class="pkg-price">$5,000/mo + 5% of total store GMV</div>
+      </div>
+
     </div>
     <div class="modal-footer">
       <div class="modal-hint">Not sure? <strong>We'll advise on the call.</strong></div>
@@ -507,7 +703,268 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 </div>
 
 <script>
-// ── Translations (topbar toggle only) ──
-const TRANSLATIONS = {
-  en: {'back':'Back to brands','eyebrow':'Brand Application','eyemeta-strong':'~5 minutes · 4 steps','step1-label':'Contact','step2-label':'GMV & Budget','step3-label':'Creator Goals','step4-label':'Review','s1-meta':'Product','s1-title':'Your product <span class="r">setup.</span>','s1-desc':'Your details and TikTok Shop setup.','f-name':'Full name','f-email':'Email address','f-phone':'Phone number','f-wechat':'WeChat ID','optional':'(optional)','optional2':'(optional)','optional3':'(optional)','optional4':'(optional)','f-product-link':'TikTok Shop product link','h-product-link':'tiktok.com/view/product/…','f-hero-sku':'Hero SKU name','h-hero-sku':'Your primary product to push','sl-category':'Product category','cat-beauty':'Beauty','cat-beauty-sub':'Skincare','cat-wellness':'Wellness','cat-wellness-sub':'Supplements','cat-fashion':'Fashion','cat-fashion-sub':'Apparel','cat-home':'Home','cat-home-sub':'Decor','cat-tech':'Tech','cat-tech-sub':'Gadgets','cat-pets':'Pets','cat-pets-sub':'Accessories','cat-fb':'F&B','cat-fb-sub':'Drinks','cat-other':'Other','cat-other-sub':'Tell us','sl-package':'Preferred package','pkg-btn-label':'Select a package →','sl-samples':'📦 Sample availability','f-samples':'How many units can you provide?','h-samples':'Enter 0 if none','btn-continue':'Continue','s2-meta':'GMV & Budget','s2-title':'Numbers & <span class="r">budget.</span>','s2-desc':"Current performance and what you're willing to invest.",'sl-monthly-gmv':'Monthly TikTok Shop GMV','gmv-per-month':'per month','gmv-per-month2':'per month','sl-aff-gmv':'Current affiliate GMV','f-comm-cur':'Current commission rate','h-comm-cur':'e.g. 10%','f-comm-max':'Highest commission available','h-comm-max':'For top creators','sl-budget':'Budget range','bud-1k':'Under $1K','bud-mo':'/mo','sl-timeline':'Timeline','tl-asap':'ASAP','tl-asap-sub':'This week','tl-30':'30 days','tl-30-sub':'Next month','tl-3mo':'1–3 months','tl-3mo-sub':'Planning','tl-flex':'Flexible','tl-flex-sub':'No rush','btn-back':'Back','btn-back2':'Back','btn-back3':'Back','btn-continue2':'Continue','s3-meta':'Creator Goals','s3-title':'Creator & content <span class="r">goals.</span>','s3-desc':'Creator output, LIVE, and UGC goals.','sl-videos':'Target number of videos','vid-10':'1–10','vid-10-sub':'Testing','vid-50':'10–50','vid-50-sub':'Growing','vid-200':'50–200','vid-200-sub':'Scaling','vid-200p':'200+','vid-200p-sub':'Full blast','sl-creator-level':'Desired creator level','sl-usage':'Usage / ad rights needed','ur-spark':'Spark Ads whitelisting','ur-paid':'Paid ad usage (off-platform)','ur-organic':'Organic reposts only','ur-buyout':'Full buyout','ur-notsure':'Not sure yet','f-live-goals':'LIVE selling goals','h-live-goals':'"2× weekly LIVE, $20K per session"','f-ugc':'UGC needs','h-ugc':'Formats, volume, deliverables','f-comments':'Other questions or comments','h-comments':'Anything else we should know','btn-review':'Review','s4-meta':'Review','s4-title':'One last <span class="r">look.</span>','s4-desc':'Review before you send.','rv-sec-contact':'Contact','rv-key-name':'Name','rv-key-email':'Email','rv-key-phone':'Phone','rv-key-wechat':'WeChat','rv-sec-product':'Product','rv-key-link':'Link','rv-key-sku':'Hero SKU','rv-key-category':'Category','rv-key-package':'Package','rv-key-samples':'Samples','rv-sec-gmv':'GMV / Budget','rv-key-monthly-gmv':'Monthly GMV','rv-key-aff-gmv':'Aff GMV','rv-key-cur-comm':'Cur comm','rv-key-max-comm':'Max comm','rv-key-budget':'Budget','rv-key-timeline':'Timeline','rv-sec-creator':'Creator','rv-key-videos':'Videos','rv-key-creator-level':'Creator level','rv-key-usage':'Usage rights','rv-key-live':'LIVE goals','rv-key-ugc':'UGC needs','rv-key-comments':'Comments','consent-text':'By submitting, I agree to <strong>Thundrr reaching out</strong> with a tailored plan.','btn-submit':'Send my application','toast-category':'Pick a product category','toast-field':'Please complete the highlighted field','toast-consent':'Tick the consent box to send','toast-network':'Network hiccup. Please try again.','toast-error':'Something went wrong — email jon@thundrrshop.com'},
-  zh: {'back':'返回品牌页面','eyebrow':'品牌入驻申请','eyemeta-strong':'约5分钟 · 4个步骤','step1-label':'联系方式','step2-label':'GMV 与预算','step3-label':'达人目标','step4-label':'确认','s1-meta':'产品信息','s1-title':'您的产品 <span class="r">设置。</span>','s1-desc':'您的联系信息和 TikTok Shop 设置。','f-name':'姓名','f-email':'电子邮箱','f-phone':'手机号码','f-wechat':'微信号','optional':'（选填）','optional2':'（选填）','optional3':'（选填）','optional4':'（选填）','f-product-link':'TikTok Shop 商品链接','h-product-link':'tiktok.com/view/product/…','f-hero-sku':'主推 SKU 名称','h-hero-sku':'您的主要推广产品','sl-category':'产品类目','cat-beauty':'美妆','cat-beauty-sub':'护肤','cat-wellness':'健康','cat-wellness-sub':'保健品','cat-fashion':'时尚','cat-fashion-sub':'服装','cat-home':'家居','cat-home-sub':'装饰','cat-tech':'科技','cat-tech-sub':'数码','cat-pets':'宠物','cat-pets-sub':'周边','cat-fb':'食饮','cat-fb-sub':'饮品','cat-other':'其他','cat-other-sub':'请说明','sl-package':'意向套餐','pkg-btn-label':'选择套餐 →','sl-samples':'📦 样品供应情况','f-samples':'可提供多少件样品？','h-samples':'如无样品请填写 0','btn-continue':'下一步','s2-meta':'GMV 与预算','s2-title':'数据与 <span class="r">预算。</span>','s2-desc':'当前表现及您的投入预算。','sl-monthly-gmv':'每月 TikTok Shop GMV','gmv-per-month':'每月','gmv-per-month2':'每月','sl-aff-gmv':'当前联盟营销 GMV','f-comm-cur':'当前佣金比例','h-comm-cur':'例：10%','f-comm-max':'最高可提供佣金','h-comm-max':'面向顶级达人','sl-budget':'预算范围','bud-1
+(function(){
+  const form = document.getElementById('brandForm');
+  const steps = Array.from(document.querySelectorAll('.step'));
+  const psteps = Array.from(document.querySelectorAll('.pstep'));
+  const svp = document.getElementById('svp');
+  const pfill = document.getElementById('plineFill');
+  let cur = 1;
+  const TOTAL = 4;
+
+  // Scroll topbar
+  window.addEventListener('scroll', () => {
+    document.getElementById('topbar').classList.toggle('scrolled', scrollY > 30);
+  });
+
+  function setProgress(n) {
+    pfill.style.width = ((n - 1) / (TOTAL - 1) * 100) + '%';
+    psteps.forEach((p, i) => {
+      p.classList.toggle('ac', i + 1 === n);
+      p.classList.toggle('dn', i + 1 < n);
+    });
+  }
+
+  function measure(el) {
+    const s = el.style.cssText;
+    el.style.cssText = 'position:absolute;visibility:hidden;opacity:0;transform:none;pointer-events:none;left:0;right:0;top:0';
+    const h = el.offsetHeight;
+    el.style.cssText = s;
+    return h;
+  }
+  function setH(el) { if (el && svp) svp.style.height = measure(el) + 'px'; }
+  function initH() { const a = steps.find(s => s.classList.contains('active')); if (a) setH(a); }
+  initH(); setTimeout(initH, 80);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(initH);
+  window.addEventListener('resize', initH);
+
+  function goTo(n, dir) {
+    if (n < 1 || n > TOTAL) return;
+    const from = steps.find(s => s.classList.contains('active'));
+    const to = steps.find(s => +s.dataset.step === n);
+    if (!to || from === to) return;
+    if (n === 4) buildReview();
+    setH(to);
+    from.classList.remove('active');
+    from.classList.add(dir === 'back' ? 'eR' : 'eL');
+    const enter = dir === 'back' ? 'eL' : 'eR';
+    to.classList.add(enter);
+    setTimeout(() => {
+      from.classList.remove('eL', 'eR');
+      to.classList.remove(enter);
+      to.classList.add('active');
+      setTimeout(() => {
+        const fi = to.querySelector('input:not([type=hidden]):not([type=radio]):not([type=checkbox]),textarea');
+        if (fi) fi.focus({ preventScroll: true });
+      }, 340);
+    }, 460);
+    cur = n; setProgress(n);
+  }
+
+  function validateField(f) {
+    const inp = f.querySelector('input,textarea');
+    if (!inp) return true;
+    let ok = !f.hasAttribute('data-req') || !!inp.value.trim();
+    if (ok && f.hasAttribute('data-email') && inp.value)
+      ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inp.value.trim());
+    f.classList.toggle('err', !ok);
+    return ok;
+  }
+
+  function validateStep(n) {
+    const el = steps.find(s => +s.dataset.step === n);
+    let ok = true;
+    el.querySelectorAll('.field[data-req]').forEach(f => { if (!validateField(f)) ok = false; });
+    if (n === 1 && !document.querySelector('[name="category"]:checked')) {
+      toast('Pick a product category'); ok = false;
+    }
+    if (!ok) {
+      const fe = el.querySelector('.field.err');
+      if (fe) { const i = fe.querySelector('input,textarea'); if (i) i.focus(); toast('Please complete the highlighted field'); }
+    }
+    return ok;
+  }
+
+  document.querySelectorAll('[data-next]').forEach(b => b.addEventListener('click', () => {
+    if (validateStep(cur)) goTo(+b.dataset.next, 'forward');
+  }));
+  document.querySelectorAll('[data-prev]').forEach(b => b.addEventListener('click', () => goTo(+b.dataset.prev, 'back')));
+
+  document.querySelectorAll('.field').forEach(f => {
+    const inp = f.querySelector('input,textarea');
+    if (!inp) return;
+    inp.addEventListener('blur', () => { if (inp.value.trim()) validateField(f); });
+    inp.addEventListener('input', () => { if (f.classList.contains('err')) validateField(f); });
+  });
+
+  document.querySelectorAll('textarea').forEach(ta => {
+    const grow = () => {
+      ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px';
+      const a = steps.find(s => s.classList.contains('active')); if (a) setH(a);
+    };
+    ta.addEventListener('input', grow); setTimeout(grow, 50);
+  });
+
+  document.querySelectorAll('[data-cg]').forEach(group => {
+    group.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', e => {
+        e.preventDefault();
+        group.querySelectorAll('.chip').forEach(c => c.classList.remove('sel'));
+        chip.classList.add('sel');
+        const r = chip.querySelector('input');
+        if (r) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }
+      });
+    });
+  });
+
+  document.querySelectorAll('.mchip').forEach(chip => {
+    const cb = chip.querySelector('input');
+    chip.addEventListener('click', e => { e.preventDefault(); cb.checked = !cb.checked; chip.classList.toggle('ck', cb.checked); });
+  });
+
+  const labs = ['$0–$5K', '$5K–$25K', '$25K–$100K', '$100K–$500K', '$500K–$1M', '$1M–$5M', '$5M+'];
+  function mkSlider(inId, dispId, fillId, hidId) {
+    const inp = document.getElementById(inId), disp = document.getElementById(dispId),
+          fl = document.getElementById(fillId), hid = document.getElementById(hidId);
+    if (!inp) return;
+    function u() { const v = +inp.value; fl.style.width = (v / 6 * 100) + '%'; disp.textContent = labs[v]; hid.value = labs[v]; }
+    inp.addEventListener('input', u); u();
+  }
+  mkSlider('gmvIn', 'gmvDisp', 'gmvFill', 'gmvHid');
+  mkSlider('affIn', 'affDisp', 'affFill', 'affHid');
+
+  function fval(name) {
+    const el = form.querySelector('[name="' + name + '"]');
+    if (!el) return '';
+    if (el.type === 'radio') { const c = form.querySelector('[name="' + name + '"]:checked'); return c ? c.value : ''; }
+    return el.value || '';
+  }
+  function multi(name) { return Array.from(form.querySelectorAll('[name="' + name + '"]:checked')).map(c => c.value); }
+  function setRv(id, val, pills) {
+    const el = document.getElementById(id); if (!el) return;
+    if (!val || (Array.isArray(val) && !val.length)) { el.textContent = '—'; return; }
+    if (pills) { el.innerHTML = val.map(v => '<span class="pill">' + v + '</span>').join(''); return; }
+    el.textContent = val;
+  }
+
+  function buildReview() {
+    setRv('rv-name', fval('name'));
+    setRv('rv-email', fval('email'));
+    setRv('rv-phone', fval('phone'));
+    setRv('rv-wechat', fval('wechat_id'));
+    setRv('rv-product_link', fval('product_link'));
+    setRv('rv-hero_sku', fval('hero_sku'));
+    setRv('rv-category', fval('category'));
+    const pkgVal = fval('preferred_package');
+    const pkgEl = document.getElementById('rv-preferred_package');
+    if (pkgEl) {
+      if (pkgVal) {
+        pkgEl.innerHTML = pkgVal.split(', ').map(p => '<span class="pill">' + p + '</span>').join('');
+      } else {
+        pkgEl.textContent = '—';
+      }
+    }
+    const sq = fval('sample_quantity');
+    setRv('rv-sample_quantity', sq ? sq + ' units' : 'None');
+    setRv('rv-current_monthly_gmv', fval('current_monthly_gmv'));
+    setRv('rv-current_affiliate_gmv', fval('current_affiliate_gmv'));
+    setRv('rv-current_commission_rate', fval('current_commission_rate'));
+    setRv('rv-max_commission_rate', fval('max_commission_rate'));
+    setRv('rv-budget_range', fval('budget_range'));
+    setRv('rv-timeline', fval('timeline'));
+    setRv('rv-target_videos', fval('target_videos'));
+    setRv('rv-creator_gmv_level', fval('creator_gmv_level'));
+    setRv('rv-usage_rights', multi('usage_rights'), true);
+    setRv('rv-live_goals', fval('live_goals'));
+    setRv('rv-ugc_needs', fval('ugc_needs'));
+    setRv('rv-comments', fval('comments'));
+  }
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!validateStep(4)) return;
+    const consent = document.getElementById('consent');
+    if (!consent.checked) { toast('Tick the consent box to send'); consent.focus(); return; }
+    const btn = document.getElementById('submitBtn');
+    btn.classList.add('loading'); btn.disabled = true;
+    try {
+      const fd = new FormData(form);
+      fd.append('usage_rights_summary', multi('usage_rights').join(', '));
+      const res = await fetch(form.action, { method: 'POST', body: fd, headers: { Accept: 'application/json' } });
+      if (res.ok) {
+        svp.style.display = 'none';
+        document.getElementById('successScreen').classList.add('active');
+        document.getElementById('progress').style.display = 'none';
+        const card = document.querySelector('.card');
+        if (card) window.scrollTo({ top: card.getBoundingClientRect().top + scrollY - 80, behavior: 'smooth' });
+      } else {
+        const d = await res.json().catch(() => ({}));
+        toast((d && d.error) || 'Something went wrong — email jon@thundrrshop.com');
+        btn.classList.remove('loading'); btn.disabled = false;
+      }
+    } catch {
+      toast('Network hiccup. Please try again.');
+      btn.classList.remove('loading'); btn.disabled = false;
+    }
+  });
+
+  form.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA' && e.target.type !== 'submit') {
+      const el = steps.find(s => s.classList.contains('active')); if (!el) return;
+      const n = +el.dataset.step;
+      if (n < TOTAL) { e.preventDefault(); if (validateStep(n)) goTo(n + 1, 'forward'); }
+    }
+  });
+
+  let tt;
+  function toast(msg) {
+    const t = document.getElementById('toast'); t.textContent = msg;
+    t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3200);
+  }
+})();
+
+// Package modal
+let pendingPkgs = new Set();
+function openPkgModal() {
+  document.getElementById('pkgModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  const cur = document.getElementById('pkg_hidden').value;
+  pendingPkgs = new Set(cur ? cur.split(', ') : []);
+  document.querySelectorAll('.pkg-card').forEach(el => {
+    el.classList.toggle('sel', pendingPkgs.has(el.dataset.pkg));
+  });
+  document.getElementById('pkgConfirm').disabled = pendingPkgs.size === 0;
+}
+function closePkgModal() {
+  document.getElementById('pkgModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function selectPkg(el) {
+  const pkg = el.dataset.pkg;
+  if (pendingPkgs.has(pkg)) {
+    pendingPkgs.delete(pkg);
+    el.classList.remove('sel');
+  } else {
+    pendingPkgs.add(pkg);
+    el.classList.add('sel');
+  }
+  document.getElementById('pkgConfirm').disabled = pendingPkgs.size === 0;
+}
+function confirmPkg() {
+  if (pendingPkgs.size === 0) return;
+  const selected = Array.from(pendingPkgs);
+  document.getElementById('pkg_hidden').value = selected.join(', ');
+  const btn = document.getElementById('pkgBtn');
+  const label = document.getElementById('pkgBtnLabel');
+  if (selected.length === 1) {
+    label.textContent = selected[0];
+  } else {
+    label.textContent = selected.length + ' packages selected';
+  }
+  btn.classList.add('selected');
+  closePkgModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePkgModal(); });
+</script>
+</body>
+</html>
