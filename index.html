@@ -381,6 +381,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
                 <label for="contact_email" data-t="fEmail">Email address</label>
               </div>
             </div>
+            <div class="frow">
+              <div class="field" data-req>
+                <input id="brand_name" name="brand_name" placeholder=" " required>
+                <label for="brand_name" data-t="fBrandName">Brand name</label>
+              </div>
+            </div>
             <div class="frow two">
               <div class="field" data-req>
                 <input type="tel" id="contact_phone" name="phone" placeholder=" " required>
@@ -563,6 +569,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
           <div class="review" id="reviewPanel">
             <div class="r-sec" data-t="rvContact">Contact</div>
             <div class="r-row"><div class="r-key" data-t="rvName">Name</div><div class="r-val" id="rv-name">—</div></div>
+            <div class="r-row"><div class="r-key" data-t="rvBrand">Brand</div><div class="r-val" id="rv-brand_name">—</div></div>
             <div class="r-row"><div class="r-key" data-t="rvEmail">Email</div><div class="r-val" id="rv-email">—</div></div>
             <div class="r-row"><div class="r-key" data-t="rvPhone">Phone</div><div class="r-val" id="rv-phone">—</div></div>
             <div class="r-row"><div class="r-key" data-t="rvWechat">WeChat</div><div class="r-val" id="rv-wechat">—</div></div>
@@ -707,6 +714,7 @@ const TRANSLATIONS = {
     s3desc:'Creator output, LIVE, and UGC goals.',
     s4meta:'Review', s4title:'One last <span class="r">look.</span>',
     s4desc:'Review before you send.',
+    fBrandName:'Brand name',
     fFullName:'Full name', fEmail:'Email address', fPhone:'Phone number',
     fWechat:'WeChat ID', optional:'(optional)',
     fProductLink:'TikTok Shop product link', fProductLinkHint:'tiktok.com/view/product/…',
@@ -735,7 +743,7 @@ const TRANSLATIONS = {
     fLiveGoals:'LIVE selling goals', fLiveGoalsHint:'"2× weekly LIVE, $20K per session"',
     fUgcNeeds:'UGC needs', fUgcNeedsHint:'Formats, volume, deliverables',
     fComments:'Other questions or comments', fCommentsHint:'Anything else we should know',
-    rvContact:'Contact', rvName:'Name', rvEmail:'Email', rvPhone:'Phone', rvWechat:'WeChat',
+    rvContact:'Contact', rvName:'Name', rvBrand:'Brand', rvEmail:'Email', rvPhone:'Phone', rvWechat:'WeChat',
     rvProduct:'Product', rvLink:'Link', rvHeroSku:'Hero SKU', rvCategory:'Category',
     rvPackage:'Package', rvSamples:'Samples',
     rvGmv:'GMV / Budget', rvMonthlyGmv:'Monthly GMV', rvAffGmv:'Aff GMV',
@@ -783,6 +791,7 @@ const TRANSLATIONS = {
     s3desc:'达人产出、直播带货及UGC目标。',
     s4meta:'确认', s4title:'最后<span class="r">确认。</span>',
     s4desc:'发送前请核对信息。',
+    fBrandName:'品牌名称',
     fFullName:'姓名', fEmail:'邮箱地址', fPhone:'手机号码',
     fWechat:'微信号', optional:'（选填）',
     fProductLink:'TikTok小店商品链接', fProductLinkHint:'tiktok.com/view/product/…',
@@ -811,7 +820,7 @@ const TRANSLATIONS = {
     fLiveGoals:'直播带货目标', fLiveGoalsHint:'"每周2场直播，每场$20K"',
     fUgcNeeds:'UGC内容需求', fUgcNeedsHint:'格式、数量、交付物',
     fComments:'其他问题或备注', fCommentsHint:'其他需要我们了解的信息',
-    rvContact:'联系方式', rvName:'姓名', rvEmail:'邮箱', rvPhone:'电话', rvWechat:'微信',
+    rvContact:'联系方式', rvName:'姓名', rvBrand:'品牌', rvEmail:'邮箱', rvPhone:'电话', rvWechat:'微信',
     rvProduct:'产品', rvLink:'链接', rvHeroSku:'主推SKU', rvCategory:'类目',
     rvPackage:'套餐', rvSamples:'样品',
     rvGmv:'GMV / 预算', rvMonthlyGmv:'月GMV', rvAffGmv:'联盟GMV',
@@ -1023,6 +1032,7 @@ function setLang(lang) {
   function buildReview() {
     const T = TRANSLATIONS[currentLang];
     setRv('rv-name', fval('name'));
+    setRv('rv-brand_name', fval('brand_name'));
     setRv('rv-email', fval('email'));
     setRv('rv-phone', fval('phone'));
     setRv('rv-wechat', fval('wechat_id'));
