@@ -1,1163 +1,1210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Brand Application — Thundrr</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;900&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>For Brands — Thundrr</title>
+<link rel="canonical" href="https://www.thundrrshop.com/brands">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+/* ── PRELOADER ── */
+#preloader{position:fixed;inset:0;z-index:9999;background:var(--bk);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .6s cubic-bezier(.25,.46,.45,.94),visibility .6s}
+#preloader.gone{opacity:0;visibility:hidden;pointer-events:none}
+.pl-logo{opacity:0;animation:plRise .55s cubic-bezier(.25,.46,.45,.94) .1s forwards;display:flex;align-items:center;gap:10px;font-size:1.4rem;font-weight:900;letter-spacing:-.04em}
+.pl-logo .pl-dot{color:var(--r)}
+@keyframes plRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.pl-bar{width:130px;height:2px;background:rgba(236,232,242,.08);border-radius:99px;overflow:hidden}
+.pl-bar-fill{height:100%;width:40%;background:linear-gradient(90deg,rgba(232,0,46,.5),var(--r));border-radius:99px;box-shadow:0 0 10px var(--r);animation:plSweep .9s cubic-bezier(.25,.46,.45,.94) forwards}
+@keyframes plSweep{0%{transform:translateX(-120%)}100%{transform:translateX(280%)}}
+
+/* ── FIXED ATMOSPHERE ── */
+.glow-a{position:fixed;width:580px;height:580px;border-radius:50%;background:radial-gradient(circle,rgba(232,0,46,.18),transparent 68%);top:-200px;right:-160px;filter:blur(100px);z-index:0;pointer-events:none;animation:gfloat1 16s ease-in-out infinite}
+.glow-b{position:fixed;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,rgba(150,0,30,.14),transparent 70%);bottom:8%;left:-160px;filter:blur(120px);z-index:0;pointer-events:none;animation:gfloat2 20s ease-in-out infinite}
+@keyframes gfloat1{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,44px)}}
+@keyframes gfloat2{0%,100%{transform:translate(0,0)}50%{transform:translate(48px,-28px)}}
+.vignette{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 110% 70% at 50% 0%,transparent 40%,rgba(0,0,0,.55) 100%)}
+
+/* ── GLASS CARD BASE ── */
+.glass{
+  position:relative;
+  background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+  border-radius:18px;overflow:hidden;
+}
+.glass::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  padding:1px;
+  background:linear-gradient(150deg,rgba(255,255,255,.14),rgba(255,255,255,.02) 45%,rgba(255,255,255,0));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+  transition:background .35s;
+}
+.glass::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,30%),rgba(232,0,46,.12),transparent 65%);
+  opacity:0;transition:opacity .3s;pointer-events:none;z-index:0;
+}
+.glass:hover::before{background:linear-gradient(150deg,rgba(232,0,46,.45),rgba(255,255,255,.04) 50%,transparent)}
+.glass:hover::after{opacity:1}
+.glass:hover{transform:translateY(-4px)}
+.glass>*{position:relative;z-index:1}
+
+/* ── WORD-UP HEADLINE ANIMATION ── */
+.wu{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .06em .1em .03em}
+.wu i{display:inline-block;font-style:normal;transform:translateY(112%);opacity:0}
+body.ready .wu i{animation:wordUp .72s cubic-bezier(.25,.46,.45,.94) forwards}
+@keyframes wordUp{to{transform:none;opacity:1}}
+
+/* ── SCREEN-LOAD REVEAL (body.ready) ── */
+.reveal{opacity:0}
+body.ready .reveal{animation:revUp .72s cubic-bezier(.25,.46,.45,.94) forwards}
+@keyframes revUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ── QUIZ GLASS UPGRADE ── */
+.q-opt{
+  background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.018))!important;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.q-opt::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(200px circle at var(--mx,50%) var(--my,50%),rgba(232,0,46,.1),transparent 65%);
+  opacity:0;transition:opacity .25s;pointer-events:none;
+}
+.q-opt:hover::after,.q-opt.selected::after{opacity:1}
+.q-result>*:not(div[style]){position:relative;z-index:1}
+
+/* callout glass upgrade */
+.callout{
+  background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.02))!important;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+/* panel-cta upgrade */
+.panel-cta{
+  background:linear-gradient(180deg,#ff3055,var(--r))!important;
+  border-radius:12px!important;
+  box-shadow:0 10px 36px -10px rgba(232,0,46,.55),inset 0 1px 0 rgba(255,255,255,.18)!important;
+}
+.panel-cta:hover{box-shadow:0 16px 48px -10px rgba(232,0,46,.72),inset 0 1px 0 rgba(255,255,255,.18)!important}
+/* btn-r upgrade */
+.btn-r{
+  background:linear-gradient(180deg,#ff3055,var(--r))!important;
+  box-shadow:0 10px 32px -10px rgba(232,0,46,.5),inset 0 1px 0 rgba(255,255,255,.18)!important;
+  border-radius:99px!important;
+}
+.btn-r:hover{box-shadow:0 16px 44px -10px rgba(232,0,46,.72),inset 0 1px 0 rgba(255,255,255,.18)!important}
+/* q-next upgrade */
+.q-next{border-radius:12px!important;background:linear-gradient(180deg,#ff3055,var(--r))!important;box-shadow:0 8px 28px -8px rgba(232,0,46,.45),inset 0 1px 0 rgba(255,255,255,.16)!important}
+
+/* svc-card glass */
+.svc-card{
+  background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(255,255,255,.01))!important;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.svc-card.active{background:linear-gradient(160deg,rgba(232,0,46,.08),rgba(232,0,46,.03))!important}
+
+/* tl-card glass */
+.tl-card{
+  background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.018))!important;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+
+/* quiz inner glass box */
+.quiz-inner{
+  background:linear-gradient(160deg,rgba(255,255,255,.028),rgba(255,255,255,.008));
+  border:1px solid rgba(255,255,255,.07);border-radius:24px;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+}
+
+/* includes glass */
+.includes{
+  background:linear-gradient(160deg,rgba(232,0,46,.07),rgba(232,0,46,.02))!important;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+
+/* scope items hover glow */
+.si:hover{background:rgba(232,0,46,.03);border-radius:6px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+::selection{background:rgba(232,0,46,.22);color:#fff}
 :root{
-  --bg:#0a0a0c;--ink:#fafafa;--ink-soft:rgba(250,250,250,.76);
-  --mute:#7d7d7d;--mute2:#4e4e4e;--line:rgba(255,255,255,.07);
-  --red:#ff0d4a;--red2:#ff3d6a;--red-soft:#ff5e8a;
-  --fb:'Archivo Black',sans-serif;--fm:'IBM Plex Mono',monospace;--ff:'Archivo',sans-serif;
-  --e:cubic-bezier(.16,1,.3,1);--eb:cubic-bezier(.34,1.56,.64,1);--pill:999px
+  --r:#e8002e;
+  --bk:#06060a;--c1:#0d0d12;--c2:#131319;
+  --fg:#ece8f2;--fg2:rgba(236,232,242,.52);--fg3:rgba(236,232,242,.22);--fg4:rgba(236,232,242,.08);
+  --stroke:rgba(236,232,242,.07);
 }
-html,body{background:var(--bg);color:var(--ink);font-family:var(--ff);-webkit-font-smoothing:antialiased;min-height:100%;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+body{font-family:'Montserrat',sans-serif;background:var(--bk);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::after{content:'';position:fixed;inset:0;z-index:1000;pointer-events:none;opacity:.022;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
 
-/* ── Atmosphere ── */
-.atmos{position:fixed;inset:0;z-index:-1;background:var(--bg);overflow:hidden}
-.atmos-mesh{position:absolute;inset:0;background:
-  radial-gradient(ellipse 55% 45% at 15% 25%,rgba(255,13,74,.22),transparent 65%),
-  radial-gradient(ellipse 45% 40% at 85% 75%,rgba(255,94,138,.14),transparent 60%),
-  radial-gradient(ellipse 40% 55% at 65% 15%,rgba(255,13,74,.11),transparent 65%);
-  animation:meshDrift 20s ease-in-out infinite alternate}
-@keyframes meshDrift{0%{opacity:.85;transform:scale(1)}100%{opacity:1;transform:scale(1.04)}}
-.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
-.orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(255,13,74,.42),transparent 70%);top:-100px;left:-80px;animation:breathe 9s ease-in-out infinite}
-.orb2{width:500px;height:500px;background:radial-gradient(circle,rgba(255,94,138,.28),transparent 70%);bottom:-80px;right:-60px;animation:breathe 12s ease-in-out infinite -4s}
-.orb3{width:300px;height:300px;background:radial-gradient(circle,rgba(255,13,74,.18),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:breathe 7s ease-in-out infinite -2s}
-@keyframes breathe{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.08)}}
+/* ── BACKGROUND ── */
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-/* ── Topbar ── */
-.topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 32px;background:linear-gradient(180deg,rgba(10,10,12,.92),transparent);backdrop-filter:blur(12px);transition:background .3s}
-.topbar.scrolled{background:rgba(10,10,12,.95)}
-.topbar-left{display:flex;align-items:center;gap:16px}
-.logo{display:flex;align-items:center;gap:10px;font-family:var(--fb);font-size:19px;letter-spacing:-.03em;text-transform:uppercase}
-.logo .dot{width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 16px rgba(255,13,74,.8);animation:pulse 2.5s ease-in-out infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 16px rgba(255,13,74,.8);transform:scale(1)}50%{box-shadow:0 0 26px rgba(255,13,74,1);transform:scale(1.15)}}
-.back{display:inline-flex;align-items:center;gap:8px;font-family:var(--fm);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);padding:9px 16px;border-radius:var(--pill);border:1px solid var(--line);background:rgba(255,255,255,.02);transition:all .3s var(--e)}
-.back:hover{color:var(--ink);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.05);transform:translateX(-2px)}
-.back .arr{transition:transform .25s}
-.back:hover .arr{transform:translateX(-4px)}
+main{position:relative;z-index:1}
 
-/* ── Language Toggle ── */
-.lang-toggle{display:flex;align-items:center;gap:0;border-radius:var(--pill);border:1px solid var(--line);background:rgba(255,255,255,.02);overflow:hidden;flex-shrink:0}
-.lang-btn{padding:7px 13px;font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);cursor:pointer;border:none;background:none;transition:all .25s var(--e);position:relative}
-.lang-btn.active{color:#fff;background:rgba(255,13,74,.18)}
-.lang-btn:first-child{border-right:1px solid var(--line)}
-.lang-btn:hover:not(.active){color:var(--ink-soft);background:rgba(255,255,255,.04)}
-
-/* ── Intro ── */
-.intro{padding:100px 24px 22px;text-align:center;max-width:900px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:14px;animation:fadeUp .8s var(--e) .1s both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.eyebrow{display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border-radius:var(--pill);background:rgba(255,13,74,.09);border:1px solid rgba(255,13,74,.28);font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--red);transition:all .3s var(--e)}
-.eyebrow:hover{background:rgba(255,13,74,.15);border-color:rgba(255,13,74,.5)}
-.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);animation:pulse 2s ease-in-out infinite}
-.eyemeta{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--pill);background:rgba(255,255,255,.03);border:1px solid var(--line);font-family:var(--fm);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
-.eyemeta .dot2{width:4px;height:4px;border-radius:50%;background:var(--red)}
-.eyemeta strong{color:var(--ink)}
-
-/* ── Stage ── */
-.stage{max-width:740px;margin:0 auto;padding:0 20px 40px;animation:fadeUp .8s var(--e) .2s both}
-
-/* ── Progress ── */
-.progress{display:flex;justify-content:space-between;align-items:center;margin-bottom:34px;padding:0 6px;position:relative}
-.pline{position:absolute;top:18px;left:24px;right:24px;height:2px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;z-index:0}
-.pline-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:linear-gradient(90deg,var(--red),var(--red-soft));transition:width .7s var(--e);box-shadow:0 0 10px rgba(255,13,74,.5)}
-.pstep{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:default}
-.pcirc{width:36px;height:36px;border-radius:50%;background:rgba(18,18,22,.98);border:2px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:12px;font-weight:600;color:var(--mute);transition:all .45s var(--e)}
-.plabel{font-family:var(--fm);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:600;display:none;white-space:nowrap;transition:color .3s}
-@media(min-width:560px){.plabel{display:block}}
-.pstep.ac .pcirc{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 0 0 5px rgba(255,13,74,.18),0 0 22px rgba(255,13,74,.45);transform:scale(1.08)}
-.pstep.ac .plabel{color:var(--red)}
-.pstep.dn .pcirc{background:rgba(255,13,74,.15);border-color:var(--red);color:var(--red)}
-.pstep.dn .plabel{color:var(--ink-soft)}
-.pcheck{display:none}.pstep.dn .pcheck{display:inline}.pstep.dn .pnum{display:none}
-
-/* ── Card ── */
-.card{position:relative;background:linear-gradient(160deg,rgba(28,28,34,.75),rgba(14,14,18,.88));backdrop-filter:blur(32px);border:1px solid rgba(255,255,255,.1);border-radius:28px;padding:46px 46px 38px;box-shadow:0 40px 100px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(255,13,74,.12);overflow:hidden;transition:box-shadow .4s var(--e)}
-.card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 5%,rgba(255,13,74,.55) 30%,rgba(255,255,255,.65) 50%,rgba(255,13,74,.55) 70%,transparent 95%)}
-.card::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(255,13,74,.07),transparent 70%);pointer-events:none}
-.card:hover{box-shadow:0 50px 120px rgba(0,0,0,.65),0 0 60px rgba(255,13,74,.08),inset 0 1px 0 rgba(255,255,255,.1),inset 0 -1px 0 rgba(255,13,74,.15)}
-
-/* ── Steps ── */
-.svp{position:relative;transition:height .5s cubic-bezier(.4,0,.2,1)}
-.step{position:absolute;top:0;left:0;right:0;opacity:0;transform:translateX(40px);transition:opacity .5s cubic-bezier(.4,0,.2,1),transform .5s cubic-bezier(.4,0,.2,1);pointer-events:none}
-.step.active{opacity:1;transform:translateX(0);pointer-events:auto}
-.step.eL{opacity:0;transform:translateX(-40px)}
-.step.eR{opacity:0;transform:translateX(40px)}
-.smeta{display:flex;justify-content:space-between;margin-bottom:6px;font-family:var(--fm);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);font-weight:600}
-.smeta .n{color:var(--red);margin-right:5px}
-.stitle{font-family:var(--fb);font-size:clamp(24px,4.2vw,38px);line-height:.95;letter-spacing:-.03em;text-transform:uppercase;margin-bottom:10px}
-.stitle .r{color:var(--red)}
-.sdesc{font-size:15px;color:var(--ink-soft);line-height:1.65;margin-bottom:28px;max-width:520px}
-
-/* ── Section label ── */
-.slabel{display:flex;align-items:center;gap:11px;margin:22px 0 12px;font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
-.slabel::after{content:"";flex:1;height:1px;background:var(--line)}
-
-/* ── Fields ── */
-.fields{display:flex;flex-direction:column;gap:16px}
-.frow{display:grid;grid-template-columns:1fr;gap:14px}
-@media(min-width:600px){.frow.two{grid-template-columns:1fr 1fr}}
-.field{position:relative}
-.field input,.field textarea{width:100%;padding:22px 18px 10px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.09);border-radius:13px;color:var(--ink);font-family:var(--ff);font-size:15px;transition:border-color .28s,background .28s,box-shadow .28s,transform .2s;appearance:none;-webkit-appearance:none}
-.field textarea{resize:none;min-height:90px;line-height:1.6;padding-top:28px;overflow:hidden}
-.field input::placeholder,.field textarea::placeholder{color:transparent}
-.field label{position:absolute;left:18px;top:16px;font-family:var(--fm);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);pointer-events:none;transform-origin:left;transition:all .28s var(--e)}
-.field input:hover,.field textarea:hover{border-color:rgba(255,255,255,.18);background:rgba(0,0,0,.42)}
-.field input:focus,.field textarea:focus{outline:none;border-color:var(--red);background:rgba(0,0,0,.52);box-shadow:0 0 0 4px rgba(255,13,74,.12),0 0 32px rgba(255,13,74,.2)}
-.field input:focus+label,.field input:not(:placeholder-shown)+label,.field textarea:focus+label,.field textarea:not(:placeholder-shown)+label{transform:translateY(-9px) scale(.8);color:var(--red);letter-spacing:.16em}
-.field-hint{display:block;margin-top:7px;font-family:var(--fm);font-size:11px;letter-spacing:.07em;color:var(--mute2);padding-left:3px}
-.field.err input,.field.err textarea{border-color:rgba(255,13,74,.5);background:rgba(255,13,74,.05)}
-
-/* ── Chips ── */
-.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:9px}
-.chip{position:relative;padding:15px 13px;background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.08);border-radius:13px;cursor:pointer;transition:all .3s var(--e);display:flex;flex-direction:column;align-items:flex-start;gap:4px;overflow:hidden}
-.chip::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,13,74,.15),transparent 60%);opacity:0;transition:opacity .3s}
-.chip input{position:absolute;opacity:0;pointer-events:none}
-.chip-icon{font-size:19px;line-height:1;margin-bottom:1px}
-.chip-label{font-family:var(--ff);font-size:14px;font-weight:600;color:var(--ink);line-height:1.2;position:relative;z-index:1}
-.chip-sub{font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:600;position:relative;z-index:1}
-.chip-ck{position:absolute;top:8px;right:8px;width:17px;height:17px;border-radius:50%;background:var(--red);opacity:0;transform:scale(0);transition:all .3s var(--eb)}
-.chip-ck::after{content:"";position:absolute;left:4px;top:1px;width:5px;height:9px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg)}
-.chip:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.04);transform:translateY(-2px)}
-.chip:hover::before{opacity:.5}
-.chip.sel{border-color:var(--red);background:linear-gradient(135deg,rgba(255,13,74,.15),rgba(255,13,74,.04));box-shadow:0 0 0 4px rgba(255,13,74,.12),0 8px 28px rgba(255,13,74,.2);transform:translateY(-1px)}
-.chip.sel::before{opacity:1}
-.chip.sel .chip-label{color:#fff}
-.chip.sel .chip-sub{color:var(--red-soft)}
-.chip.sel .chip-ck{opacity:1;transform:scale(1)}
-
-/* ── GMV Slider ── */
-.gmv-block{padding:22px;border-radius:16px;background:rgba(0,0,0,.32);border:1px solid var(--line);transition:border-color .3s,box-shadow .3s}
-.gmv-block:hover{border-color:rgba(255,255,255,.15);box-shadow:0 0 0 1px rgba(255,13,74,.08)}
-.gmv-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px}
-.gmv-val{font-family:var(--fb);font-size:36px;color:var(--red);line-height:1;letter-spacing:-.03em;text-shadow:0 0 30px rgba(255,13,74,.35);transition:text-shadow .2s}
-.gmv-lbl{font-family:var(--fm);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:600}
-.gmv-wrap{position:relative;padding:8px 0}
-.gmv-track{width:100%;height:7px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden;position:relative}
-.gmv-fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--red),var(--red-soft));border-radius:4px;box-shadow:0 0 10px rgba(255,13,74,.45);transition:width .12s linear}
-.gmv-range{position:absolute;inset:0;width:100%;appearance:none;-webkit-appearance:none;background:transparent;cursor:pointer}
-.gmv-range::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--red);box-shadow:0 0 0 5px rgba(255,13,74,.18),0 4px 14px rgba(255,13,74,.4);cursor:grab;transition:transform .2s var(--eb)}
-.gmv-range::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.18)}
-.gmv-range::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--red);cursor:grab}
-.gmv-ticks{display:flex;justify-content:space-between;margin-top:12px;font-family:var(--fm);font-size:10px;color:var(--mute2);letter-spacing:.06em}
-
-/* ── Multi chips ── */
-.mchips{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:9px;margin-bottom:12px}
-.mchip{position:relative;padding:13px 15px 13px 42px;background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.08);border-radius:13px;cursor:pointer;transition:all .28s var(--e);font-family:var(--ff);font-size:14px;font-weight:500;color:var(--ink-soft)}
-.mchip::before{content:"";position:absolute;left:13px;top:50%;transform:translateY(-50%);width:17px;height:17px;border-radius:5px;border:1.5px solid rgba(255,255,255,.17);background:rgba(0,0,0,.4);transition:all .22s var(--e)}
-.mchip input{position:absolute;opacity:0;pointer-events:none}
-.mchip:hover{border-color:rgba(255,255,255,.2);color:var(--ink);background:rgba(255,255,255,.04);transform:translateY(-1px)}
-.mchip.ck{border-color:var(--red);background:rgba(255,13,74,.08);color:#fff;box-shadow:0 0 0 3px rgba(255,13,74,.1)}
-.mchip.ck::before{background:var(--red);border-color:var(--red);box-shadow:0 0 10px rgba(255,13,74,.4)}
-.mchip.ck::after{content:"";position:absolute;left:18px;top:calc(50% - 4px);width:5px;height:8px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg)}
-
-/* ── Nav ── */
-.nav{display:flex;justify-content:space-between;align-items:center;margin-top:32px;padding-top:24px;border-top:1px dashed var(--line);gap:14px;flex-wrap:wrap}
-.nav .nl{display:flex;align-items:center;gap:12px}
-.nav .nr{display:flex;align-items:center;gap:12px;margin-left:auto}
-
-/* ── Buttons ── */
-.btn{display:inline-flex;align-items:center;gap:9px;padding:15px 24px;font-family:var(--fm);font-size:12px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;border-radius:var(--pill);border:1px solid transparent;transition:all .3s var(--e);cursor:pointer;white-space:nowrap;position:relative;overflow:hidden}
-.btn::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(110deg,transparent 40%,rgba(255,255,255,.2) 50%,transparent 60%);transform:translateX(-150%);transition:transform .7s cubic-bezier(.7,0,.3,1)}
-.btn:hover::after{transform:translateX(150%)}
-.btn .a{font-family:var(--fb);font-size:13px;transition:transform .22s}
-.btn:hover .a{transform:translateX(3px)}
-.btn-back .a{transform:scaleX(-1)}.btn-back:hover .a{transform:scaleX(-1) translateX(3px)}
-.btn-p{background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;box-shadow:0 8px 28px rgba(255,13,74,.35)}
-.btn-p:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(255,13,74,.5)}
-.btn-p:active{transform:translateY(0);box-shadow:0 6px 20px rgba(255,13,74,.3)}
-.btn-g{color:var(--ink-soft);border-color:var(--line);background:rgba(255,255,255,.02)}
-.btn-g:hover{color:var(--ink);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06);transform:translateY(-2px)}
-.btn-sub{padding:18px 40px;font-size:14px;background:linear-gradient(135deg,var(--red),var(--red2) 60%,var(--red));background-size:200%;color:#fff;box-shadow:0 12px 36px rgba(255,13,74,.4);animation:gradMove 3s linear infinite}
-@keyframes gradMove{0%{background-position:0%}100%{background-position:200%}}
-.btn-sub:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 18px 50px rgba(255,13,74,.55)}
-.spinner{display:none;width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
-.btn.loading .spinner{display:inline-block}
-.btn.loading .a,.btn.loading .bt{display:none}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* ── Package select button ── */
-.pkg-btn{width:100%;padding:18px 20px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.09);border-radius:13px;color:var(--ink-soft);font-family:var(--ff);font-size:15px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all .3s var(--e);text-align:left}
-.pkg-btn:hover{border-color:rgba(255,255,255,.22);background:rgba(0,0,0,.48);transform:translateY(-1px)}
-.pkg-btn.selected{border-color:var(--red);color:var(--ink);box-shadow:0 0 0 4px rgba(255,13,74,.1)}
-.pkg-arr{font-family:var(--fb);font-size:14px;color:var(--mute);transition:transform .25s}
-.pkg-btn:hover .pkg-arr{transform:translateX(4px)}
-.pkg-btn.selected .pkg-arr{color:var(--red);transform:rotate(90deg)}
-
-/* ── Modal ── */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .38s;visibility:hidden}
-.modal-overlay.open{opacity:1;pointer-events:auto;visibility:visible}
-.modal{background:linear-gradient(168deg,rgba(18,18,24,.99) 0%,rgba(10,10,14,1) 100%);border:1px solid rgba(255,255,255,.1);border-radius:28px;width:100%;max-width:820px;max-height:90vh;overflow-y:auto;overflow-x:hidden;box-shadow:0 60px 140px rgba(0,0,0,.8),0 0 80px rgba(255,13,74,.07),0 0 0 1px rgba(255,255,255,.04) inset;position:relative;transform:scale(.93) translateY(28px);transition:transform .42s var(--e)}
-.modal::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,13,74,.65) 25%,rgba(255,255,255,.75) 50%,rgba(255,13,74,.65) 75%,transparent);z-index:1}
-.modal::after{content:"";position:absolute;top:0;left:0;right:0;height:280px;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,13,74,.11),transparent 70%);pointer-events:none;z-index:0}
-.modal-overlay.open .modal{transform:scale(1) translateY(0)}
-.modal-head{display:flex;justify-content:space-between;align-items:flex-start;padding:32px 32px 0;position:relative;z-index:2}
-.modal-title{font-family:var(--fb);font-size:28px;line-height:.95;letter-spacing:-.03em;text-transform:uppercase}
-.modal-title .r{color:var(--red)}
-.modal-title small{display:block;font-family:var(--fm);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);font-weight:600;margin-top:8px}
-.modal-close{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--mute);cursor:pointer;transition:all .28s;flex-shrink:0;margin-top:4px}
-.modal-close:hover{background:rgba(255,13,74,.2);border-color:var(--red);color:#fff;transform:rotate(90deg) scale(1.1)}
-.pkg-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:24px 32px 8px;position:relative;z-index:2}
-.pkg-card{position:relative;background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.08);border-radius:18px;padding:22px;cursor:pointer;transition:all .32s var(--e);overflow:hidden;display:flex;flex-direction:column;gap:10px}
-.pkg-card::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,13,74,.13),transparent 55%);opacity:0;transition:opacity .3s;pointer-events:none}
-.pkg-card::after{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,13,74,.5),transparent);opacity:0;transition:opacity .3s}
-.pkg-card:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.055);transform:translateY(-4px);box-shadow:0 16px 50px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.07) inset}
-.pkg-card:hover::before{opacity:.7}
-.pkg-card:hover::after{opacity:1}
-.pkg-card.sel{border-color:var(--red);background:linear-gradient(145deg,rgba(255,13,74,.14),rgba(255,13,74,.03));box-shadow:0 0 0 3px rgba(255,13,74,.2),0 20px 60px rgba(255,13,74,.22),0 0 0 1px rgba(255,13,74,.12) inset;transform:translateY(-2px)}
-.pkg-card.sel::before,.pkg-card.sel::after{opacity:1}
-.pkg-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.pkg-icon{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;transition:all .32s var(--e)}
-.pkg-card:hover .pkg-icon{background:rgba(255,13,74,.14);border-color:rgba(255,13,74,.35);transform:scale(1.1) rotate(-4deg)}
-.pkg-card.sel .pkg-icon{background:rgba(255,13,74,.2);border-color:rgba(255,13,74,.5);box-shadow:0 0 20px rgba(255,13,74,.35);transform:scale(1.05)}
-.pkg-check{width:20px;height:20px;border-radius:6px;border:1.5px solid rgba(255,255,255,.22);background:rgba(0,0,0,.4);flex-shrink:0;position:relative;transition:all .3s var(--e);margin-top:2px}
-.pkg-card.sel .pkg-check{background:var(--red);border-color:var(--red);box-shadow:0 0 16px rgba(255,13,74,.55)}
-.pkg-card.sel .pkg-check::after{content:"";position:absolute;left:5px;top:2px;width:6px;height:10px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg)}
-.pkg-name{font-family:var(--fb);font-size:14px;letter-spacing:-.01em;text-transform:uppercase;color:var(--ink);line-height:1.2;transition:color .25s}
-.pkg-card.sel .pkg-name{color:#fff}
-.pkg-tag{display:inline-block;padding:3px 10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--pill);font-family:var(--fm);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:600;transition:all .28s;width:fit-content}
-.pkg-card:hover .pkg-tag{border-color:rgba(255,255,255,.18);color:var(--ink-soft)}
-.pkg-card.sel .pkg-tag{background:rgba(255,13,74,.18);border-color:rgba(255,13,74,.4);color:var(--red-soft)}
-.pkg-desc{font-size:12.5px;color:var(--ink-soft);line-height:1.65;flex:1}
-.pkg-price{font-family:var(--fm);font-size:10px;letter-spacing:.08em;color:var(--red-soft);font-weight:700;padding-top:10px;border-top:1px solid rgba(255,255,255,.07);margin-top:2px}
-.pkg-card.sel .pkg-price{border-color:rgba(255,13,74,.22)}
-.fee-note{font-style:italic;font-size:11px;color:var(--mute);display:block;margin-top:4px;font-weight:400}
-.pkg-card.full{grid-column:1/-1}
-.modal-footer{padding:20px 32px 28px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);position:relative;z-index:2}
-.modal-hint{font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute2)}
-.modal-hint strong{color:var(--mute)}
-
-/* ── Review ── */
-.review{display:flex;flex-direction:column;margin-bottom:22px;padding:24px;border-radius:16px;background:rgba(0,0,0,.32);border:1px solid var(--line)}
-.r-sec{font-family:var(--fm);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:700;padding:14px 0 8px;border-bottom:1px solid var(--line);margin-bottom:2px}
-.r-sec:first-child{padding-top:0}
-.r-row{display:grid;grid-template-columns:145px 1fr;gap:14px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed rgba(255,255,255,.04)}
-.r-row:last-child{border-bottom:none}
-.r-key{font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:600;padding-top:2px}
-.r-val{font-family:var(--ff);font-size:14px;color:var(--ink);line-height:1.5;word-break:break-word}
-.r-val .pill{display:inline-block;padding:2px 9px;background:rgba(255,13,74,.12);border:1px solid rgba(255,13,74,.28);border-radius:var(--pill);font-family:var(--fm);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--red);margin:0 5px 4px 0;font-weight:600}
-
-/* ── Consent ── */
-.consent{display:flex;align-items:flex-start;gap:11px;padding:16px;border-radius:13px;background:rgba(255,255,255,.03);border:1px solid var(--line);margin-bottom:6px;cursor:pointer;transition:all .28s}
-.consent:hover{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.05)}
-.consent input{position:absolute;opacity:0;pointer-events:none}
-.cbox{flex-shrink:0;width:19px;height:19px;border-radius:5px;border:1.5px solid rgba(255,255,255,.2);background:rgba(0,0,0,.3);position:relative;transition:all .25s var(--e);margin-top:2px}
-.consent input:checked+.cbox{background:var(--red);border-color:var(--red);box-shadow:0 0 14px rgba(255,13,74,.5)}
-.consent input:checked+.cbox::after{content:"";position:absolute;left:4px;top:1px;width:6px;height:10px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg)}
-.ctext{font-size:14px;color:var(--ink-soft);line-height:1.55}
-.ctext strong{color:var(--ink);font-weight:600}
-
-/* ── Success ── */
-.success{display:none;text-align:center;padding:36px 0}
-.success.active{display:block;animation:fadeUp .7s var(--e)}
-.s-icon{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,rgba(255,13,74,.18),rgba(255,13,74,.05));border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;box-shadow:0 0 0 12px rgba(255,13,74,.07),0 20px 60px rgba(255,13,74,.24);animation:popIn .6s var(--eb)}
-@keyframes popIn{from{transform:scale(0) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
-.s-icon::before{content:"";position:absolute;width:96px;height:96px;border-radius:50%;border:2px solid var(--red);opacity:.3;animation:ringOut 2s ease-out infinite}
-.s-icon::after{content:"";position:absolute;width:96px;height:96px;border-radius:50%;border:2px solid var(--red);opacity:.15;animation:ringOut 2s ease-out .6s infinite}
-@keyframes ringOut{0%{transform:scale(1);opacity:.4}100%{transform:scale(1.8);opacity:0}}
-.s-icon svg{width:42px;height:42px;color:var(--red);animation:popIn .5s var(--eb) .2s both}
-.s-title{font-family:var(--fb);font-size:clamp(36px,5vw,52px);line-height:.95;letter-spacing:-.03em;text-transform:uppercase;margin-bottom:14px}
-.s-title .r{color:var(--red)}
-.s-sub{font-size:15px;color:var(--ink-soft);line-height:1.65;max-width:440px;margin:0 auto 10px}
-.s-meta{display:inline-block;padding:11px 20px;border-radius:var(--pill);background:rgba(255,255,255,.04);border:1px solid var(--line);margin-bottom:28px;font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
-.s-meta strong{color:var(--ink)}
-.s-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-.cal-card{margin:24px auto 8px;max-width:420px;background:linear-gradient(135deg,rgba(255,13,74,.1),rgba(255,13,74,.04));border:1px solid rgba(255,13,74,.3);border-radius:18px;padding:24px;text-align:center;position:relative;overflow:hidden;transition:all .3s var(--e)}
-.cal-card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,13,74,.08),transparent);pointer-events:none}
-.cal-card:hover{border-color:rgba(255,13,74,.5);box-shadow:0 0 40px rgba(255,13,74,.15);transform:translateY(-2px)}
-.cal-label{font-family:var(--fm);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:8px}
-.cal-title{font-family:var(--fb);font-size:20px;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:8px}
-.cal-sub{font-size:13px;color:var(--ink-soft);margin-bottom:18px;line-height:1.5}
-.cal-btn{display:inline-flex;align-items:center;gap:9px;padding:14px 28px;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;border-radius:var(--pill);font-family:var(--fm);font-size:12px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;transition:all .3s var(--e);box-shadow:0 8px 28px rgba(255,13,74,.4);cursor:pointer;border:none}
-.cal-btn:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 14px 40px rgba(255,13,74,.55)}
-.cal-btn .a{font-family:var(--fb);transition:transform .2s}
-.cal-btn:hover .a{transform:translateX(3px)}
-
-/* ── Toast ── */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(90px);background:rgba(20,20,26,.97);backdrop-filter:blur(18px);border:1px solid rgba(255,13,74,.32);border-radius:12px;padding:13px 18px 13px 46px;font-family:var(--fm);font-size:12px;color:var(--ink);box-shadow:0 18px 44px rgba(0,0,0,.5);z-index:600;opacity:0;transition:all .38s var(--e);max-width:88vw}
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-.toast::before{content:"!";position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-family:var(--fb);font-size:12px;display:flex;align-items:center;justify-content:center;line-height:20px;text-align:center}
-
-/* ── Footer ── */
-.foot{padding:20px 24px 28px;text-align:center;font-family:var(--fm);font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--mute2);max-width:740px;margin:0 auto}
-.foot strong{color:var(--mute)}
-
-/* ── Mobile ── */
-@media(max-width:740px){
-  .topbar{padding:14px 18px}
-  .intro{padding:82px 18px 16px}
-  .stage{padding:0 14px 28px}
-  .card{padding:28px 22px 28px;border-radius:22px}
-  .pline{left:16px;right:16px}
-  .stitle{font-size:24px}
-  .sdesc{font-size:14px;margin-bottom:22px}
-  .nav{flex-direction:column-reverse;gap:10px;align-items:stretch}
-  .nav .nl,.nav .nr{width:100%}
-  .nav .nr{margin-left:0;justify-content:flex-end}
-  .btn{justify-content:center;padding:13px 20px}
-  .btn-sub{padding:16px 26px}
-  .r-row{grid-template-columns:1fr;gap:3px;padding-bottom:12px}
-  .pcirc{width:30px;height:30px;font-size:11px}
-  .gmv-val{font-size:28px}
-  .modal-head{padding:20px 18px 0}
-  .modal-footer{padding:14px 18px 20px}
-  .lang-btn{padding:6px 10px;font-size:10px}
+/* ── HERO ── */
+.hero{
+  min-height:100svh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+  padding:clamp(80px,10vh,120px) 7vw clamp(60px,8vh,80px);
+  position:relative;overflow:hidden;
 }
-@media(max-width:460px){
-  .chips{grid-template-columns:1fr 1fr}
-  .mchips{grid-template-columns:1fr}
+/* grid overlay */
+.hero-grid{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(236,232,242,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(236,232,242,.028) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 40%,transparent 100%);
+  opacity:0;transition:opacity 1.8s .3s;
 }
-@media(max-width:620px){
-  .pkg-grid{grid-template-columns:1fr;padding:18px 18px 8px;gap:10px}
-  .pkg-card.full{grid-column:auto}
-  .modal-head{padding:24px 20px 0}
-  .modal-footer{padding:16px 20px 22px;flex-direction:column;gap:12px;align-items:stretch}
-  .modal-hint{text-align:center}
-  .modal-footer>div{justify-content:stretch}
-  .modal-footer>div .btn{flex:1;justify-content:center}
+.go .hero-grid{opacity:1}
+/* large glow behind hero content */
+.hero-glow{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:clamp(400px,60vw,800px);height:clamp(300px,50vh,600px);
+  background:radial-gradient(ellipse,rgba(232,0,46,.13) 0%,rgba(232,0,46,.04) 40%,transparent 70%);
+  pointer-events:none;z-index:0;
+  opacity:0;transition:opacity 1.5s .2s;
+  animation:hglow 5s ease-in-out infinite;
 }
+.go .hero-glow{opacity:1}
+@keyframes hglow{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.12)}}
+.hero-wm{
+  position:absolute;bottom:-4vh;left:50%;transform:translateX(-50%);
+  font-size:clamp(12rem,22vw,36rem);font-weight:900;letter-spacing:-.07em;line-height:.85;
+  color:rgba(232,0,46,.028);pointer-events:none;user-select:none;white-space:nowrap;z-index:0;
+}
+.hero-c{position:relative;z-index:2;max-width:720px;width:100%}
+/* eyebrow pill */
+.h-pre{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 16px;border:1px solid rgba(232,0,46,.28);border-radius:100px;
+  background:rgba(232,0,46,.06);
+  font-size:.52rem;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--r);
+  margin-bottom:1.8rem;
+  opacity:1;transform:none;
+}
+.h-pre::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--r);animation:pdot 2.2s infinite}
+@keyframes pdot{0%,100%{box-shadow:0 0 0 0 rgba(232,0,46,.5)}60%{box-shadow:0 0 0 5px rgba(232,0,46,0)}}
+.h1{font-size:clamp(3rem,7vw,8rem);font-weight:900;letter-spacing:-.055em;line-height:.88;overflow:visible;margin-bottom:1.6rem}
+.hl{overflow:hidden;display:block;padding-bottom:.1em;margin-bottom:-.1em}
+.hl span{display:block;opacity:0;transform:translateY(108%);transition:transform .72s cubic-bezier(.25,.46,.45,.94),opacity .01s}
+.go .hl:nth-child(1) span{opacity:1;transform:none;transition-delay:.1s}
+.go .hl:nth-child(2) span{opacity:1;transform:none;transition-delay:.24s}
+.acc{color:var(--r)}
+.cw{display:inline-block;clip-path:inset(0 100% 0 0);transition:clip-path .62s .88s cubic-bezier(.25,.46,.45,.94)}
+.go .cw{clip-path:inset(0 0% 0 0)}
+.h-sub{
+  font-size:clamp(.92rem,1.1vw,1.05rem);color:var(--fg2);max-width:480px;line-height:1.9;
+  margin:0 auto 2.4rem;
+
+}
+.h-btns{
+  display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;
+  margin-bottom:3.5rem;
+}
+/* scroll nudge */
+.hero-scroll{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  position:relative;z-index:2;
+}
+.hero-scroll-lbl{font-size:.48rem;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--fg3)}
+.hero-scroll-line{width:1px;height:36px;background:linear-gradient(180deg,rgba(236,232,242,.2),transparent);position:relative;overflow:hidden}
+.hero-scroll-line::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:50%;background:rgba(232,0,46,.7);animation:scrolldrop 2s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes scrolldrop{0%{top:-50%}100%{top:150%}}
+.btn{
+  display:inline-flex;align-items:center;gap:11px;
+  padding:0 30px;height:52px;
+  font-size:.78rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;border:none;cursor:pointer;font-family:'Montserrat',sans-serif;
+  position:relative;overflow:hidden;
+  transition:transform .28s cubic-bezier(.25,.46,.45,.94),box-shadow .28s;
+}
+.btn::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transform:skewX(-20deg);transition:left .48s}
+.btn:hover::before{left:160%}
+.btn-r{background:var(--r);color:#fff}
+.btn-r:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(232,0,46,.36)}
+.btn-g{background:transparent;color:var(--fg2);border:1.5px solid rgba(236,232,242,.22)}
+.btn-g:hover{color:var(--fg);border-color:rgba(236,232,242,.45);transform:translateY(-2px)}
+
+/* ── MARQUEE ── */
+.mq{overflow:hidden;padding:14px 0;border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);position:relative;z-index:1}
+.mq-t{display:flex;white-space:nowrap;animation:mqs 50s linear infinite;width:max-content}
+@keyframes mqs{to{transform:translateX(-50%)}}
+.mq-i{font-size:.6rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--fg3);padding:0 2.4rem;position:relative}
+.mq-i::after{content:'·';position:absolute;right:0;top:50%;transform:translateY(-50%);color:var(--r);font-size:.38rem}
+
+/* ── REVEAL ── */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .62s cubic-bezier(.25,.46,.45,.94),transform .62s cubic-bezier(.25,.46,.45,.94)}
+.rv.in{opacity:1;transform:none}
+.rp{opacity:0;clip-path:inset(0 0 100% 0);transform:translateY(6px);transition:opacity .6s cubic-bezier(.25,.46,.45,.94),clip-path .65s cubic-bezier(.25,.46,.45,.94),transform .65s cubic-bezier(.25,.46,.45,.94)}
+.rp.in{opacity:1;clip-path:inset(0 0 0% 0);transform:none}
+.d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}.d4{transition-delay:.28s}.d5{transition-delay:.35s}
+
+/* ── SERVICES SECTION ── */
+.svc-section{position:relative;z-index:1;overflow:hidden}
+#cv-svc{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.4}
+.svc-glow{position:absolute;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:0;opacity:0;transition:opacity 1.4s,transform 1.6s cubic-bezier(.25,.46,.45,.94)}
+.svc-glow.on{opacity:1}
+
+/* service selector — numbered cards */
+.svc-selector{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:0;
+  border-bottom:1px solid var(--stroke);
+  position:relative;z-index:2;
+}
+.svc-card{
+  padding:28px 22px 24px;
+  border-right:1px solid var(--stroke);
+  cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:background .25s;
+  background:transparent;border-top:none;border-bottom:none;font-family:'Montserrat',sans-serif;
+}
+.svc-card:last-child{border-right:none}
+.svc-card::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--r);transform:scaleX(0);transform-origin:left;
+  transition:transform .35s cubic-bezier(.25,.46,.45,.94);
+}
+.svc-card:hover{background:rgba(236,232,242,.03)}
+.svc-card:hover::before,.svc-card.active::before{transform:scaleX(1)}
+.svc-card.active{background:rgba(232,0,46,.04)}
+.sc-n{font-size:.5rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(232,0,46,.5);margin-bottom:.7rem;display:block}
+.sc-t{font-size:.88rem;font-weight:800;letter-spacing:-.015em;line-height:1.2;display:block;color:var(--fg2);transition:color .22s}
+.svc-card.active .sc-t,.svc-card:hover .sc-t{color:var(--fg)}
+.svc-card.active .sc-n{color:var(--r)}
+
+/* service panel */
+.svc-panel{display:none;padding:clamp(50px,7vw,88px) 7vw;position:relative;z-index:2;border-bottom:1px solid var(--stroke)}
+.svc-panel.active{display:grid;grid-template-columns:1.1fr 1fr;gap:7vw;align-items:start}
+@keyframes pIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.svc-panel.active .sp-left{animation:pIn .5s .04s both cubic-bezier(.25,.46,.45,.94)}
+.svc-panel.active .sp-right{animation:pIn .5s .16s both cubic-bezier(.25,.46,.45,.94)}
+.svc-panel.active .si:nth-child(1){animation:pIn .35s .22s both cubic-bezier(.25,.46,.45,.94)}
+.svc-panel.active .si:nth-child(2){animation:pIn .35s .28s both cubic-bezier(.25,.46,.45,.94)}
+.svc-panel.active .si:nth-child(3){animation:pIn .35s .34s both cubic-bezier(.25,.46,.45,.94)}
+.svc-panel.active .si:nth-child(4){animation:pIn .35s .4s both cubic-bezier(.25,.46,.45,.94)}
+.svc-panel.active .si:nth-child(5){animation:pIn .35s .46s both cubic-bezier(.25,.46,.45,.94)}
+.svc-panel.active .si:nth-child(6){animation:pIn .35s .52s both cubic-bezier(.25,.46,.45,.94)}
+.svc-panel.active .si:nth-child(7){animation:pIn .35s .58s both cubic-bezier(.25,.46,.45,.94)}
+.svc-panel.active .si:nth-child(8){animation:pIn .35s .64s both cubic-bezier(.25,.46,.45,.94)}
+.svc-panel.active .si:nth-child(9){animation:pIn .35s .7s both cubic-bezier(.25,.46,.45,.94)}
+.svc-panel.active .si:nth-child(10){animation:pIn .35s .76s both cubic-bezier(.25,.46,.45,.94)}
+.sp-num{font-size:.52rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(232,0,46,.52);margin-bottom:.9rem}
+.sp-title{font-size:clamp(1.8rem,3vw,3.2rem);font-weight:900;letter-spacing:-.05em;line-height:.92;margin-bottom:1.4rem}
+.sp-desc{font-size:1rem;color:var(--fg2);line-height:1.9;margin-bottom:1.4rem}
+.sp-desc-2{font-size:.94rem;color:var(--fg2);line-height:1.9;padding-top:1.2rem;border-top:1px solid var(--stroke);margin-bottom:2rem}
+/* scope list */
+.scope-lbl{font-size:.52rem;font-weight:700;letter-spacing:.38em;text-transform:uppercase;color:rgba(232,0,46,.55);margin-bottom:1rem;display:flex;align-items:center;gap:10px}
+.scope-lbl::before{content:'';width:12px;height:1px;background:rgba(232,0,46,.5)}
+.scope-list{display:flex;flex-direction:column;gap:0;margin-bottom:1.8rem}
+.si{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--stroke);font-size:.88rem;color:var(--fg2);line-height:1.4;transition:color .2s,padding-left .22s cubic-bezier(.25,.46,.45,.94)}
+.si:first-child{border-top:1px solid var(--stroke)}
+.si:hover{color:var(--fg);padding-left:5px}
+.si-dot{width:5px;height:5px;border-radius:50%;background:var(--r);flex-shrink:0;opacity:.75}
+/* callout boxes */
+.callout{background:var(--c1);border:1px solid var(--stroke);border-radius:14px;padding:22px 24px;margin-bottom:1.6rem;position:relative;overflow:hidden;transition:border-color .3s}
+.callout::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--r) 50%,transparent);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.25,.46,.45,.94)}
+.svc-panel.active .callout::before{transform:scaleX(1);transition-delay:.4s}
+.callout:hover{border-color:rgba(232,0,46,.2)}
+.cl-tag{font-size:.48rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(232,0,46,.6);margin-bottom:.5rem}
+.cl-t{font-size:.95rem;font-weight:800;letter-spacing:-.015em;margin-bottom:.4rem}
+.cl-d{font-size:.85rem;color:var(--fg2);line-height:1.82}
+/* includes */
+.includes{background:rgba(232,0,46,.04);border:1px solid rgba(232,0,46,.15);border-radius:14px;padding:20px 22px;margin-bottom:1.6rem}
+.inc-tag{font-size:.48rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(232,0,46,.6);margin-bottom:.9rem}
+.inc-item{display:flex;align-items:center;gap:10px;font-size:.84rem;color:var(--fg2);padding:7px 0;border-bottom:1px solid rgba(232,0,46,.1)}
+.inc-item:last-child{border-bottom:none}
+.inc-chk{width:18px;height:18px;border-radius:5px;background:rgba(232,0,46,.12);border:1px solid rgba(232,0,46,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.inc-chk svg{width:9px;height:9px;stroke:var(--r);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.panel-cta{display:flex;align-items:center;justify-content:center;width:100%;height:52px;background:var(--r);color:#fff;font-size:.78rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border-radius:12px;border:none;cursor:pointer;font-family:'Montserrat',sans-serif;position:relative;overflow:hidden;transition:transform .28s cubic-bezier(.25,.46,.45,.94),box-shadow .28s}
+.panel-cta::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transform:skewX(-20deg);transition:left .48s}
+.panel-cta:hover::before{left:160%}
+.panel-cta:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(232,0,46,.38)}
+
+/* ── QUIZ SECTION ── */
+.quiz-section{position:relative;z-index:1;overflow:hidden;border-top:1px solid var(--stroke)}
+#cv-quiz{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.35}
+.quiz-inner{padding:clamp(60px,9vw,110px) 7vw;max-width:800px;margin:clamp(40px,6vw,70px) auto 0;position:relative;z-index:2}
+.quiz-pre{font-size:.52rem;font-weight:700;letter-spacing:.44em;text-transform:uppercase;color:var(--r);display:flex;align-items:center;gap:12px;margin-bottom:1.4rem}
+.quiz-pre::before{content:'';width:18px;height:1px;background:rgba(232,0,46,.6)}
+.quiz-title{font-size:clamp(2rem,3.5vw,3.2rem);font-weight:900;letter-spacing:-.05em;line-height:.93;margin-bottom:.9rem}
+.quiz-sub{font-size:.98rem;color:var(--fg2);line-height:1.88;margin-bottom:2.8rem}
+
+/* question */
+.q-wrap{display:none}
+.q-wrap.active{display:block;animation:pIn .45s both cubic-bezier(.25,.46,.45,.94)}
+.q-num{font-size:.5rem;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:rgba(232,0,46,.5);margin-bottom:.7rem}
+.q-text{font-size:1.15rem;font-weight:800;letter-spacing:-.02em;line-height:1.25;margin-bottom:1.6rem}
+/* progress bar */
+.q-progress{height:2px;background:var(--stroke);border-radius:100px;margin-bottom:2rem;overflow:hidden}
+.q-progress-fill{height:100%;background:var(--r);border-radius:100px;transition:width .45s cubic-bezier(.25,.46,.45,.94)}
+/* options */
+.q-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:2rem}
+.q-opt{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:18px 22px;
+  background:var(--c1);border:1.5px solid var(--stroke);border-radius:14px;
+  cursor:pointer;
+  transition:background .22s,border-color .22s,transform .3s cubic-bezier(.25,.46,.45,.94);
+  text-align:left;font-family:'Montserrat',sans-serif;width:100%;
+}
+.q-opt:hover{background:var(--c2);border-color:rgba(232,0,46,.3);transform:translateX(4px)}
+.q-opt.selected{background:rgba(232,0,46,.07);border-color:var(--r)}
+.q-opt-letter{
+  width:32px;height:32px;border-radius:50%;border:1.5px solid var(--stroke);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.66rem;font-weight:800;color:var(--fg3);
+  flex-shrink:0;transition:border-color .22s,background .22s,color .22s;
+}
+.q-opt:hover .q-opt-letter{border-color:rgba(232,0,46,.4);color:rgba(232,0,46,.8)}
+.q-opt.selected .q-opt-letter{border-color:var(--r);background:var(--r);color:#fff}
+.q-opt-body{}
+.q-opt-t{font-size:.94rem;font-weight:700;letter-spacing:-.01em;margin-bottom:3px;color:var(--fg)}
+.q-opt-d{font-size:.78rem;color:var(--fg2);line-height:1.65}
+/* next btn */
+.q-next{
+  display:flex;align-items:center;gap:10px;
+  padding:0 32px;height:50px;
+  background:var(--r);color:#fff;
+  font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  border:none;border-radius:12px;cursor:pointer;font-family:'Montserrat',sans-serif;
+  opacity:.4;pointer-events:none;
+  transition:opacity .25s,transform .28s cubic-bezier(.25,.46,.45,.94),box-shadow .28s;
+}
+.q-next.ready{opacity:1;pointer-events:all}
+.q-next.ready:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(232,0,46,.36)}
+
+/* result card */
+.q-result{display:none;animation:pIn .55s both cubic-bezier(.25,.46,.45,.94)}
+.q-result.active{display:block}
+.qr-rec{font-size:.58rem;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--r);margin-bottom:.6rem;display:flex;align-items:center;gap:10px}
+.qr-rec::before{content:"★";font-size:.55rem;color:var(--r)}
+.qr-title{font-size:clamp(2rem,3.4vw,3.2rem);font-weight:900;letter-spacing:-.05em;line-height:.93;margin-bottom:1rem;color:var(--fg)}
+.qr-why{font-size:1rem;color:var(--fg2);line-height:1.9;margin-bottom:2rem;padding:18px 22px;background:rgba(232,0,46,.04);border:1px solid rgba(232,0,46,.2);border-radius:14px;border-left:3px solid var(--r)}
+.qr-btns{display:flex;gap:12px;flex-wrap:wrap}
+.qr-restart{background:transparent;color:var(--fg3);border:1.5px solid var(--stroke);border-radius:12px;padding:0 22px;height:48px;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:color .2s,border-color .2s}
+.qr-restart:hover{color:var(--fg);border-color:rgba(236,232,242,.35)}
+/* also show a secondary rec */
+.qr-also{margin-top:1.6rem;padding-top:1.6rem;border-top:1px solid var(--stroke)}
+.qra-label{font-size:.52rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--fg3);margin-bottom:.8rem}
+.qra-cards{display:flex;gap:8px;flex-wrap:wrap}
+.qra-card{
+  padding:10px 16px;border:1px solid var(--stroke);border-radius:10px;
+  font-size:.76rem;font-weight:700;color:var(--fg2);cursor:pointer;
+  transition:border-color .2s,color .2s,background .2s;background:var(--c1);
+}
+.qra-card:hover{border-color:rgba(232,0,46,.3);color:var(--fg);background:rgba(232,0,46,.05)}
+
+/* ── CTA BLOCK ── */
+.cta-block{
+  position:relative;z-index:1;overflow:hidden;
+  padding:clamp(80px,11vw,140px) 7vw;
+  border-top:1px solid var(--stroke);
+}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(232,0,46,.07),transparent 65%);pointer-events:none;animation:breathe 4s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.12)}}
+.cta-inner{position:relative;z-index:2;text-align:center;max-width:640px;margin:0 auto}
+.cta-pre{font-size:.52rem;font-weight:700;letter-spacing:.44em;text-transform:uppercase;color:var(--r);display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:1.3rem}
+.cta-pre::before,.cta-pre::after{content:'';flex:1;max-width:36px;height:1px;background:rgba(232,0,46,.35)}
+.cta-h{font-size:clamp(2.2rem,4.5vw,4.8rem);font-weight:900;letter-spacing:-.055em;line-height:.91;margin-bottom:1rem}
+.cta-h em{font-style:italic;font-weight:200;color:var(--fg2)}
+.cta-p{font-size:.98rem;color:var(--fg2);line-height:1.9;margin-bottom:2.2rem}
+.cta-note{font-size:.64rem;color:var(--fg3);letter-spacing:.08em;margin-top:1rem}
+
+
+/* ── CAMPAIGN TIMELINE ── */
+/* ── HORIZONTAL TIMELINE ── */
+.tl-wrap{position:relative;padding-top:40px}
+/* horizontal connector line across all steps */
+.tl-spine{
+  position:absolute;top:68px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(232,0,46,.15) 8%,rgba(232,0,46,.35) 50%,rgba(232,0,46,.15) 92%,transparent);
+  z-index:0;
+}
+.tl-spine-fill{
+  position:absolute;top:0;left:0;height:100%;
+  background:var(--r);width:0;
+  transition:width 1.4s cubic-bezier(.25,.46,.45,.94);
+}
+.tl-spine.fired .tl-spine-fill{width:100%}
+
+/* steps row */
+.tl-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;z-index:1}
+
+.tl-step{display:flex;flex-direction:column;align-items:center;position:relative;padding:0 12px}
+
+/* circle node */
+.tl-node{
+  width:46px;height:46px;border-radius:50%;
+  border:1.5px solid rgba(232,0,46,.3);
+  background:var(--bk);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:2;margin-bottom:0;
+  flex-shrink:0;
+  transition:border-color .4s,background .4s,box-shadow .4s;
+}
+.tl-node-inner{
+  width:14px;height:14px;border-radius:50%;
+  background:rgba(232,0,46,.3);
+  transform:scale(0);
+  transition:transform .4s .1s cubic-bezier(.25,.46,.45,.94),background .3s;
+}
+.tl-step.lit .tl-node{border-color:var(--r);background:var(--bk);box-shadow:0 0 0 5px rgba(232,0,46,.12),0 0 24px rgba(232,0,46,.18)}
+.tl-step.lit .tl-node-inner{transform:scale(1);background:var(--r)}
+
+/* vertical connector from node to card */
+.tl-vc{
+  width:1px;height:32px;
+  background:linear-gradient(180deg,rgba(232,0,46,.4),rgba(232,0,46,.12));
+  transform:scaleY(0);transform-origin:top;
+  transition:transform .35s .25s cubic-bezier(.25,.46,.45,.94);
+}
+.tl-step.lit .tl-vc{transform:scaleY(1)}
+
+/* step card */
+.tl-card{
+  background:var(--c1);border:1px solid var(--stroke);
+  border-radius:16px;padding:20px 18px 22px;width:100%;
+  position:relative;overflow:hidden;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .55s cubic-bezier(.25,.46,.45,.94),transform .55s cubic-bezier(.25,.46,.45,.94),background .25s,border-color .3s;
+}
+.tl-step:nth-child(1) .tl-card{transition-delay:.1s}
+.tl-step:nth-child(2) .tl-card{transition-delay:.22s}
+.tl-step:nth-child(3) .tl-card{transition-delay:.34s}
+.tl-step:nth-child(4) .tl-card{transition-delay:.46s}
+.tl-step.lit .tl-card{opacity:1;transform:none}
+.tl-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1.5px;
+  background:var(--r);transform:scaleX(0);transform-origin:left;
+  transition:transform .5s cubic-bezier(.25,.46,.45,.94) .35s;
+}
+.tl-step.lit .tl-card::before{transform:scaleX(1)}
+.tl-card:hover{background:var(--c2);border-color:rgba(232,0,46,.2);transform:translateY(-4px)!important}
+/* icon */
+.tl-ico{
+  width:38px;height:38px;border:1px solid rgba(232,0,46,.22);border-radius:9px;
+  display:flex;align-items:center;justify-content:center;margin-bottom:.9rem;
+  transition:background .25s,border-color .25s,transform .3s cubic-bezier(.25,.46,.45,.94);
+}
+.tl-ico svg{width:17px;height:17px;stroke:var(--r);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tl-card:hover .tl-ico{background:rgba(232,0,46,.1);border-color:rgba(232,0,46,.4);transform:scale(1.08) rotate(-5deg)}
+/* text */
+.tl-step-label{font-size:.46rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(232,0,46,.5);margin-bottom:.35rem}
+.tl-step-num-badge{font-size:.46rem;font-weight:700;letter-spacing:.18em;color:var(--fg3);margin-bottom:.6rem}
+.tl-step-title{font-size:.94rem;font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-bottom:.55rem}
+.tl-step-body{font-size:.78rem;color:var(--fg2);line-height:1.82;margin-bottom:.9rem}
+.tl-tags{display:flex;gap:5px;flex-wrap:wrap}
+.tl-tag{font-size:.46rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border:1px solid rgba(232,0,46,.18);border-radius:4px;color:rgba(232,0,46,.65);transition:border-color .2s,background .2s}
+.tl-card:hover .tl-tag{border-color:rgba(232,0,46,.32);background:rgba(232,0,46,.04)}
+/* arrow between steps */
+.tl-step:not(:last-child)::after{
+  content:'›';
+  position:absolute;right:-6px;top:34px;
+  font-size:1.1rem;color:rgba(232,0,46,.3);
+  transition:color .4s,transform .3s cubic-bezier(.25,.46,.45,.94);
+  z-index:3;line-height:1;
+}
+.tl-step.lit:not(:last-child)::after{color:rgba(232,0,46,.65)}
+@media(max-width:860px){
+  .tl-steps{grid-template-columns:1fr 1fr;gap:16px}
+  .tl-step::after{display:none}
+  .tl-spine{display:none}
+}
+@media(max-width:480px){
+  .tl-steps{grid-template-columns:1fr}
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .svc-selector{grid-template-columns:repeat(3,1fr)}
+  .svc-card:nth-child(3){border-right:none}
+  .svc-card:nth-child(4),.svc-card:nth-child(5),.svc-card:nth-child(6){border-top:1px solid var(--stroke)}
+}
+@media(max-width:720px){
+  .svc-selector{grid-template-columns:repeat(2,1fr)}
+  .svc-card:nth-child(2){border-right:none}
+  .svc-card:nth-child(3),.svc-card:nth-child(4),.svc-card:nth-child(5),.svc-card:nth-child(6){border-top:1px solid var(--stroke)}
+  .svc-card:nth-child(even){border-right:none}
+  .svc-panel.active{grid-template-columns:1fr}
+  .qr-btns{flex-direction:column}
+}
+@media(max-width:480px){
+  .svc-selector{grid-template-columns:1fr}
+  .svc-card{border-right:none!important;border-top:1px solid var(--stroke)}
+  .svc-card:first-child{border-top:none}
+  .h1{font-size:3rem}
+  .cta-btns{flex-direction:column;align-items:stretch}
+}
+.wu-red i{color:var(--r);-webkit-text-fill-color:var(--r)}
+@keyframes shimmer{to{background-position:220% 0}}
 </style>
 </head>
 <body>
+<!-- PRELOADER -->
+<div id="preloader"><div class="pl-logo">Thundrr<span class="pl-dot">.</span></div><div class="pl-bar"><div class="pl-bar-fill"></div></div></div>
+<!-- FIXED ATMOSPHERE -->
+<div class="glow-a"></div>
+<div class="glow-b"></div>
+<div class="vignette"></div>
+<canvas id="bg"></canvas>
+<main>
 
-<div class="atmos">
-  <div class="atmos-mesh"></div>
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
-</div>
-
-<header class="topbar" id="topbar">
-  <div class="topbar-left">
-    <a href="https://www.thundrrshop.com" class="logo"><span class="dot"></span>THUNDRR</a>
-    <div class="lang-toggle">
-      <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-wm" aria-hidden="true">GMV</div>
+  <div class="hero-c">
+    <div class="h-pre reveal" style="animation-delay:.85s">For Brands · Gold TSP Partner</div>
+    <h1 class="h1">
+      <span class="wu"><i>Scale</i></span>
+      <span class="wu"><i>your</i></span>
+      <span class="wu"><i>brand</i></span>
+      <span class="wu"><i>on</i></span><br>
+      <span class="wu wu-red"><i>TikTok</i></span>
+      <span class="wu wu-red"><i>Shop.</i></span>
+    </h1>
+    <p class="h-sub reveal" style="animation-delay:1.15s">Affiliates, LIVE commerce, UGC, and creator campaigns — all managed by one certified Gold TSP team. We handle everything inside the TikTok Shop ecosystem so you can focus on your product.</p>
+    <div class="h-btns reveal" style="animation-delay:1.28s">
+      <a href="https://wkf.ms/4nM7Ix9" target="_blank" rel="noopener" class="btn btn-r">Apply to Work With Us <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
+      <a href="#quiz" class="btn btn-g">Find My Package →</a>
     </div>
   </div>
-  <a href="https://www.thundrrshop.com/brands" class="back"><span class="arr">←</span><span data-t="back">Back to brands</span></a>
-</header>
-
-<section class="intro">
-  <div class="eyebrow" data-t="eyebrow">Brand Application</div>
-  <div class="eyemeta"><span class="dot2"></span><strong data-t="eyemeta">~5 minutes · 4 steps</strong></div>
+  <div class="hero-scroll reveal" style="animation-delay:1.45s">
+    <span class="hero-scroll-lbl">Scroll to explore</span>
+    <div class="hero-scroll-line"></div>
+  </div>
 </section>
 
-<main class="stage">
-  <div class="progress" id="progress">
-    <div class="pline"><div class="pline-fill" id="plineFill"></div></div>
-    <div class="pstep ac" data-step="1"><div class="pcirc"><span class="pnum">1</span><span class="pcheck">✓</span></div><div class="plabel" data-t="step1label">Contact</div></div>
-    <div class="pstep" data-step="2"><div class="pcirc"><span class="pnum">2</span><span class="pcheck">✓</span></div><div class="plabel" data-t="step2label">GMV &amp; Budget</div></div>
-    <div class="pstep" data-step="3"><div class="pcirc"><span class="pnum">3</span><span class="pcheck">✓</span></div><div class="plabel" data-t="step3label">Creator Goals</div></div>
-    <div class="pstep" data-step="4"><div class="pcirc"><span class="pnum">4</span><span class="pcheck">✓</span></div><div class="plabel" data-t="step4label">Review</div></div>
+<!-- MARQUEE -->
+<div class="mq"><div class="mq-t"><span class="mq-i">Affiliate Management</span><span class="mq-i">LIVE Commerce</span><span class="mq-i">Paid Video Campaigns</span><span class="mq-i">UGC Production</span><span class="mq-i">Full Service</span><span class="mq-i">TAP Campaigns</span><span class="mq-i">Gold TSP</span><span class="mq-i">Discord Community</span><span class="mq-i">Creator Outreach</span><span class="mq-i">Affiliate Management</span><span class="mq-i">LIVE Commerce</span><span class="mq-i">Paid Video Campaigns</span><span class="mq-i">UGC Production</span><span class="mq-i">Full Service</span><span class="mq-i">TAP Campaigns</span><span class="mq-i">Gold TSP</span><span class="mq-i">Discord Community</span><span class="mq-i">Creator Outreach</span></div></div>
+
+<!-- ── SERVICES ── -->
+<section class="svc-section" id="services">
+  <canvas id="cv-svc"></canvas>
+  <div class="svc-glow" id="svc-glow" style="width:600px;height:500px;background:radial-gradient(ellipse,rgba(232,0,46,.065),transparent 68%);top:30%;right:-200px"></div>
+
+  <!-- selector -->
+  <div class="svc-selector rv">
+    <button class="svc-card active" data-svc="0"><span class="sc-n">01</span><span class="sc-t">Paid Video Campaigns</span></button>
+    <button class="svc-card" data-svc="1"><span class="sc-n">02</span><span class="sc-t">Affiliate Management</span></button>
+    <button class="svc-card" data-svc="2"><span class="sc-n">03</span><span class="sc-t">LIVE Affiliate Mgmt</span></button>
+    <button class="svc-card" data-svc="3"><span class="sc-n">04</span><span class="sc-t">Full Service</span></button>
+    <button class="svc-card" data-svc="4"><span class="sc-n">05</span><span class="sc-t">UGC</span></button>
+    <button class="svc-card" data-svc="5"><span class="sc-n">06</span><span class="sc-t">TAP Campaigns</span></button>
   </div>
 
-  <div class="card">
-    <form id="brandForm" action="https://formspree.io/f/xqenkbbp" method="POST" novalidate>
-      <input name="_gotcha" style="display:none">
-      <input type="hidden" name="form_language" id="form_language" value="English">
-      <div class="svp" id="svp">
+  <!-- panels -->
+  <div id="svc-panels">
 
-        <!-- ══ STEP 1 ══ -->
-        <div class="step active" data-step="1">
-          <div class="smeta"><span><span class="n">01</span> <span data-t="s1meta">Product</span></span><span>25%</span></div>
-          <h2 class="stitle" data-t="s1title">Your product <span class="r">setup.</span></h2>
-          <p class="sdesc" data-t="s1desc">Your details and TikTok Shop setup.</p>
-          <div class="fields">
-            <div class="frow two">
-              <div class="field" data-req>
-                <input id="contact_name" name="name" placeholder=" " required>
-                <label for="contact_name" data-t="fFullName">Full name</label>
-              </div>
-              <div class="field" data-req data-email>
-                <input type="email" id="contact_email" name="email" placeholder=" " required>
-                <label for="contact_email" data-t="fEmail">Email address</label>
-              </div>
-            </div>
-            <div class="frow">
-              <div class="field" data-req>
-                <input id="brand_name" name="brand_name" placeholder=" " required>
-                <label for="brand_name" data-t="fBrandName">Brand name</label>
-              </div>
-            </div>
-            <div class="frow two">
-              <div class="field" data-req>
-                <input type="tel" id="contact_phone" name="phone" placeholder=" " required>
-                <label for="contact_phone" data-t="fPhone">Phone number</label>
-              </div>
-              <div class="field">
-                <input id="wechat_id" name="wechat_id" placeholder=" ">
-                <label for="wechat_id" data-t="fWechat">WeChat ID <span style="color:var(--mute2)" data-t="optional">(optional)</span></label>
-              </div>
-            </div>
-            <div class="field" data-req>
-              <input type="url" id="product_link" name="product_link" placeholder=" " required>
-              <label for="product_link" data-t="fProductLink">TikTok Shop product link</label>
-              <span class="field-hint" data-t="fProductLinkHint">tiktok.com/view/product/…</span>
-            </div>
-            <div class="field" data-req>
-              <input id="hero_sku" name="hero_sku" placeholder=" " required>
-              <label for="hero_sku" data-t="fHeroSku">Hero SKU name</label>
-              <span class="field-hint" data-t="fHeroSkuHint">Your primary product to push</span>
-            </div>
-            <div>
-              <div class="slabel" data-t="catLabel">Product category</div>
-              <div class="chips" data-cg="category">
-                <label class="chip" data-v="Beauty &amp; Skincare"><input type="radio" name="category" value="Beauty &amp; Skincare"><span class="chip-icon">💄</span><span class="chip-label" data-t="catBeauty">Beauty</span><span class="chip-sub" data-t="catBeautySub">Skincare</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Wellness"><input type="radio" name="category" value="Wellness"><span class="chip-icon">🌿</span><span class="chip-label" data-t="catWellness">Wellness</span><span class="chip-sub" data-t="catWellnessSub">Supplements</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Fashion"><input type="radio" name="category" value="Fashion"><span class="chip-icon">👗</span><span class="chip-label" data-t="catFashion">Fashion</span><span class="chip-sub" data-t="catFashionSub">Apparel</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Home &amp; Living"><input type="radio" name="category" value="Home &amp; Living"><span class="chip-icon">🏠</span><span class="chip-label" data-t="catHome">Home</span><span class="chip-sub" data-t="catHomeSub">Decor</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Tech &amp; Gadgets"><input type="radio" name="category" value="Tech &amp; Gadgets"><span class="chip-icon">⚡</span><span class="chip-label" data-t="catTech">Tech</span><span class="chip-sub" data-t="catTechSub">Gadgets</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Pets"><input type="radio" name="category" value="Pets"><span class="chip-icon">🐾</span><span class="chip-label" data-t="catPets">Pets</span><span class="chip-sub" data-t="catPetsSub">Accessories</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Food &amp; Beverage"><input type="radio" name="category" value="Food &amp; Beverage"><span class="chip-icon">🍵</span><span class="chip-label" data-t="catFB">F&amp;B</span><span class="chip-sub" data-t="catFBSub">Drinks</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Other"><input type="radio" name="category" value="Other"><span class="chip-icon">✨</span><span class="chip-label" data-t="catOther">Other</span><span class="chip-sub" data-t="catOtherSub">Tell us</span><span class="chip-ck"></span></label>
-              </div>
-            </div>
-            <div>
-              <div class="slabel" data-t="pkgLabel">Preferred package</div>
-              <input type="hidden" name="preferred_package" id="pkg_hidden" value="">
-              <button type="button" class="pkg-btn" id="pkgBtn" onclick="openPkgModal()">
-                <span id="pkgBtnLabel" data-t="pkgBtnDefault">Select a package →</span>
-                <span class="pkg-arr">↗</span>
-              </button>
-            </div>
-            <div class="slabel" data-t="sampleLabel">📦 Sample availability</div>
-            <div class="field">
-              <input type="number" id="sample_qty" name="sample_quantity" placeholder=" " min="0" step="1">
-              <label for="sample_qty" data-t="fSampleQty">How many units can you provide?</label>
-              <span class="field-hint" data-t="fSampleQtyHint">Enter 0 if none</span>
-            </div>
-          </div>
-          <div class="nav">
-            <div class="nl"></div>
-            <div class="nr"><button type="button" class="btn btn-p" data-next="2"><span class="bt" data-t="btnContinue">Continue</span><span class="a">→</span></button></div>
-          </div>
+    <div class="svc-panel active" data-panel="0">
+      <div class="sp-left">
+        <div class="sp-num">01 — Paid Video Campaigns</div>
+        <div class="sp-title">Guaranteed creator output. Defined deliverables.</div>
+        <p class="sp-desc">Structured short-video campaigns with defined creator deliverables from TikTok Shop affiliates. The cleanest path when your priority is guaranteed creator output and consistent short-form content volume. We match creators to your product based on demonstrated TikTok Shop GMV — not follower count.</p>
+        <p class="sp-desc-2">Campaigns run across a range of creator GMV tiers. Custom quotes are built around your specific creator mix, video volume, campaign length, and product category. Also includes newsletter and Discord community placement and TAP campaign support.</p>
+      </div>
+      <div class="sp-right">
+        <div class="scope-lbl">What's Included</div>
+        <div class="scope-list">
+          <div class="si"><span class="si-dot"></span>Creator sourcing matched to your product and GMV targets</div>
+          <div class="si"><span class="si-dot"></span>Brief writing and creative direction</div>
+          <div class="si"><span class="si-dot"></span>Sample coordination and shipment</div>
+          <div class="si"><span class="si-dot"></span>Campaign link setup and tracking</div>
+          <div class="si"><span class="si-dot"></span>Newsletter and Discord community placement</div>
+          <div class="si"><span class="si-dot"></span>TAP campaign support included</div>
+          <div class="si"><span class="si-dot"></span>Weekly performance reporting</div>
         </div>
+        <div class="callout glass">
+          <div class="cl-tag">How We Activate</div>
+          <div class="cl-t">We activate — we don't send lists.</div>
+          <div class="cl-d">We don't share a static creator list before scope is confirmed. Once the agreement is in place, we activate through our network and identify creators genuinely interested in your product. Motivated creators produce stronger content and prioritise the campaign.</div>
+        </div>
+        <a href="https://wkf.ms/4nM7Ix9" target="_blank" rel="noopener" class="panel-cta">Contact Us →</a>
+      </div>
+    </div>
 
-        <!-- ══ STEP 2 ══ -->
-        <div class="step" data-step="2">
-          <div class="smeta"><span><span class="n">02</span> <span data-t="s2meta">GMV &amp; Budget</span></span><span>50%</span></div>
-          <h2 class="stitle" data-t="s2title">Numbers &amp; <span class="r">budget.</span></h2>
-          <p class="sdesc" data-t="s2desc">Current performance and what you're willing to invest.</p>
-          <div class="fields">
-            <div>
-              <div class="slabel" data-t="gmvLabel">Monthly TikTok Shop GMV</div>
-              <div class="gmv-block">
-                <div class="gmv-top"><div class="gmv-val" id="gmvDisp">$0–$5K</div><div class="gmv-lbl" data-t="perMonth">per month</div></div>
-                <div class="gmv-wrap"><div class="gmv-track"><div class="gmv-fill" id="gmvFill" style="width:0%"></div></div><input type="range" min="0" max="6" step="1" value="0" class="gmv-range" id="gmvIn"></div>
-                <div class="gmv-ticks"><span>$0</span><span>$25K</span><span>$100K</span><span>$500K</span><span>$1M</span><span>$5M</span><span>$10M+</span></div>
-                <input type="hidden" name="current_monthly_gmv" id="gmvHid" value="$0–$5K">
-              </div>
-            </div>
-            <div>
-              <div class="slabel" data-t="affGmvLabel">Current affiliate GMV</div>
-              <div class="gmv-block">
-                <div class="gmv-top"><div class="gmv-val" id="affDisp">$0–$5K</div><div class="gmv-lbl" data-t="perMonth">per month</div></div>
-                <div class="gmv-wrap"><div class="gmv-track"><div class="gmv-fill" id="affFill" style="width:0%"></div></div><input type="range" min="0" max="6" step="1" value="0" class="gmv-range" id="affIn"></div>
-                <div class="gmv-ticks"><span>$0</span><span>$25K</span><span>$100K</span><span>$500K</span><span>$1M</span><span>$5M</span><span>$10M+</span></div>
-                <input type="hidden" name="current_affiliate_gmv" id="affHid" value="$0–$5K">
-              </div>
-            </div>
-            <div class="frow two">
-              <div class="field" data-req>
-                <input id="comm_cur" name="current_commission_rate" placeholder=" " required>
-                <label for="comm_cur" data-t="fCommCur">Current commission rate</label>
-                <span class="field-hint" data-t="fCommCurHint">e.g. 10%</span>
-              </div>
-              <div class="field" data-req>
-                <input id="comm_max" name="max_commission_rate" placeholder=" " required>
-                <label for="comm_max" data-t="fCommMax">Highest commission available</label>
-                <span class="field-hint" data-t="fCommMaxHint">For top creators</span>
-              </div>
-            </div>
-            <div>
-              <div class="slabel" data-t="budgetLabel">Budget range</div>
-              <div class="chips" data-cg="budget">
-                <label class="chip" data-v="Under $1K"><input type="radio" name="budget_range" value="Under $1K"><span class="chip-label">Under $1K</span><span class="chip-sub" data-t="perMo">/mo</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="$1K–$5K"><input type="radio" name="budget_range" value="$1K–$5K"><span class="chip-label">$1K–$5K</span><span class="chip-sub" data-t="perMo">/mo</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="$5K–$15K"><input type="radio" name="budget_range" value="$5K–$15K"><span class="chip-label">$5K–$15K</span><span class="chip-sub" data-t="perMo">/mo</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="$15K–$50K"><input type="radio" name="budget_range" value="$15K–$50K"><span class="chip-label">$15K–$50K</span><span class="chip-sub" data-t="perMo">/mo</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="$50K+"><input type="radio" name="budget_range" value="$50K+"><span class="chip-label">$50K+</span><span class="chip-sub" data-t="perMo">/mo</span><span class="chip-ck"></span></label>
-              </div>
-            </div>
-            <div>
-              <div class="slabel" data-t="timelineLabel">Timeline</div>
-              <div class="chips" data-cg="timeline">
-                <label class="chip" data-v="ASAP"><input type="radio" name="timeline" value="ASAP"><span class="chip-icon">⚡</span><span class="chip-label" data-t="tlASAP">ASAP</span><span class="chip-sub" data-t="tlASAPSub">This week</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Within 30 days"><input type="radio" name="timeline" value="Within 30 days"><span class="chip-icon">📅</span><span class="chip-label" data-t="tl30">30 days</span><span class="chip-sub" data-t="tl30Sub">Next month</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="1–3 months"><input type="radio" name="timeline" value="1–3 months"><span class="chip-icon">🗓</span><span class="chip-label" data-t="tl13">1–3 months</span><span class="chip-sub" data-t="tl13Sub">Planning</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="Flexible"><input type="radio" name="timeline" value="Flexible"><span class="chip-icon">🌊</span><span class="chip-label" data-t="tlFlex">Flexible</span><span class="chip-sub" data-t="tlFlexSub">No rush</span><span class="chip-ck"></span></label>
-              </div>
-            </div>
-          </div>
-          <div class="nav">
-            <div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="1"><span class="a">→</span> <span data-t="btnBack">Back</span></button></div>
-            <div class="nr"><button type="button" class="btn btn-p" data-next="3"><span class="bt" data-t="btnContinue">Continue</span><span class="a">→</span></button></div>
-          </div>
+    <div class="svc-panel" data-panel="1">
+      <div class="sp-left">
+        <div class="sp-num">02 — Affiliate Management</div>
+        <div class="sp-title">Full affiliate center operations. Built to compound.</div>
+        <p class="sp-desc">Thundrr operates as a full extension of your brand inside the TikTok Shop affiliate ecosystem. We take over every lever of the affiliate center — from creator discovery and onboarding to sample logistics, commission strategy, and performance reporting.</p>
+        <p class="sp-desc-2">Our team runs high-volume creator outreach, builds relationships across every creator tier (L1–L6), and coordinates with other agencies through TikTok Affiliate Partnership (TAP) campaigns to expand your creator network dramatically.</p>
+      </div>
+      <div class="sp-right">
+        <div class="callout glass">
+          <div class="cl-tag">Private Discord · Your Brand</div>
+          <div class="cl-t">The hub that turns one-off posters into loyal creators.</div>
+          <div class="cl-d">We launch a private Discord server dedicated to your brand. Affiliates get product drops, briefs, content inspiration, and direct support from our team. It's how we convert one-off posters into creators who consistently post and stream for your brand month over month.</div>
         </div>
+        <div class="scope-lbl">Scope of Work</div>
+        <div class="scope-list">
+          <div class="si"><span class="si-dot"></span>Affiliate sourcing and onboarding</div>
+          <div class="si"><span class="si-dot"></span>Daily outreach and relationship management</div>
+          <div class="si"><span class="si-dot"></span>Branded Discord community</div>
+          <div class="si"><span class="si-dot"></span>Commission and coupon strategy</div>
+          <div class="si"><span class="si-dot"></span>Flash sale execution</div>
+          <div class="si"><span class="si-dot"></span>TAP campaigns with partner agencies</div>
+          <div class="si"><span class="si-dot"></span>Leaderboards, prizes, and creator challenges</div>
+          <div class="si"><span class="si-dot"></span>Weekly performance reporting</div>
+        </div>
+        <a href="https://wkf.ms/4nM7Ix9" target="_blank" rel="noopener" class="panel-cta">Contact Us →</a>
+      </div>
+    </div>
 
-        <!-- ══ STEP 3 ══ -->
-        <div class="step" data-step="3">
-          <div class="smeta"><span><span class="n">03</span> <span data-t="s3meta">Creator Goals</span></span><span>75%</span></div>
-          <h2 class="stitle" data-t="s3title">Creator &amp; content <span class="r">goals.</span></h2>
-          <p class="sdesc" data-t="s3desc">Creator output, LIVE, and UGC goals.</p>
-          <div class="fields">
-            <div>
-              <div class="slabel" data-t="videosLabel">Target number of videos</div>
-              <div class="chips" data-cg="videos">
-                <label class="chip" data-v="1–10 videos"><input type="radio" name="target_videos" value="1–10 videos"><span class="chip-label">1–10</span><span class="chip-sub" data-t="vidTesting">Testing</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="10–50 videos"><input type="radio" name="target_videos" value="10–50 videos"><span class="chip-label">10–50</span><span class="chip-sub" data-t="vidGrowing">Growing</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="50–200 videos"><input type="radio" name="target_videos" value="50–200 videos"><span class="chip-label">50–200</span><span class="chip-sub" data-t="vidScaling">Scaling</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="200+ videos"><input type="radio" name="target_videos" value="200+ videos"><span class="chip-label">200+</span><span class="chip-sub" data-t="vidBlast">Full blast</span><span class="chip-ck"></span></label>
-              </div>
-            </div>
-            <div>
-              <div class="slabel" data-t="creatorLevelLabel">Desired creator level</div>
-              <div class="chips" data-cg="creator_level" style="grid-template-columns:repeat(3,1fr)">
-                <label class="chip" data-v="L1: 1K–10K"><input type="radio" name="creator_gmv_level" value="L1: 1K–10K"><span class="chip-label">L1</span><span class="chip-sub">1K–10K</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="L2: 10K–25K"><input type="radio" name="creator_gmv_level" value="L2: 10K–25K"><span class="chip-label">L2</span><span class="chip-sub">10K–25K</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="L3: 25K–75K"><input type="radio" name="creator_gmv_level" value="L3: 25K–75K"><span class="chip-label">L3</span><span class="chip-sub">25K–75K</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="L4: 75K–150K"><input type="radio" name="creator_gmv_level" value="L4: 75K–150K"><span class="chip-label">L4</span><span class="chip-sub">75K–150K</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="L5: 150K–450K"><input type="radio" name="creator_gmv_level" value="L5: 150K–450K"><span class="chip-label">L5</span><span class="chip-sub">150K–450K</span><span class="chip-ck"></span></label>
-                <label class="chip" data-v="L6: 450K+"><input type="radio" name="creator_gmv_level" value="L6: 450K+"><span class="chip-label">L6</span><span class="chip-sub">450K+</span><span class="chip-ck"></span></label>
-              </div>
-            </div>
-            <div>
-              <div class="slabel" data-t="usageLabel">Usage / ad rights needed</div>
-              <div class="mchips">
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Spark Ads whitelisting"> <span data-t="usageSpark">Spark Ads whitelisting</span></label>
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Paid ad usage (off-platform)"> <span data-t="usagePaid">Paid ad usage (off-platform)</span></label>
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Organic reposts only"> <span data-t="usageOrganic">Organic reposts only</span></label>
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Full buyout"> <span data-t="usageBuyout">Full buyout</span></label>
-                <label class="mchip"><input type="checkbox" name="usage_rights" value="Not sure yet"> <span data-t="usageNotSure">Not sure yet</span></label>
-              </div>
-            </div>
-            <div class="field">
-              <textarea id="live_goals" name="live_goals" placeholder=" "></textarea>
-              <label for="live_goals" data-t="fLiveGoals">LIVE selling goals <span style="color:var(--mute2)" data-t="optional">(optional)</span></label>
-              <span class="field-hint" data-t="fLiveGoalsHint">"2× weekly LIVE, $20K per session"</span>
-            </div>
-            <div class="field">
-              <textarea id="ugc_needs" name="ugc_needs" placeholder=" "></textarea>
-              <label for="ugc_needs" data-t="fUgcNeeds">UGC needs <span style="color:var(--mute2)" data-t="optional">(optional)</span></label>
-              <span class="field-hint" data-t="fUgcNeedsHint">Formats, volume, deliverables</span>
-            </div>
-            <div class="field">
-              <textarea id="comments" name="comments" placeholder=" "></textarea>
-              <label for="comments" data-t="fComments">Other questions or comments <span style="color:var(--mute2)" data-t="optional">(optional)</span></label>
-              <span class="field-hint" data-t="fCommentsHint">Anything else we should know</span>
-            </div>
-          </div>
-          <div class="nav">
-            <div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="2"><span class="a">→</span> <span data-t="btnBack">Back</span></button></div>
-            <div class="nr"><button type="button" class="btn btn-p" data-next="4"><span class="bt" data-t="btnReview">Review</span><span class="a">→</span></button></div>
-          </div>
+    <div class="svc-panel" data-panel="2">
+      <div class="sp-left">
+        <div class="sp-num">03 — LIVE Affiliate Management</div>
+        <div class="sp-title">A managed remote LIVE selling operation.</div>
+        <p class="sp-desc">Thundrr recruits, onboards, and manages a curated roster of remote TikTok Shop LIVE affiliates dedicated to your brand. Operations run from a private branded Discord where our team coordinates streaming schedules, scripts, giveaways, and real-time troubleshooting.</p>
+        <p class="sp-desc-2">Typically launches with a core team of 5 high-performing LIVE affiliates and scales based on your goals — entirely remote, no studio overhead. Ideal for brands testing LIVE, or those who already have an affiliate programme and need a dedicated LIVE arm.</p>
+      </div>
+      <div class="sp-right">
+        <div class="scope-lbl">Scope of Work</div>
+        <div class="scope-list">
+          <div class="si"><span class="si-dot"></span>LIVE affiliate recruitment and vetting</div>
+          <div class="si"><span class="si-dot"></span>Branded Discord server management</div>
+          <div class="si"><span class="si-dot"></span>Streaming schedule coordination</div>
+          <div class="si"><span class="si-dot"></span>LIVE script and talking-point creation</div>
+          <div class="si"><span class="si-dot"></span>Giveaway planning and execution</div>
+          <div class="si"><span class="si-dot"></span>Real-time stream operations support</div>
+          <div class="si"><span class="si-dot"></span>Performance tracking per creator</div>
+          <div class="si"><span class="si-dot"></span>Weekly LIVE GMV reporting</div>
         </div>
+        <div class="callout glass">
+          <div class="cl-tag">Remote Model</div>
+          <div class="cl-t">No in-studio production required.</div>
+          <div class="cl-d">Our LIVE affiliates stream independently. We coordinate everything through the branded Discord — schedules, product prep, scripts, and live support. A fully managed LIVE sales channel without the overhead.</div>
+        </div>
+        <a href="https://wkf.ms/4nM7Ix9" target="_blank" rel="noopener" class="panel-cta">Contact Us →</a>
+      </div>
+    </div>
 
-        <!-- ══ STEP 4 ══ -->
-        <div class="step" data-step="4">
-          <div class="smeta"><span><span class="n">04</span> <span data-t="s4meta">Review</span></span><span>100%</span></div>
-          <h2 class="stitle" data-t="s4title">One last <span class="r">look.</span></h2>
-          <p class="sdesc" data-t="s4desc">Review before you send.</p>
-          <div class="review" id="reviewPanel">
-            <div class="r-sec" data-t="rvContact">Contact</div>
-            <div class="r-row"><div class="r-key" data-t="rvName">Name</div><div class="r-val" id="rv-name">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvBrand">Brand</div><div class="r-val" id="rv-brand_name">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvEmail">Email</div><div class="r-val" id="rv-email">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvPhone">Phone</div><div class="r-val" id="rv-phone">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvWechat">WeChat</div><div class="r-val" id="rv-wechat">—</div></div>
-            <div class="r-sec" data-t="rvProduct">Product</div>
-            <div class="r-row"><div class="r-key" data-t="rvLink">Link</div><div class="r-val" id="rv-product_link">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvHeroSku">Hero SKU</div><div class="r-val" id="rv-hero_sku">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvCategory">Category</div><div class="r-val" id="rv-category">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvPackage">Package</div><div class="r-val" id="rv-preferred_package">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvSamples">Samples</div><div class="r-val" id="rv-sample_quantity">—</div></div>
-            <div class="r-sec" data-t="rvGmv">GMV / Budget</div>
-            <div class="r-row"><div class="r-key" data-t="rvMonthlyGmv">Monthly GMV</div><div class="r-val" id="rv-current_monthly_gmv">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvAffGmv">Aff GMV</div><div class="r-val" id="rv-current_affiliate_gmv">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvCurComm">Cur comm</div><div class="r-val" id="rv-current_commission_rate">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvMaxComm">Max comm</div><div class="r-val" id="rv-max_commission_rate">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvBudget">Budget</div><div class="r-val" id="rv-budget_range">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvTimeline">Timeline</div><div class="r-val" id="rv-timeline">—</div></div>
-            <div class="r-sec" data-t="rvCreator">Creator</div>
-            <div class="r-row"><div class="r-key" data-t="rvVideos">Videos</div><div class="r-val" id="rv-target_videos">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvCreatorLevel">Creator level</div><div class="r-val" id="rv-creator_gmv_level">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvUsage">Usage rights</div><div class="r-val" id="rv-usage_rights">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvLive">LIVE goals</div><div class="r-val" id="rv-live_goals">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvUgc">UGC needs</div><div class="r-val" id="rv-ugc_needs">—</div></div>
-            <div class="r-row"><div class="r-key" data-t="rvComments">Comments</div><div class="r-val" id="rv-comments">—</div></div>
-          </div>
-          <label class="consent">
-            <input type="checkbox" id="consent" required>
-            <span class="cbox"></span>
-            <span class="ctext" data-t="consentText">By submitting, I agree to <strong>Thundrr reaching out</strong> with a tailored plan.</span>
-          </label>
-          <div class="nav">
-            <div class="nl"><button type="button" class="btn btn-g btn-back" data-prev="3"><span class="a">→</span> <span data-t="btnBack">Back</span></button></div>
-            <div class="nr"><button type="submit" class="btn btn-sub" id="submitBtn"><span class="spinner"></span><span class="bt" data-t="btnSubmit">Send my application</span><span class="a">→</span></button></div>
-          </div>
+    <div class="svc-panel" data-panel="3">
+      <div class="sp-left">
+        <div class="sp-num">04 — Full Service Management</div>
+        <div class="sp-title">The complete TikTok Shop growth partnership.</div>
+        <p class="sp-desc">Affiliate Management and LIVE Commerce combined into one coordinated TikTok Shop growth system. Affiliate-driven content seeds demand, creators amplify reach, and our LIVE team converts that traffic into sales during scheduled streams.</p>
+        <p class="sp-desc-2">One team, one strategy, one accountable partner. The recommended structure for brands serious about scaling on TikTok Shop. Your branded Discord becomes operational HQ for both your post-driving affiliates and your LIVE streamers.</p>
+      </div>
+      <div class="sp-right">
+        <div class="includes">
+          <div class="inc-tag">Includes Everything In</div>
+          <div class="inc-item"><div class="inc-chk"><svg viewBox="0 0 10 10"><polyline points="1.5 5 4 7.5 8.5 2.5"/></svg></div>Affiliate Management (Service 02)</div>
+          <div class="inc-item"><div class="inc-chk"><svg viewBox="0 0 10 10"><polyline points="1.5 5 4 7.5 8.5 2.5"/></svg></div>LIVE Affiliate Management (Service 03)</div>
+          <div class="inc-item"><div class="inc-chk"><svg viewBox="0 0 10 10"><polyline points="1.5 5 4 7.5 8.5 2.5"/></svg></div>Unified branded Discord community</div>
+          <div class="inc-item"><div class="inc-chk"><svg viewBox="0 0 10 10"><polyline points="1.5 5 4 7.5 8.5 2.5"/></svg></div>Cross-channel creator strategy</div>
+          <div class="inc-item"><div class="inc-chk"><svg viewBox="0 0 10 10"><polyline points="1.5 5 4 7.5 8.5 2.5"/></svg></div>Dedicated account manager</div>
+          <div class="inc-item"><div class="inc-chk"><svg viewBox="0 0 10 10"><polyline points="1.5 5 4 7.5 8.5 2.5"/></svg></div>Weekly reporting across all channels</div>
         </div>
+        <div class="callout glass">
+          <div class="cl-tag">Why It Works</div>
+          <div class="cl-t">The structure that compounds.</div>
+          <div class="cl-d">Loyal creators stay in the ecosystem, recruit their peers, and treat your brand as a long-term partnership. We've built this structure for the brands we currently manage — it's consistently the difference between a creator programme that fizzles and one that compounds.</div>
+        </div>
+        <a href="https://wkf.ms/4nM7Ix9" target="_blank" rel="noopener" class="panel-cta">Contact Us →</a>
+      </div>
+    </div>
 
-      </div><!-- /svp -->
+    <div class="svc-panel" data-panel="4">
+      <div class="sp-left">
+        <div class="sp-num">05 — UGC</div>
+        <div class="sp-title">Creator content for your channels. Your rights.</div>
+        <p class="sp-desc">User-generated content delivered as raw assets for use across paid ads, organic posts, Spark Ads, product pages, and email. We handpick creators from our network, brief them on your product, and deliver polished short-form video ready to deploy.</p>
+        <p class="sp-desc-2">Unlike affiliate content, creators do not post to their own pages — you receive full content files with the usage rights defined in the proposal. Perfect for brands building a content library, testing creative angles, or fuelling TikTok Shop ad campaigns.</p>
+      </div>
+      <div class="sp-right">
+        <div class="scope-lbl">Scope of Work</div>
+        <div class="scope-list">
+          <div class="si"><span class="si-dot"></span>Creator sourcing and matchmaking</div>
+          <div class="si"><span class="si-dot"></span>Brief writing and creative direction</div>
+          <div class="si"><span class="si-dot"></span>Sample shipment coordination</div>
+          <div class="si"><span class="si-dot"></span>Revisions and quality control</div>
+          <div class="si"><span class="si-dot"></span>Content delivery — raw and edited files</div>
+          <div class="si"><span class="si-dot"></span>Usage rights negotiation</div>
+          <div class="si"><span class="si-dot"></span>Optional: ad-ready edits and captions</div>
+          <div class="si"><span class="si-dot"></span>Optional: Spark Ad code provisioning</div>
+        </div>
+        <div class="callout glass">
+          <div class="cl-tag">Common Use Cases</div>
+          <div class="cl-t">Content for every channel.</div>
+          <div class="cl-d">Paid ad creative · Organic TikTok and Instagram · TikTok Shop product pages · Landing page video · Hook and angle testing · Email and retention content</div>
+        </div>
+        <a href="https://wkf.ms/4nM7Ix9" target="_blank" rel="noopener" class="panel-cta">Contact Us →</a>
+      </div>
+    </div>
 
-      <!-- ══ SUCCESS ══ -->
-      <div class="success" id="successScreen">
-        <div class="s-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    <div class="svc-panel" data-panel="5">
+      <div class="sp-left">
+        <div class="sp-num">06 — TAP Campaigns</div>
+        <div class="sp-title">Commission-based creator distribution.</div>
+        <p class="sp-desc">A TAP campaign is a commission-based affiliate product distribution option built around TikTok Affiliate Partnership agency campaign links. It helps test creator interest, increase sample requests, and get products in front of affiliates without a flat-fee commitment upfront.</p>
+        <p class="sp-desc-2">TAP works best for brands that can provide samples, offer a strong creator commission, and want a lower-friction option to test creator appetite. TAP can also run as support inside flat-fee campaign packages.</p>
+      </div>
+      <div class="sp-right">
+        <div class="scope-lbl">Scope of Work</div>
+        <div class="scope-list">
+          <div class="si"><span class="si-dot"></span>Agency campaign link setup</div>
+          <div class="si"><span class="si-dot"></span>Product distribution to affiliates</div>
+          <div class="si"><span class="si-dot"></span>Creator sample request handling</div>
+          <div class="si"><span class="si-dot"></span>Product showcase additions</div>
+          <div class="si"><span class="si-dot"></span>Creator interest testing</div>
+          <div class="si"><span class="si-dot"></span>Newsletter and Discord exposure</div>
+          <div class="si"><span class="si-dot"></span>Commission tracking</div>
         </div>
-        <h2 class="s-title" data-t="successTitle">You're <span class="r">in.</span></h2>
-        <p class="s-sub" data-t="successSub">Application received. A real human from Thundrr will reach out shortly with a tailored plan.</p>
-        <div class="s-meta"><span data-t="successMeta">Questions? <strong>jon@thundrrshop.com</strong></span></div>
-        <div class="cal-card">
-          <div class="cal-label" data-t="calLabel">Optional next step</div>
-          <div class="cal-title" data-t="calTitle">Book a strategy call</div>
-          <div class="cal-sub" data-t="calSub">Skip the back-and-forth — lock in a 20-minute call with the Thundrr team directly.</div>
-          <a href="https://calendly.com/jon-thundrrshop/" target="_blank" rel="noopener" class="cal-btn">
-            <span data-t="calBtn">Book a call</span><span class="a">→</span>
-          </a>
+        <div class="callout glass">
+          <div class="cl-tag">Important Note</div>
+          <div class="cl-t">TAP tests interest — it doesn't guarantee posts.</div>
+          <div class="cl-d">TAP campaigns do not guarantee creator posts, sales, or specific video volume. Best used for affiliate exposure, product distribution, and creator interest testing ahead of a larger campaign commitment.</div>
         </div>
-        <div class="s-actions" style="margin-top:20px">
-          <a href="https://www.thundrrshop.com/brands" class="btn btn-g"><span class="a" style="transform:scaleX(-1)">→</span> <span data-t="backToBrands">Back to brands</span></a>
+        <a href="https://wkf.ms/4nM7Ix9" target="_blank" rel="noopener" class="panel-cta">Contact Us →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── QUIZ ── -->
+<section class="quiz-section" id="quiz">
+  <canvas id="cv-quiz"></canvas>
+  <div class="quiz-inner">
+    <div class="quiz-pre rv">Find Your Package</div>
+    <h2 class="quiz-title rv d1">Not sure <em style="font-weight:200;font-style:italic;color:var(--fg2)">where</em> to start?</h2>
+    <p class="quiz-sub rv d2">Answer 3 quick questions and we'll recommend the right Thundrr service for where your brand is right now.</p>
+
+    <div id="quiz-body">
+      <!-- Q1 -->
+      <div class="q-wrap active" id="q1">
+        <div class="q-progress"><div class="q-progress-fill" style="width:0%"></div></div>
+        <div class="q-num">Question 1 of 3</div>
+        <div class="q-text">What best describes your TikTok Shop situation right now?</div>
+        <div class="q-opts">
+          <button class="q-opt glass" data-val="new"><span class="q-opt-letter">A</span><div class="q-opt-body"><div class="q-opt-t">We're new to TikTok Shop or just getting started</div><div class="q-opt-d">We haven't built an affiliate programme, don't have creator relationships, and need everything set up from scratch.</div></div></button>
+          <button class="q-opt glass" data-val="active"><span class="q-opt-letter">B</span><div class="q-opt-body"><div class="q-opt-t">We're active but want more creator volume and output</div><div class="q-opt-d">We have some traction but need more consistent affiliate content and stronger GMV from creators.</div></div></button>
+          <button class="q-opt glass" data-val="established"><span class="q-opt-letter">C</span><div class="q-opt-body"><div class="q-opt-t">We have operations down but a specific gap to fill</div><div class="q-opt-d">We have a working setup but need help with a specific channel — LIVE, affiliates, or content production.</div></div></button>
+          <button class="q-opt glass" data-val="scaling"><span class="q-opt-letter">D</span><div class="q-opt-body"><div class="q-opt-t">We have a proven strategy and need to accelerate GMV</div><div class="q-opt-d">Our TikTok Shop is working. We want to pour fuel on it with high-GMV creators and structured campaigns.</div></div></button>
         </div>
+        <button class="q-next" id="qn1">Continue <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
       </div>
 
-    </form>
-  </div><!-- /card -->
+      <!-- Q2 -->
+      <div class="q-wrap" id="q2">
+        <div class="q-progress"><div class="q-progress-fill" style="width:33%"></div></div>
+        <div class="q-num">Question 2 of 3</div>
+        <div class="q-text">What's your biggest priority right now?</div>
+        <div class="q-opts">
+          <button class="q-opt glass" data-val="content"><span class="q-opt-letter">A</span><div class="q-opt-body"><div class="q-opt-t">Getting more creator video content posted about our products</div><div class="q-opt-d">We need consistent short-form video from affiliates who understand TikTok Shop selling.</div></div></button>
+          <button class="q-opt glass" data-val="live"><span class="q-opt-letter">B</span><div class="q-opt-body"><div class="q-opt-t">Building a LIVE Commerce channel with remote sellers</div><div class="q-opt-d">We want a managed roster of LIVE affiliates streaming for our brand regularly.</div></div></button>
+          <button class="q-opt glass" data-val="affiliates"><span class="q-opt-letter">C</span><div class="q-opt-body"><div class="q-opt-t">Building and managing ongoing affiliate relationships</div><div class="q-opt-d">We need someone to run our affiliate center — outreach, communication, incentives, and strategy.</div></div></button>
+          <button class="q-opt glass" data-val="assets"><span class="q-opt-letter">D</span><div class="q-opt-body"><div class="q-opt-t">Getting quality content assets for our own paid channels</div><div class="q-opt-d">We need creator-produced videos we own and can run as ads or on our own pages.</div></div></button>
+        </div>
+        <button class="q-next" id="qn2">Continue <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+      </div>
+
+      <!-- Q3 -->
+      <div class="q-wrap" id="q3">
+        <div class="q-progress"><div class="q-progress-fill" style="width:66%"></div></div>
+        <div class="q-num">Question 3 of 3</div>
+        <div class="q-text">How hands-on do you want to be with creator relationships?</div>
+        <div class="q-opts">
+          <button class="q-opt glass" data-val="handsfree"><span class="q-opt-letter">A</span><div class="q-opt-body"><div class="q-opt-t">Fully hands-off — I want Thundrr to manage everything</div><div class="q-opt-d">I want a team to handle all creator communication, relationship building, and campaign ops.</div></div></button>
+          <button class="q-opt glass" data-val="selective"><span class="q-opt-letter">B</span><div class="q-opt-body"><div class="q-opt-t">Selective — I'll approve strategy but want operations handled</div><div class="q-opt-d">I want to set direction and review output, but not manage day-to-day creator ops.</div></div></button>
+          <button class="q-opt glass" data-val="test"><span class="q-opt-letter">C</span><div class="q-opt-body"><div class="q-opt-t">Testing first — I want to see creator interest before committing</div><div class="q-opt-d">I want a lower-commitment entry point to test how creators respond to my product.</div></div></button>
+        </div>
+        <button class="q-next" id="qn3">See My Recommendation <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+      </div>
+
+      <!-- Result -->
+      <div class="q-result" id="q-result" style="background:var(--c1);border:1px solid rgba(232,0,46,.22);border-radius:18px;padding:32px 30px;position:relative;overflow:hidden">
+        <div class="q-progress"><div class="q-progress-fill" style="width:100%"></div></div>
+        <div style="position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(232,0,46,.08),transparent 70%);pointer-events:none;border-radius:50%"></div>
+        <div class="qr-rec" id="qr-service-label">—</div>
+        <div class="qr-title" id="qr-title">—</div>
+        <div class="qr-why" id="qr-why">—</div>
+        <div class="qr-btns">
+          <a href="https://wkf.ms/4nM7Ix9" target="_blank" rel="noopener" class="panel-cta" style="flex:1;border-radius:12px;text-decoration:none" id="qr-cta">Contact Us →</a>
+          <button class="qr-restart" onclick="restartQuiz()">← Start Over</button>
+        </div>
+        <div class="qr-also" id="qr-also">
+          <div class="qra-label">Also consider</div>
+          <div class="qra-cards" id="qra-cards"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── CAMPAIGN PROCESS TIMELINE ── -->
+<section style="position:relative;z-index:1;overflow:hidden;border-top:1px solid var(--stroke);padding:clamp(72px,10vw,130px) 7vw" id="s-process">
+  <canvas id="cv-proc" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.35"></canvas>
+  <div style="max-width:1100px;margin:0 auto;position:relative;z-index:2">
+
+    <div style="margin-bottom:clamp(44px,7vw,80px)">
+      <div class="rv" style="font-size:.52rem;font-weight:700;letter-spacing:.44em;text-transform:uppercase;color:var(--r);display:flex;align-items:center;gap:12px;margin-bottom:1.2rem">
+        <span style="display:block;width:18px;height:1px;background:rgba(232,0,46,.6)"></span>How It Works
+      </div>
+      <h2 class="rv d1" style="font-size:clamp(2rem,3.5vw,3.5rem);font-weight:900;letter-spacing:-.05em;line-height:.92;margin-bottom:0">Thundrr's <span style="font-weight:200;font-style:italic;color:var(--fg2)">Campaign Process</span></h2>
+    </div>
+
+    <!-- Horizontal Timeline -->
+    <div class="tl-wrap rv d2">
+      <div class="tl-spine" id="tl-spine"><div class="tl-spine-fill" id="tl-spine-fill"></div></div>
+      <div class="tl-steps" id="tl-steps">
+
+        <div class="tl-step" id="ts1">
+          <div class="tl-node"><div class="tl-node-inner"></div></div>
+          <div class="tl-vc"></div>
+          <div class="tl-card glass">
+            <div class="tl-ico"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div class="tl-step-label">01 — Connect</div>
+            <div class="tl-step-title">Thundrr + Brand Align</div>
+            <p class="tl-step-body">We align on your hero SKU, campaign goals, creator GMV targets, and sample capacity. Thundrr becomes a direct extension of your brand inside TikTok Shop.</p>
+            <div class="tl-tags"><span class="tl-tag">Onboarding</span><span class="tl-tag">Strategy</span><span class="tl-tag">Brief</span></div>
+          </div>
+        </div>
+
+        <div class="tl-step" id="ts2">
+          <div class="tl-node"><div class="tl-node-inner"></div></div>
+          <div class="tl-vc"></div>
+          <div class="tl-card glass">
+            <div class="tl-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m23 21-4-4"/><circle cx="19" cy="11" r="4"/></svg></div>
+            <div class="tl-step-label">02 — Match</div>
+            <div class="tl-step-title">Thundrr Supplies Creators — Brand Ships Samples</div>
+            <p class="tl-step-body">We source creators from our 3,000+ network matched on TikTok Shop GMV. Brand reviews, approves, and ships samples. Motivated creators convert harder.</p>
+            <div class="tl-tags"><span class="tl-tag">Creator Matching</span><span class="tl-tag">Samples</span><span class="tl-tag">Outreach</span></div>
+          </div>
+        </div>
+
+        <div class="tl-step" id="ts3">
+          <div class="tl-node"><div class="tl-node-inner"></div></div>
+          <div class="tl-vc"></div>
+          <div class="tl-card glass">
+            <div class="tl-ico"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+            <div class="tl-step-label">03 — Activate</div>
+            <div class="tl-step-title">Content Launches with Thundrr Strategy &amp; Support</div>
+            <p class="tl-step-body">Thundrr provides briefs, hooks, talking points, and live performance feedback. We monitor what converts and scale what works in real time.</p>
+            <div class="tl-tags"><span class="tl-tag">Briefs</span><span class="tl-tag">Optimisation</span><span class="tl-tag">Spark Ads</span></div>
+          </div>
+        </div>
+
+        <div class="tl-step" id="ts4">
+          <div class="tl-node"><div class="tl-node-inner"></div></div>
+          <div class="tl-vc"></div>
+          <div class="tl-card glass">
+            <div class="tl-ico"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+            <div class="tl-step-label">04 — Compound</div>
+            <div class="tl-step-title">Evergreen Effect + Halo Effect</div>
+            <p class="tl-step-body">Content resurfaces on the FYP long after campaign end — driving branded search, Amazon traffic, and DTC visits. The campaign keeps generating revenue indefinitely.</p>
+            <div class="tl-tags"><span class="tl-tag">Evergreen</span><span class="tl-tag">Halo Effect</span><span class="tl-tag">Compound GMV</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="margin-top:clamp(48px,7vw,80px);text-align:center">
+      <a href="https://wkf.ms/4nM7Ix9" target="_blank" rel="noopener" class="btn btn-r rv" style="height:54px;font-size:.78rem">Contact Us <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
+    </div>
+  </div>
+</section>
+
+
 </main>
-
-<footer class="foot">© 2026 <strong>Thundrr</strong> · TikTok Shop Affiliate Management · TSP · CAP · TAP</footer>
-<div class="toast" id="toast"></div>
-
-<!-- ══ Package Modal ══ -->
-<div class="modal-overlay" id="pkgModal">
-  <div class="modal">
-    <div class="modal-head">
-      <div class="modal-title" data-t="modalTitle">Choose your<br><span class="r">packages.</span><small data-t="modalSubtitle">Select all that apply — you can pick more than one</small></div>
-      <button class="modal-close" onclick="closePkgModal()">✕</button>
-    </div>
-    <div class="pkg-grid" id="pkgList">
-
-      <div class="pkg-card" data-pkg="Flat-Fee Creator Campaigns" onclick="selectPkg(this)">
-        <div class="pkg-card-top"><div class="pkg-icon">🎯</div><div class="pkg-check"></div></div>
-        <div class="pkg-name" data-t="pkg1name">Flat-Fee Creator Campaigns</div>
-        <div class="pkg-tag" data-t="pkg1tag">Guaranteed output</div>
-        <div class="pkg-desc" data-t="pkg1desc">Defined monthly deliverables from proven affiliates. Ideal for launches and hero SKU pushes. Includes 1 complimentary TAP campaign.</div>
-      </div>
-
-      <div class="pkg-card" data-pkg="Affiliate Management" onclick="selectPkg(this)">
-        <div class="pkg-card-top"><div class="pkg-icon">🤝</div><div class="pkg-check"></div></div>
-        <div class="pkg-name" data-t="pkg2name">Affiliate Management</div>
-        <div class="pkg-tag" data-t="pkg2tag">Turnkey growth system</div>
-        <div class="pkg-desc" data-t="pkg2desc">Daily outreach, onboarding, creator comms, sample coordination, incentives, and performance reporting.</div>
-        <div class="pkg-price">Base $3K/mo · Growth $5K/mo · Scale $10K/mo</div>
-      </div>
-
-      <div class="pkg-card" data-pkg="LIVE Commerce" onclick="selectPkg(this)">
-        <div class="pkg-card-top"><div class="pkg-icon">🔴</div><div class="pkg-check"></div></div>
-        <div class="pkg-name" data-t="pkg3name">LIVE Commerce</div>
-        <div class="pkg-tag" data-t="pkg3tag">Scalable LIVE engine</div>
-        <div class="pkg-desc" data-t="pkg3desc">Remote LIVE affiliate management — schedules, scripts, giveaways, and GMV tracking.</div>
-        <div class="pkg-price">$2,500/mo + 5% of LIVE GMV</div>
-      </div>
-
-      <div class="pkg-card" data-pkg="UGC Content Creation" onclick="selectPkg(this)">
-        <div class="pkg-card-top"><div class="pkg-icon">🎬</div><div class="pkg-check"></div></div>
-        <div class="pkg-name" data-t="pkg4name">UGC Content Creation</div>
-        <div class="pkg-tag" data-t="pkg4tag">Performance-ready content</div>
-        <div class="pkg-desc" data-t="pkg4desc">Videos for ads, Spark Ads, and product pages. Delivered to you — creators do not post.</div>
-      </div>
-
-      <div class="pkg-card" data-pkg="TAP Campaigns" onclick="selectPkg(this)">
-        <div class="pkg-card-top"><div class="pkg-icon">🧪</div><div class="pkg-check"></div></div>
-        <div class="pkg-name" data-t="pkg5name">TAP Campaigns</div>
-        <div class="pkg-tag" data-t="pkg5tag">Lower-risk testing</div>
-        <div class="pkg-desc" data-t="pkg5desc">Commission-based via agency links, sample requests &amp; showcases.<em class="fee-note" data-t="pkg5fee">Setup fee applies.</em></div>
-      </div>
-
-      <div class="pkg-card" data-pkg="Full-Service Growth" onclick="selectPkg(this)">
-        <div class="pkg-card-top"><div class="pkg-icon">🚀</div><div class="pkg-check"></div></div>
-        <div class="pkg-name" data-t="pkg6name">Full-Service Growth</div>
-        <div class="pkg-tag" data-t="pkg6tag">Max growth</div>
-        <div class="pkg-desc" data-t="pkg6desc">Affiliate Management + LIVE Commerce combined — unified reporting and a dedicated growth lead.</div>
-        <div class="pkg-price">$5,000/mo + 5% of total store GMV</div>
-      </div>
-
-    </div>
-    <div class="modal-footer">
-      <div class="modal-hint" data-t="modalHint">Not sure? <strong data-t="modalHintStrong">We'll advise on the call.</strong></div>
-      <div style="display:flex;gap:10px">
-        <button type="button" class="btn btn-g" onclick="closePkgModal()"><span data-t="btnCancel">Cancel</span></button>
-        <button type="button" class="btn btn-p" id="pkgConfirm" onclick="confirmPkg()" disabled><span class="bt" data-t="btnConfirm">Confirm</span><span class="a">→</span></button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
-// ── Translations ──
-const TRANSLATIONS = {
-  en: {
-    back:'Back to brands', eyebrow:'Brand Application', eyemeta:'~5 minutes · 4 steps',
-    step1label:'Contact', step2label:'GMV & Budget', step3label:'Creator Goals', step4label:'Review',
-    s1meta:'Product', s1title:'Your product <span class="r">setup.</span>',
-    s1desc:'Your details and TikTok Shop setup.',
-    s2meta:'GMV & Budget', s2title:'Numbers & <span class="r">budget.</span>',
-    s2desc:"Current performance and what you're willing to invest.",
-    s3meta:'Creator Goals', s3title:'Creator & content <span class="r">goals.</span>',
-    s3desc:'Creator output, LIVE, and UGC goals.',
-    s4meta:'Review', s4title:'One last <span class="r">look.</span>',
-    s4desc:'Review before you send.',
-    fBrandName:'Brand name',
-    fFullName:'Full name', fEmail:'Email address', fPhone:'Phone number',
-    fWechat:'WeChat ID', optional:'(optional)',
-    fProductLink:'TikTok Shop product link', fProductLinkHint:'tiktok.com/view/product/…',
-    fHeroSku:'Hero SKU name', fHeroSkuHint:'Your primary product to push',
-    catLabel:'Product category',
-    catBeauty:'Beauty', catBeautySub:'Skincare', catWellness:'Wellness', catWellnessSub:'Supplements',
-    catFashion:'Fashion', catFashionSub:'Apparel', catHome:'Home', catHomeSub:'Decor',
-    catTech:'Tech', catTechSub:'Gadgets', catPets:'Pets', catPetsSub:'Accessories',
-    catFB:'F&B', catFBSub:'Drinks', catOther:'Other', catOtherSub:'Tell us',
-    pkgLabel:'Preferred package', pkgBtnDefault:'Select a package →',
-    sampleLabel:'📦 Sample availability',
-    fSampleQty:'How many units can you provide?', fSampleQtyHint:'Enter 0 if none',
-    gmvLabel:'Monthly TikTok Shop GMV', affGmvLabel:'Current affiliate GMV', perMonth:'per month',
-    fCommCur:'Current commission rate', fCommCurHint:'e.g. 10%',
-    fCommMax:'Highest commission available', fCommMaxHint:'For top creators',
-    budgetLabel:'Budget range', perMo:'/mo',
-    timelineLabel:'Timeline',
-    tlASAP:'ASAP', tlASAPSub:'This week', tl30:'30 days', tl30Sub:'Next month',
-    tl13:'1–3 months', tl13Sub:'Planning', tlFlex:'Flexible', tlFlexSub:'No rush',
-    videosLabel:'Target number of videos',
-    vidTesting:'Testing', vidGrowing:'Growing', vidScaling:'Scaling', vidBlast:'Full blast',
-    creatorLevelLabel:'Desired creator level',
-    usageLabel:'Usage / ad rights needed',
-    usageSpark:'Spark Ads whitelisting', usagePaid:'Paid ad usage (off-platform)',
-    usageOrganic:'Organic reposts only', usageBuyout:'Full buyout', usageNotSure:'Not sure yet',
-    fLiveGoals:'LIVE selling goals', fLiveGoalsHint:'"2× weekly LIVE, $20K per session"',
-    fUgcNeeds:'UGC needs', fUgcNeedsHint:'Formats, volume, deliverables',
-    fComments:'Other questions or comments', fCommentsHint:'Anything else we should know',
-    rvContact:'Contact', rvName:'Name', rvBrand:'Brand', rvEmail:'Email', rvPhone:'Phone', rvWechat:'WeChat',
-    rvProduct:'Product', rvLink:'Link', rvHeroSku:'Hero SKU', rvCategory:'Category',
-    rvPackage:'Package', rvSamples:'Samples',
-    rvGmv:'GMV / Budget', rvMonthlyGmv:'Monthly GMV', rvAffGmv:'Aff GMV',
-    rvCurComm:'Cur comm', rvMaxComm:'Max comm', rvBudget:'Budget', rvTimeline:'Timeline',
-    rvCreator:'Creator', rvVideos:'Videos', rvCreatorLevel:'Creator level',
-    rvUsage:'Usage rights', rvLive:'LIVE goals', rvUgc:'UGC needs', rvComments:'Comments',
-    consentText:'By submitting, I agree to <strong>Thundrr reaching out</strong> with a tailored plan.',
-    btnContinue:'Continue', btnBack:'Back', btnReview:'Review',
-    btnSubmit:'Send my application', btnCancel:'Cancel', btnConfirm:'Confirm',
-    successTitle:'You\'re <span class="r">in.</span>',
-    successSub:'Application received. A real human from Thundrr will reach out shortly with a tailored plan.',
-    successMeta:'Questions? <strong>jon@thundrrshop.com</strong>',
-    calLabel:'Optional next step', calTitle:'Book a strategy call',
-    calSub:'Skip the back-and-forth — lock in a 20-minute call with the Thundrr team directly.',
-    calBtn:'Book a call', backToBrands:'Back to brands',
-    modalTitle:'Choose your<br><span class="r">packages.</span>',
-    modalSubtitle:'Select all that apply — you can pick more than one',
-    modalHint:'Not sure?', modalHintStrong:"We'll advise on the call.",
-    pkg1name:'Flat-Fee Creator Campaigns', pkg1tag:'Guaranteed output',
-    pkg1desc:'Defined monthly deliverables from proven affiliates. Ideal for launches and hero SKU pushes. Includes 1 complimentary TAP campaign.',
-    pkg2name:'Affiliate Management', pkg2tag:'Turnkey growth system',
-    pkg2desc:'Daily outreach, onboarding, creator comms, sample coordination, incentives, and performance reporting.',
-    pkg3name:'LIVE Commerce', pkg3tag:'Scalable LIVE engine',
-    pkg3desc:'Remote LIVE affiliate management — schedules, scripts, giveaways, and GMV tracking.',
-    pkg4name:'UGC Content Creation', pkg4tag:'Performance-ready content',
-    pkg4desc:'Videos for ads, Spark Ads, and product pages. Delivered to you — creators do not post.',
-    pkg5name:'TAP Campaigns', pkg5tag:'Lower-risk testing',
-    pkg5desc:'Commission-based via agency links, sample requests & showcases.',
-    pkg5fee:'Setup fee applies.',
-    pkg6name:'Full-Service Growth', pkg6tag:'Max growth',
-    pkg6desc:'Affiliate Management + LIVE Commerce combined — unified reporting and a dedicated growth lead.',
-    toastCategory:'Pick a product category', toastField:'Please complete the highlighted field',
-    toastConsent:'Tick the consent box to send', toastError:'Something went wrong — email jon@thundrrshop.com',
-    toastNetwork:'Network hiccup. Please try again.',
-    pkgSelected1:'package selected', pkgSelectedN:'packages selected'
-  },
-  zh: {
-    back:'返回品牌页', eyebrow:'品牌申请', eyemeta:'约5分钟 · 4步骤',
-    step1label:'联系方式', step2label:'GMV与预算', step3label:'达人目标', step4label:'确认',
-    s1meta:'产品', s1title:'您的产品<span class="r">信息。</span>',
-    s1desc:'您的联系方式和TikTok小店设置。',
-    s2meta:'GMV与预算', s2title:'数据与<span class="r">预算。</span>',
-    s2desc:'当前业绩及您愿意投入的资金。',
-    s3meta:'达人目标', s3title:'达人与内容<span class="r">目标。</span>',
-    s3desc:'达人产出、直播带货及UGC目标。',
-    s4meta:'确认', s4title:'最后<span class="r">确认。</span>',
-    s4desc:'发送前请核对信息。',
-    fBrandName:'品牌名称',
-    fFullName:'姓名', fEmail:'邮箱地址', fPhone:'手机号码',
-    fWechat:'微信号', optional:'（选填）',
-    fProductLink:'TikTok小店商品链接', fProductLinkHint:'tiktok.com/view/product/…',
-    fHeroSku:'主推SKU名称', fHeroSkuHint:'您的核心主推产品',
-    catLabel:'产品类目',
-    catBeauty:'美妆', catBeautySub:'护肤', catWellness:'健康', catWellnessSub:'保健品',
-    catFashion:'时尚', catFashionSub:'服装', catHome:'家居', catHomeSub:'装饰',
-    catTech:'科技', catTechSub:'数码', catPets:'宠物', catPetsSub:'配件',
-    catFB:'食饮', catFBSub:'饮品', catOther:'其他', catOtherSub:'请说明',
-    pkgLabel:'意向套餐', pkgBtnDefault:'选择套餐 →',
-    sampleLabel:'📦 样品情况',
-    fSampleQty:'可提供样品数量？', fSampleQtyHint:'无样品请填0',
-    gmvLabel:'TikTok小店月GMV', affGmvLabel:'当前联盟达人GMV', perMonth:'每月',
-    fCommCur:'当前佣金比例', fCommCurHint:'例如 10%',
-    fCommMax:'最高可开放佣金', fCommMaxHint:'面向头部达人',
-    budgetLabel:'预算范围', perMo:'/月',
-    timelineLabel:'启动时间',
-    tlASAP:'尽快', tlASAPSub:'本周内', tl30:'30天内', tl30Sub:'下个月',
-    tl13:'1–3个月', tl13Sub:'规划中', tlFlex:'灵活', tlFlexSub:'不急',
-    videosLabel:'目标视频数量',
-    vidTesting:'测试', vidGrowing:'增长', vidScaling:'规模化', vidBlast:'全力冲量',
-    creatorLevelLabel:'目标达人等级',
-    usageLabel:'素材授权需求',
-    usageSpark:'Spark广告授权', usagePaid:'付费广告（站外）',
-    usageOrganic:'仅限自然转发', usageBuyout:'完整版权买断', usageNotSure:'暂未确定',
-    fLiveGoals:'直播带货目标', fLiveGoalsHint:'"每周2场直播，每场$20K"',
-    fUgcNeeds:'UGC内容需求', fUgcNeedsHint:'格式、数量、交付物',
-    fComments:'其他问题或备注', fCommentsHint:'其他需要我们了解的信息',
-    rvContact:'联系方式', rvName:'姓名', rvBrand:'品牌', rvEmail:'邮箱', rvPhone:'电话', rvWechat:'微信',
-    rvProduct:'产品', rvLink:'链接', rvHeroSku:'主推SKU', rvCategory:'类目',
-    rvPackage:'套餐', rvSamples:'样品',
-    rvGmv:'GMV / 预算', rvMonthlyGmv:'月GMV', rvAffGmv:'联盟GMV',
-    rvCurComm:'当前佣金', rvMaxComm:'最高佣金', rvBudget:'预算', rvTimeline:'时间',
-    rvCreator:'达人', rvVideos:'视频数', rvCreatorLevel:'达人等级',
-    rvUsage:'授权需求', rvLive:'直播目标', rvUgc:'UGC需求', rvComments:'备注',
-    consentText:'提交即表示我同意 <strong>Thundrr与我联系</strong>，并提供定制方案。',
-    btnContinue:'继续', btnBack:'返回', btnReview:'预览',
-    btnSubmit:'提交申请', btnCancel:'取消', btnConfirm:'确认',
-    successTitle:'申请<span class="r">成功。</span>',
-    successSub:'申请已收到。Thundrr团队将尽快与您联系，提供专属方案。',
-    successMeta:'有疑问？<strong>jon@thundrrshop.com</strong>',
-    calLabel:'可选下一步', calTitle:'预约策略电话',
-    calSub:'省去来回沟通——直接与Thundrr团队预约20分钟通话。',
-    calBtn:'立即预约', backToBrands:'返回品牌页',
-    modalTitle:'选择您的<br><span class="r">套餐。</span>',
-    modalSubtitle:'可多选，选择所有适合的套餐',
-    modalHint:'不确定？', modalHintStrong:'通话时我们会给您建议。',
-    pkg1name:'固定费用达人营销', pkg1tag:'保量交付',
-    pkg1desc:'由成熟联盟达人按月交付约定内容。适合新品上线及主推SKU冲量。含1次免费TAP活动。',
-    pkg2name:'联盟达人管理', pkg2tag:'一站式增长系统',
-    pkg2desc:'每日触达、入驻引导、达人沟通、样品协调、激励机制及绩效报告。',
-    pkg3name:'直播带货', pkg3tag:'可扩展直播引擎',
-    pkg3desc:'远程直播联盟管理——排班、脚本、福利活动及GMV追踪。',
-    pkg4name:'UGC内容制作', pkg4tag:'高转化内容',
-    pkg4desc:'用于广告、Spark广告及商品页的视频素材，直接交付品牌方，达人不发布。',
-    pkg5name:'TAP活动', pkg5tag:'低风险测试',
-    pkg5desc:'通过代理链接按佣金合作，含样品申请及橱窗展示。',
-    pkg5fee:'需支付启动费。',
-    pkg6name:'全托管增长', pkg6tag:'最大化增长',
-    pkg6desc:'联盟达人管理+直播带货组合——统一报告，配备专属增长负责人。',
-    toastCategory:'请选择产品类目', toastField:'请完善高亮字段',
-    toastConsent:'请勾选同意框后提交', toastError:'提交失败，请发邮件至 jon@thundrrshop.com',
-    toastNetwork:'网络异常，请重试。',
-    pkgSelected1:'个套餐已选', pkgSelectedN:'个套餐已选'
-  }
-};
-
-let currentLang = 'en';
-
-function setLang(lang) {
-  currentLang = lang;
-  const T = TRANSLATIONS[lang];
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-  document.querySelectorAll('[data-t]').forEach(el => {
-    const key = el.getAttribute('data-t');
-    if (T[key] !== undefined) el.innerHTML = T[key];
-  });
-  const pkgVal = document.getElementById('pkg_hidden').value;
-  if (pkgVal) {
-    const parts = pkgVal.split(', ');
-    const label = document.getElementById('pkgBtnLabel');
-    if (parts.length === 1) label.textContent = parts[0];
-    else label.textContent = parts.length + ' ' + T.pkgSelectedN;
-  }
-  const langField = document.getElementById('form_language');
-  if (langField) langField.value = lang === 'zh' ? 'Chinese' : 'English';
-  setTimeout(() => {
-    const active = document.querySelector('.step.active');
-    if (active && window._setH) window._setH(active);
-  }, 50);
-}
-
-(function(){
-  const form = document.getElementById('brandForm');
-  const steps = Array.from(document.querySelectorAll('.step'));
-  const psteps = Array.from(document.querySelectorAll('.pstep'));
-  const svp = document.getElementById('svp');
-  const pfill = document.getElementById('plineFill');
-  let cur = 1;
-  const TOTAL = 4;
-
-  window.addEventListener('scroll', () => {
-    document.getElementById('topbar').classList.toggle('scrolled', scrollY > 30);
-  });
-
-  function setProgress(n) {
-    pfill.style.width = ((n - 1) / (TOTAL - 1) * 100) + '%';
-    psteps.forEach((p, i) => {
-      p.classList.toggle('ac', i + 1 === n);
-      p.classList.toggle('dn', i + 1 < n);
-    });
-  }
-
-  function measure(el) {
-    const s = el.style.cssText;
-    el.style.cssText = 'position:absolute;visibility:hidden;opacity:0;transform:none;pointer-events:none;left:0;right:0;top:0';
-    const h = el.offsetHeight;
-    el.style.cssText = s;
-    return h;
-  }
-  function setH(el) { if (el && svp) svp.style.height = measure(el) + 'px'; }
-  window._setH = setH;
-  function initH() { const a = steps.find(s => s.classList.contains('active')); if (a) setH(a); }
-  initH(); setTimeout(initH, 80);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(initH);
-  window.addEventListener('resize', initH);
-
-  function goTo(n, dir) {
-    if (n < 1 || n > TOTAL) return;
-    const from = steps.find(s => s.classList.contains('active'));
-    const to = steps.find(s => +s.dataset.step === n);
-    if (!to || from === to) return;
-    if (n === 4) buildReview();
-    setH(to);
-    from.classList.remove('active');
-    from.classList.add(dir === 'back' ? 'eR' : 'eL');
-    const enter = dir === 'back' ? 'eL' : 'eR';
-    to.classList.add(enter);
-    setTimeout(() => {
-      from.classList.remove('eL', 'eR');
-      to.classList.remove(enter);
-      to.classList.add('active');
-      setTimeout(() => {
-        const fi = to.querySelector('input:not([type=hidden]):not([type=radio]):not([type=checkbox]),textarea');
-        if (fi) fi.focus({ preventScroll: true });
-      }, 340);
-    }, 460);
-    cur = n; setProgress(n);
-  }
-
-  function validateField(f) {
-    const inp = f.querySelector('input,textarea');
-    if (!inp) return true;
-    let ok = !f.hasAttribute('data-req') || !!inp.value.trim();
-    if (ok && f.hasAttribute('data-email') && inp.value)
-      ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inp.value.trim());
-    f.classList.toggle('err', !ok);
-    return ok;
-  }
-
-  function validateStep(n) {
-    const T = TRANSLATIONS[currentLang];
-    const el = steps.find(s => +s.dataset.step === n);
-    let ok = true;
-    el.querySelectorAll('.field[data-req]').forEach(f => { if (!validateField(f)) ok = false; });
-    if (n === 1 && !document.querySelector('[name="category"]:checked')) {
-      toast(T.toastCategory); ok = false;
-    }
-    if (!ok) {
-      const fe = el.querySelector('.field.err');
-      if (fe) { const i = fe.querySelector('input,textarea'); if (i) i.focus(); toast(T.toastField); }
-    }
-    return ok;
-  }
-
-  document.querySelectorAll('[data-next]').forEach(b => b.addEventListener('click', () => {
-    if (validateStep(cur)) goTo(+b.dataset.next, 'forward');
+/* ── ANIMATED BACKGROUND ── */
+(()=>{
+  const cv=document.getElementById('bg'),ctx=cv.getContext('2d');let W,H;
+  const resize=()=>{W=cv.width=innerWidth;H=cv.height=innerHeight};
+  resize();addEventListener('resize',resize);
+  // Bigger, brighter orbs
+  const orbs=[
+    {px:0,py:0,x:.5,y:.4,r:480,vx:.00009,vy:.00006,a:.1},   // center hero glow
+    {px:0,py:0,x:.78,y:.18,r:360,vx:.00011,vy:.00008,a:.072},
+    {px:0,py:0,x:.14,y:.72,r:300,vx:-.00009,vy:.0001,a:.056},
+    {px:0,py:0,x:.5,y:.85,r:250,vx:.00006,vy:-.00009,a:.044}, // bottom glow
+  ];
+  let orbsInit=false;
+  const N=85;
+  const pts=Array.from({length:N},()=>({
+    x:Math.random()*1200,y:Math.random()*900,
+    vx:(Math.random()-.5)*.18,
+    vy:-(Math.random()*.3+.06), // upward
+    r:Math.random()*.7+.12,
+    l:Math.random(),g:Math.random()>.5,
+    trail:[] // for trails on larger particles
   }));
-  document.querySelectorAll('[data-prev]').forEach(b => b.addEventListener('click', () => goTo(+b.dataset.prev, 'back')));
-
-  document.querySelectorAll('.field').forEach(f => {
-    const inp = f.querySelector('input,textarea');
-    if (!inp) return;
-    inp.addEventListener('blur', () => { if (inp.value.trim()) validateField(f); });
-    inp.addEventListener('input', () => { if (f.classList.contains('err')) validateField(f); });
-  });
-
-  document.querySelectorAll('textarea').forEach(ta => {
-    const grow = () => {
-      ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px';
-      const a = steps.find(s => s.classList.contains('active')); if (a) setH(a);
-    };
-    ta.addEventListener('input', grow); setTimeout(grow, 50);
-  });
-
-  document.querySelectorAll('[data-cg]').forEach(group => {
-    group.querySelectorAll('.chip').forEach(chip => {
-      chip.addEventListener('click', e => {
-        e.preventDefault();
-        group.querySelectorAll('.chip').forEach(c => c.classList.remove('sel'));
-        chip.classList.add('sel');
-        const r = chip.querySelector('input');
-        if (r) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }
-      });
+  (function draw(){
+    ctx.clearRect(0,0,W,H);
+    if(!orbsInit){orbs.forEach(o=>{o.px=o.x*W;o.py=o.y*H});orbsInit=true}
+    // Orbs
+    orbs.forEach(o=>{
+      o.px+=o.vx*W;o.py+=o.vy*H;
+      if(o.px<-o.r)o.px=W+o.r;if(o.px>W+o.r)o.px=-o.r;
+      if(o.py<-o.r)o.py=H+o.r;if(o.py>H+o.r)o.py=-o.r;
+      const g=ctx.createRadialGradient(o.px,o.py,0,o.px,o.py,o.r);
+      g.addColorStop(0,`rgba(232,0,46,${o.a})`);
+      g.addColorStop(.4,`rgba(232,0,46,${o.a*.3})`);
+      g.addColorStop(1,'rgba(232,0,46,0)');
+      ctx.beginPath();ctx.arc(o.px,o.py,o.r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
     });
-  });
-
-  document.querySelectorAll('.mchip').forEach(chip => {
-    const cb = chip.querySelector('input');
-    chip.addEventListener('click', e => { e.preventDefault(); cb.checked = !cb.checked; chip.classList.toggle('ck', cb.checked); });
-  });
-
-  const labs = ['$0–$5K', '$5K–$25K', '$25K–$100K', '$100K–$500K', '$500K–$1M', '$1M–$5M', '$5M+'];
-  function mkSlider(inId, dispId, fillId, hidId) {
-    const inp = document.getElementById(inId), disp = document.getElementById(dispId),
-          fl = document.getElementById(fillId), hid = document.getElementById(hidId);
-    if (!inp) return;
-    function u() { const v = +inp.value; fl.style.width = (v / 6 * 100) + '%'; disp.textContent = labs[v]; hid.value = labs[v]; }
-    inp.addEventListener('input', u); u();
-  }
-  mkSlider('gmvIn', 'gmvDisp', 'gmvFill', 'gmvHid');
-  mkSlider('affIn', 'affDisp', 'affFill', 'affHid');
-
-  function fval(name) {
-    const el = form.querySelector('[name="' + name + '"]');
-    if (!el) return '';
-    if (el.type === 'radio') { const c = form.querySelector('[name="' + name + '"]:checked'); return c ? c.value : ''; }
-    return el.value || '';
-  }
-  function multi(name) { return Array.from(form.querySelectorAll('[name="' + name + '"]:checked')).map(c => c.value); }
-  function setRv(id, val, pills) {
-    const el = document.getElementById(id); if (!el) return;
-    if (!val || (Array.isArray(val) && !val.length)) { el.textContent = '—'; return; }
-    if (pills) { el.innerHTML = val.map(v => '<span class="pill">' + v + '</span>').join(''); return; }
-    el.textContent = val;
-  }
-
-  function buildReview() {
-    const T = TRANSLATIONS[currentLang];
-    setRv('rv-name', fval('name'));
-    setRv('rv-brand_name', fval('brand_name'));
-    setRv('rv-email', fval('email'));
-    setRv('rv-phone', fval('phone'));
-    setRv('rv-wechat', fval('wechat_id'));
-    setRv('rv-product_link', fval('product_link'));
-    setRv('rv-hero_sku', fval('hero_sku'));
-    setRv('rv-category', fval('category'));
-    const pkgVal = fval('preferred_package');
-    const pkgEl = document.getElementById('rv-preferred_package');
-    if (pkgEl) {
-      if (pkgVal) pkgEl.innerHTML = pkgVal.split(', ').map(p => '<span class="pill">' + p + '</span>').join('');
-      else pkgEl.textContent = '—';
-    }
-    const sq = fval('sample_quantity');
-    setRv('rv-sample_quantity', sq ? sq + (currentLang === 'zh' ? ' 件' : ' units') : (currentLang === 'zh' ? '无' : 'None'));
-    setRv('rv-current_monthly_gmv', fval('current_monthly_gmv'));
-    setRv('rv-current_affiliate_gmv', fval('current_affiliate_gmv'));
-    setRv('rv-current_commission_rate', fval('current_commission_rate'));
-    setRv('rv-max_commission_rate', fval('max_commission_rate'));
-    setRv('rv-budget_range', fval('budget_range'));
-    setRv('rv-timeline', fval('timeline'));
-    setRv('rv-target_videos', fval('target_videos'));
-    setRv('rv-creator_gmv_level', fval('creator_gmv_level'));
-    setRv('rv-usage_rights', multi('usage_rights'), true);
-    setRv('rv-live_goals', fval('live_goals'));
-    setRv('rv-ugc_needs', fval('ugc_needs'));
-    setRv('rv-comments', fval('comments'));
-  }
-
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    const T = TRANSLATIONS[currentLang];
-    if (!validateStep(4)) return;
-    const consent = document.getElementById('consent');
-    if (!consent.checked) { toast(T.toastConsent); consent.focus(); return; }
-    const btn = document.getElementById('submitBtn');
-    btn.classList.add('loading'); btn.disabled = true;
-    try {
-      const payload = {};
-      new FormData(form).forEach((v, k) => { payload[k] = v; });
-      payload.usage_rights_summary = multi('usage_rights').join(', ');
-
-      const res = await fetch(form.action, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
-      });
-
-      fetch('https://formspree-monday.solitary-flower-a201.workers.dev/', {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: { 'Content-Type': 'application/json' }
-      }).catch(() => {});
-
-      if (res.ok) {
-        svp.style.display = 'none';
-        document.getElementById('successScreen').classList.add('active');
-        document.getElementById('progress').style.display = 'none';
-        const card = document.querySelector('.card');
-        if (card) window.scrollTo({ top: card.getBoundingClientRect().top + scrollY - 80, behavior: 'smooth' });
-      } else {
-        const d = await res.json().catch(() => ({}));
-        toast((d && d.error) || T.toastError);
-        btn.classList.remove('loading'); btn.disabled = false;
+    // Connections
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const a=pts[i],b=pts[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<110){
+        ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+        ctx.strokeStyle=`rgba(232,0,46,${.055*(1-d/110)*Math.min(a.l,b.l)})`;
+        ctx.lineWidth=.6;ctx.stroke();
       }
-    } catch {
-      toast(TRANSLATIONS[currentLang].toastNetwork);
-      btn.classList.remove('loading'); btn.disabled = false;
     }
-  });
-
-  form.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA' && e.target.type !== 'submit') {
-      const el = steps.find(s => s.classList.contains('active')); if (!el) return;
-      const n = +el.dataset.step;
-      if (n < TOTAL) { e.preventDefault(); if (validateStep(n)) goTo(n + 1, 'forward'); }
-    }
-  });
-
-  let tt;
-  window._toast = function(msg) {
-    const t = document.getElementById('toast'); t.textContent = msg;
-    t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3200);
-  };
-  function toast(msg) { window._toast(msg); }
+    // Upward particles
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      p.l+=p.g?.004:-.004;
+      if(p.l>=1){p.l=1;p.g=false}if(p.l<=0){p.l=0;p.g=true}
+      if(p.x<0||p.x>W)p.vx*=-1;
+      if(p.y<-12){p.y=H+12;p.x=Math.random()*W;p.l=0;p.g=true}
+      // slight glow on brighter particles
+      if(p.l>.6&&p.r>.5){
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,Math.PI*2);
+        ctx.fillStyle=`rgba(232,0,46,${p.l*.03})`;ctx.fill();
+      }
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(232,0,46,${p.l*.45})`;ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  })();
 })();
 
-// ── Package modal ──
-let pendingPkgs = new Set();
+/* section canvases */
+function mkCv(id,n,spd,dist){
+  const cv=document.getElementById(id);if(!cv)return;
+  const par=cv.parentElement,ctx=cv.getContext('2d');let W,H,P=[];
+  const resize=()=>{W=cv.width=par.offsetWidth;H=cv.height=par.offsetHeight};
+  resize();try{new ResizeObserver(resize).observe(par)}catch(e){addEventListener('resize',resize)}
+  class D{constructor(){this.reset()}reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*.65+.1;this.vx=(Math.random()-.5)*spd;this.vy=-(Math.random()*.2+.04);this.l=Math.random();this.g=Math.random()>.5}
+  step(){this.x+=this.vx;this.y+=this.vy;this.l+=this.g?.003:-.003;if(this.l>=1){this.l=1;this.g=false}if(this.l<=0){this.l=0;this.g=true}if(this.x<0||this.x>W)this.vx*=-1;if(this.y<-10){this.y=H+10;this.x=Math.random()*W;this.l=0}}}
+  for(let i=0;i<n;i++){const d=new D();d.l=Math.random();P.push(d)}
+  (function draw(){ctx.clearRect(0,0,W,H);
+    if(dist>0)P.forEach((a,i)=>P.slice(i+1).forEach(b=>{const dx=a.x-b.x,dy=a.y-b.y,d2=Math.sqrt(dx*dx+dy*dy);if(d2<dist){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(232,0,46,${.05*(1-d2/dist)*Math.min(a.l,b.l)})`;ctx.lineWidth=.5;ctx.stroke()}}));
+    P.forEach(p=>{p.step();ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(232,0,46,${p.l*.38})`;ctx.fill()});
+    requestAnimationFrame(draw)})();
+}
+mkCv('cv-svc',28,.1,95);
 
-function openPkgModal() {
-  const overlay = document.getElementById('pkgModal');
-  overlay.classList.add('open');
-  overlay.addEventListener('click', _backdropClose);
-  const cur = document.getElementById('pkg_hidden').value;
-  pendingPkgs = new Set(cur ? cur.split(', ') : []);
-  document.querySelectorAll('.pkg-card').forEach(el => {
-    el.classList.toggle('sel', pendingPkgs.has(el.dataset.pkg));
+/* ── TIMELINE REVEAL ── */
+mkCv('cv-proc', 24, .09, 88);
+const tlIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    // Fire spine fill first, then stagger each node
+    const spine = document.getElementById('tl-spine');
+    if (spine) spine.classList.add('fired');
+    const steps = document.querySelectorAll('.tl-step');
+    steps.forEach((step, i) => {
+      setTimeout(() => step.classList.add('lit'), i * 180);
+    });
+    tlIO.unobserve(e.target);
   });
-  document.getElementById('pkgConfirm').disabled = pendingPkgs.size === 0;
+}, { threshold: .2 });
+const tlWrap = document.querySelector('.tl-wrap');
+if (tlWrap) tlIO.observe(tlWrap);
+
+mkCv('cv-quiz',22,.09,85);
+
+/* ── HERO ── */
+/* ── PRELOADER ── */
+(function(){
+  var pl=document.getElementById('preloader');
+  var t0=Date.now();
+  function done(){
+    document.body.classList.add('ready');
+    setTimeout(function(){pl.classList.add('gone')},200);
+    setTimeout(function(){pl.style.display='none'},900);
+    // stagger wu words
+    document.querySelectorAll('.wu i').forEach(function(el,i){
+      el.style.animationDelay=(0.92+i*0.08)+'s';
+    });
+    // hero go still needed for grid + hero glow
+    document.getElementById('hero').classList.add('go');
+  }
+  window.addEventListener('load',function(){setTimeout(done,Math.max(0,1000-(Date.now()-t0)))});
+  if(document.readyState==='complete')setTimeout(done,1000);
+})();
+
+/* ── CURSOR GLOW ON GLASS CARDS ── */
+document.querySelectorAll('.glass').forEach(function(c){
+  c.addEventListener('mousemove',function(e){
+    var r=c.getBoundingClientRect();
+    c.style.setProperty('--mx',(e.clientX-r.left)+'px');
+    c.style.setProperty('--my',(e.clientY-r.top)+'px');
+  });
+});
+
+/* ── Q-OPT CURSOR GLOW ── */
+document.querySelectorAll('.q-opt').forEach(function(c){
+  c.addEventListener('mousemove',function(e){
+    var r=c.getBoundingClientRect();
+    c.style.setProperty('--mx',(e.clientX-r.left)+'px');
+    c.style.setProperty('--my',(e.clientY-r.top)+'px');
+  });
+});
+
+/* ── SCROLL GLOW ── */
+const svcEl=document.getElementById('services'),glowEl=document.getElementById('svc-glow');
+new IntersectionObserver(es=>{es.forEach(e=>{if(!glowEl)return;glowEl.style.opacity=e.isIntersecting?'1':'0';glowEl.style.transform=e.isIntersecting?'scale(1)':'scale(.85)'})},{threshold:.1}).observe(svcEl);
+
+/* ── REVEAL ── */
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target)})},{threshold:.06,rootMargin:'0px 0px -10px 0px'});
+// stagger sibling .rv elements automatically
+document.querySelectorAll('.rv,.rp').forEach((el,i)=>{
+  // only stagger within sections, not globally
+  if(!el.style.transitionDelay)el.style.transitionDelay=Math.min(i%6,5)*0.07+'s';
+  io.observe(el);
+});
+setTimeout(()=>document.querySelectorAll('.rv:not(.in),.rp:not(.in)').forEach(el=>el.classList.add('in')),1800);
+
+/* Quiz question elements animate in when question becomes active */
+function animateQWrap(wrap){
+  if(!wrap)return;
+  wrap.querySelectorAll('.q-num,.q-text,.q-progress,.q-opt,.q-next').forEach((el,i)=>{
+    el.style.opacity='0';el.style.transform='translateY(14px)';
+    setTimeout(()=>{el.style.transition='opacity .4s cubic-bezier(.25,.46,.45,.94),transform .4s cubic-bezier(.25,.46,.45,.94)';el.style.opacity='1';el.style.transform='none'},i*70+60);
+  });
 }
-function _backdropClose(e) {
-  if (e.target === document.getElementById('pkgModal')) closePkgModal();
+// Run on first visible question
+setTimeout(()=>animateQWrap(document.querySelector('.q-wrap.active')),200);
+// Patch switchToQuestion
+const origSwitchFn=window._patchedSwitch;
+
+/* ── SERVICE TABS ── */
+document.querySelectorAll('.svc-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    document.querySelectorAll('.svc-card').forEach(c=>c.classList.remove('active'));
+    document.querySelectorAll('.svc-panel').forEach(p=>p.classList.remove('active'));
+    card.classList.add('active');
+    document.querySelector(`.svc-panel[data-panel="${card.dataset.svc}"]`).classList.add('active');
+  });
+});
+
+/* ── QUIZ LOGIC ── */
+const SERVICES={
+  paid:{label:'Paid Video Campaigns',title:'Guaranteed creator video output from high-GMV affiliates.',why:'Your brand is ready to scale and has a clear product story — what you need is a structured campaign with defined deliverables from creators who have proven TikTok Shop sell-through history. A flat-fee video campaign gives you predictable output, matched creators, and results you can measure.',cta:'Contact Us →',panel:0},
+  affiliate:{label:'Affiliate Management',title:'Full affiliate center operations, built to compound.',why:'You have a product that works but you need someone to run the creator infrastructure around it. Affiliate Management means Thundrr takes over your affiliate center end-to-end — outreach, relationships, Discord community, incentives, flash sales — so your creator engine keeps running and growing month over month.',cta:'Contact Us →',panel:1},
+  live:{label:'LIVE Affiliate Management',title:'A managed remote LIVE selling operation for your brand.',why:'You have affiliate traction or a strong brand presence but no structured LIVE Commerce channel. LIVE Affiliate Management gives you a curated roster of remote LIVE sellers, fully coordinated through a branded Discord, with scheduling, scripting, and real-time ops handled by our team.',cta:'Contact Us →',panel:2},
+  full:{label:'Full Service Management',title:'Affiliate Management and LIVE Commerce under one roof.',why:'You need everything built from scratch or want to seriously accelerate. Full Service gives you the complete TikTok Shop growth engine — affiliate infrastructure, LIVE operations, Discord community, and creator strategy — all coordinated by one dedicated team. The structure that compounds over time.',cta:'Contact Us →',panel:3},
+  ugc:{label:'UGC Content Production',title:'Creator content delivered to you — for your channels.',why:"You have your distribution sorted but need quality creator-produced content. UGC gives you short-form video assets you own and can run across paid ads, Spark Ads, product pages, and email — without requiring creators to post to their own pages.",cta:'Contact Us →',panel:4},
+  tap:{label:'TAP Campaigns',title:'Commission-based product distribution — test before you commit.',why:"You want to understand creator appetite for your product before committing to a larger scope. TAP campaigns distribute your product through agency affiliate links at scale — a lower-friction way to test creator interest, increase sample requests, and see what GMV potential exists before investing in a structured programme.",cta:'Contact Us →',panel:5}
+};
+
+let a1='',a2='',a3='';
+
+function getRecommendation(){
+  // decision tree based on answers
+  if(a1==='new')return{primary:'full',also:['affiliate','live']};
+  if(a1==='scaling')return{primary:'paid',also:['affiliate','full']};
+  if(a2==='assets')return{primary:'ugc',also:['paid']};
+  if(a2==='live')return{primary:'live',also:['full']};
+  if(a2==='affiliates'){
+    if(a3==='test')return{primary:'tap',also:['affiliate']};
+    return{primary:'affiliate',also:['full']};
+  }
+  if(a2==='content'){
+    if(a3==='test')return{primary:'tap',also:['paid']};
+    if(a1==='established')return{primary:'paid',also:['affiliate']};
+    return{primary:'paid',also:['full']};
+  }
+  if(a3==='test')return{primary:'tap',also:['paid','affiliate']};
+  if(a3==='handsfree')return{primary:'full',also:['affiliate']};
+  return{primary:'affiliate',also:['paid','live']};
 }
-function closePkgModal() {
-  const overlay = document.getElementById('pkgModal');
-  overlay.classList.remove('open');
-  overlay.removeEventListener('click', _backdropClose);
+
+function showResult(){
+  const rec=getRecommendation();
+  const svc=SERVICES[rec.primary];
+  document.getElementById('qr-service-label').textContent='Recommended: '+svc.label;
+  document.getElementById('qr-title').textContent=svc.title;
+  document.getElementById('qr-why').textContent=svc.why;
+  const ctaEl=document.getElementById('qr-cta');ctaEl.textContent=svc.cta;ctaEl.href='https://wkf.ms/4nM7Ix9';
+  // also show alternatives
+  const also=document.getElementById('qra-cards');also.innerHTML='';
+  rec.also.forEach(key=>{
+    const s=SERVICES[key];
+    const c=document.createElement('button');c.className='qra-card';c.textContent=s.label;
+    c.onclick=()=>{
+      document.querySelectorAll('.svc-card').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.svc-panel').forEach(x=>x.classList.remove('active'));
+      document.querySelector(`.svc-card[data-svc="${s.panel}"]`).classList.add('active');
+      document.querySelector(`.svc-panel[data-panel="${s.panel}"]`).classList.add('active');
+      document.getElementById('services').scrollIntoView({behavior:'smooth',block:'start'});
+    };
+    also.appendChild(c);
+  });
+  // switch view
+  document.querySelectorAll('.q-wrap').forEach(q=>q.classList.remove('active'));
+  const res=document.getElementById('q-result');res.classList.add('active');
+  res.querySelectorAll('.qr-rec,.qr-title,.qr-why,.qr-btns,.qr-also').forEach((el,i)=>{
+    el.style.opacity='0';el.style.transform='translateY(12px)';
+    setTimeout(()=>{el.style.transition='opacity .45s cubic-bezier(.25,.46,.45,.94),transform .45s cubic-bezier(.25,.46,.45,.94)';el.style.opacity='1';el.style.transform='none'},i*100+80);
+  });
+  // also highlight matching service tab
+  document.querySelectorAll('.svc-card').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.svc-panel').forEach(x=>x.classList.remove('active'));
+  document.querySelector(`.svc-card[data-svc="${svc.panel}"]`).classList.add('active');
+  document.querySelector(`.svc-panel[data-panel="${svc.panel}"]`).classList.add('active');
 }
-function selectPkg(el) {
-  const pkg = el.dataset.pkg;
-  if (pendingPkgs.has(pkg)) { pendingPkgs.delete(pkg); el.classList.remove('sel'); }
-  else { pendingPkgs.add(pkg); el.classList.add('sel'); }
-  document.getElementById('pkgConfirm').disabled = pendingPkgs.size === 0;
+
+function restartQuiz(){
+  a1='';a2='';a3='';
+  document.querySelectorAll('.q-opt').forEach(o=>o.classList.remove('selected'));
+  document.querySelectorAll('.q-next').forEach(b=>{b.classList.remove('ready')});
+  document.getElementById('q-result').classList.remove('active');
+  document.getElementById('q1').classList.add('active');
 }
-function confirmPkg() {
-  if (pendingPkgs.size === 0) return;
-  const T = TRANSLATIONS[currentLang];
-  const selected = Array.from(pendingPkgs);
-  document.getElementById('pkg_hidden').value = selected.join(', ');
-  const label = document.getElementById('pkgBtnLabel');
-  label.textContent = selected.length === 1 ? selected[0] : selected.length + ' ' + T.pkgSelectedN;
-  document.getElementById('pkgBtn').classList.add('selected');
-  closePkgModal();
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closePkgModal(); });
+
+// Q1
+document.querySelectorAll('#q1 .q-opt').forEach(o=>{
+  o.addEventListener('click',()=>{
+    document.querySelectorAll('#q1 .q-opt').forEach(x=>x.classList.remove('selected'));
+    o.classList.add('selected');a1=o.dataset.val;
+    document.getElementById('qn1').classList.add('ready');
+  });
+});
+document.getElementById('qn1').addEventListener('click',()=>{
+  if(!a1)return;
+  document.getElementById('q1').classList.remove('active');
+  document.getElementById('q2').classList.add('active');
+});
+
+// Q2
+document.querySelectorAll('#q2 .q-opt').forEach(o=>{
+  o.addEventListener('click',()=>{
+    document.querySelectorAll('#q2 .q-opt').forEach(x=>x.classList.remove('selected'));
+    o.classList.add('selected');a2=o.dataset.val;
+    document.getElementById('qn2').classList.add('ready');
+  });
+});
+document.getElementById('qn2').addEventListener('click',()=>{
+  if(!a2)return;
+  document.getElementById('q2').classList.remove('active');
+  document.getElementById('q3').classList.add('active');
+});
+
+// Q3
+document.querySelectorAll('#q3 .q-opt').forEach(o=>{
+  o.addEventListener('click',()=>{
+    document.querySelectorAll('#q3 .q-opt').forEach(x=>x.classList.remove('selected'));
+    o.classList.add('selected');a3=o.dataset.val;
+    document.getElementById('qn3').classList.add('ready');
+  });
+});
+document.getElementById('qn3').addEventListener('click',()=>{
+  if(!a3)return;
+  document.getElementById('q3').classList.remove('active');
+  showResult();
+});
 </script>
 </body>
 </html>
