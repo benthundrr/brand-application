@@ -145,9 +145,7 @@ html.embedded main{max-width:1140px;margin-left:auto;margin-right:auto}
 
 /* consistent, capped side padding (no more viewport-wide gutters) */
 html.embedded .hero,
-html.embedded .svc-selector,
 html.embedded .svc-panel.active,
-html.embedded .mq,
 html.embedded #s-process{padding-left:clamp(22px,4vw,52px)!important;padding-right:clamp(22px,4vw,52px)!important}
 
 /* HERO — un-lock height + cap the oversized type */
@@ -176,6 +174,7 @@ html.embedded .q-opt-d{font-size:.74rem!important;line-height:1.5}
 html.embedded .q-opt-letter{width:28px;height:28px}
 html.embedded .q-next{height:46px!important}
 html.embedded .qr-title{font-size:clamp(1.6rem,2.6vw,2.4rem)!important}
+html.embedded .qr-sub{font-size:.95rem!important;margin-bottom:1.2rem}
 html.embedded .qr-why{font-size:.92rem!important;padding:15px 18px}
 
 /* CAMPAIGN PROCESS — slightly smaller heading + cards */
@@ -184,6 +183,76 @@ html.embedded #s-process h2{font-size:clamp(1.7rem,2.8vw,2.7rem)!important}
 html.embedded .tl-card{padding:16px 15px 18px}
 html.embedded .tl-step-title{font-size:.86rem}
 html.embedded .tl-step-body{font-size:.74rem}
+
+/* MARQUEE — floating rounded glass bar with soft left/right fade (no hard edge) */
+html.embedded .mq{
+  border:1px solid var(--stroke);
+  border-radius:14px;
+  margin:clamp(20px,3vw,34px) clamp(22px,4vw,52px) 0;
+  background:linear-gradient(160deg,rgba(255,255,255,.035),rgba(255,255,255,.01));
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  overflow:hidden;
+}
+html.embedded .mq-t{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+}
+
+/* SERVICE SELECTOR — floating liquid-glass chips, all on one line */
+html.embedded .svc-selector{
+  display:flex!important;flex-wrap:nowrap!important;justify-content:center;
+  gap:7px;
+  border:none!important;border-radius:0!important;background:none!important;
+  overflow-x:auto;overflow-y:visible;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;
+  padding:4px clamp(18px,3vw,40px)!important;
+  margin:clamp(30px,4vw,56px) 0 0;
+}
+html.embedded .svc-selector::-webkit-scrollbar{display:none}
+html.embedded .svc-card{
+  flex:0 0 auto;
+  display:flex!important;align-items:center;gap:9px;
+  padding:9px 16px 9px 9px!important;
+  border:1px solid rgba(255,255,255,.09)!important;
+  border-radius:999px!important;
+  background:linear-gradient(150deg,rgba(255,255,255,.065),rgba(255,255,255,.018))!important;
+  backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);
+  box-shadow:0 4px 18px -8px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.12);
+  transition:transform .3s cubic-bezier(.25,.46,.45,.94),box-shadow .3s,border-color .3s,background .3s;
+  overflow:visible;
+}
+/* kill old dividers + bottom accent bar */
+html.embedded .svc-card{border-right:none!important;border-top:none!important}
+html.embedded .svc-card::before{display:none!important}
+/* number → glowing chilled-glass circle */
+html.embedded .sc-n{
+  margin:0!important;
+  width:28px;height:28px;border-radius:50%;
+  display:flex!important;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 32% 26%,rgba(255,90,120,.28),rgba(232,0,46,.07));
+  border:1px solid rgba(232,0,46,.35);
+  color:#ff5a78!important;font-size:.56rem;letter-spacing:.02em;
+  box-shadow:0 0 12px rgba(232,0,46,.25),inset 0 1px 0 rgba(255,255,255,.18);
+  flex-shrink:0;
+}
+html.embedded .sc-t{font-size:.8rem!important;white-space:nowrap;line-height:1}
+html.embedded .svc-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(232,0,46,.4)!important;
+  box-shadow:0 10px 30px -8px rgba(232,0,46,.45),inset 0 1px 0 rgba(255,255,255,.16);
+}
+html.embedded .svc-card.active{
+  background:linear-gradient(150deg,rgba(232,0,46,.18),rgba(232,0,46,.05))!important;
+  border-color:var(--r)!important;
+  box-shadow:0 10px 34px -8px rgba(232,0,46,.6),inset 0 1px 0 rgba(255,255,255,.2);
+}
+html.embedded .svc-card.active .sc-n{
+  background:radial-gradient(circle at 32% 26%,#ff5a78,var(--r));
+  color:#fff!important;border-color:var(--r);
+  box-shadow:0 0 16px rgba(232,0,46,.55),inset 0 1px 0 rgba(255,255,255,.25);
+}
+/* let the panel breathe under the detached chips + lose its hard bottom edge */
+html.embedded .svc-panel.active{border-bottom:none!important;margin-top:clamp(14px,2vw,26px)}
 
 /* ── BACKGROUND ── */
 #bg{position:fixed;inset:0;z-index:0;pointer-events:none}
@@ -430,7 +499,8 @@ main{position:relative;z-index:1}
 .q-result.active{display:block}
 .qr-rec{font-size:.58rem;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--r);margin-bottom:.6rem;display:flex;align-items:center;gap:10px}
 .qr-rec::before{content:"★";font-size:.55rem;color:var(--r)}
-.qr-title{font-size:clamp(2rem,3.4vw,3.2rem);font-weight:900;letter-spacing:-.05em;line-height:.93;margin-bottom:1rem;color:var(--fg)}
+.qr-title{font-size:clamp(2rem,3.4vw,3.2rem);font-weight:900;letter-spacing:-.05em;line-height:.93;margin-bottom:.6rem;color:var(--fg)}
+.qr-sub{font-size:1.05rem;font-weight:300;color:var(--fg2);line-height:1.5;margin-bottom:1.4rem;max-width:90%}
 .qr-why{font-size:1rem;color:var(--fg2);line-height:1.9;margin-bottom:2rem;padding:18px 22px;background:rgba(232,0,46,.04);border:1px solid rgba(232,0,46,.2);border-radius:14px;border-left:3px solid var(--r)}
 .qr-btns{display:flex;gap:12px;flex-wrap:wrap}
 .qr-restart{background:transparent;color:var(--fg3);border:1.5px solid var(--stroke);border-radius:12px;padding:0 22px;height:48px;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:color .2s,border-color .2s}
@@ -629,7 +699,7 @@ main{position:relative;z-index:1}
 </section>
 
 <!-- MARQUEE -->
-<div class="mq"><div class="mq-t"><span class="mq-i">Affiliate Management</span><span class="mq-i">LIVE Commerce</span><span class="mq-i">Paid Video Campaigns</span><span class="mq-i">UGC Production</span><span class="mq-i">Full Service</span><span class="mq-i">TAP Campaigns</span><span class="mq-i">Gold TSP</span><span class="mq-i">Discord Community</span><span class="mq-i">Creator Outreach</span><span class="mq-i">Affiliate Management</span><span class="mq-i">LIVE Commerce</span><span class="mq-i">Paid Video Campaigns</span><span class="mq-i">UGC Production</span><span class="mq-i">Full Service</span><span class="mq-i">TAP Campaigns</span><span class="mq-i">Gold TSP</span><span class="mq-i">Discord Community</span><span class="mq-i">Creator Outreach</span></div></div>
+<div class="mq"><div class="mq-t"><span class="mq-i">Affiliate Management</span><span class="mq-i">LIVE Commerce</span><span class="mq-i">Flat Fee Campaign</span><span class="mq-i">UGC Production</span><span class="mq-i">Full Service</span><span class="mq-i">TAP Campaigns</span><span class="mq-i">Gold TSP</span><span class="mq-i">Discord Community</span><span class="mq-i">Creator Outreach</span><span class="mq-i">Affiliate Management</span><span class="mq-i">LIVE Commerce</span><span class="mq-i">Flat Fee Campaign</span><span class="mq-i">UGC Production</span><span class="mq-i">Full Service</span><span class="mq-i">TAP Campaigns</span><span class="mq-i">Gold TSP</span><span class="mq-i">Discord Community</span><span class="mq-i">Creator Outreach</span></div></div>
 
 <!-- ── SERVICES ── -->
 <section class="svc-section" id="services">
@@ -638,7 +708,7 @@ main{position:relative;z-index:1}
 
   <!-- selector -->
   <div class="svc-selector rv">
-    <button class="svc-card active" data-svc="0"><span class="sc-n">01</span><span class="sc-t">Paid Video Campaigns</span></button>
+    <button class="svc-card active" data-svc="0"><span class="sc-n">01</span><span class="sc-t">Flat Fee Campaign</span></button>
     <button class="svc-card" data-svc="1"><span class="sc-n">02</span><span class="sc-t">Affiliate Management</span></button>
     <button class="svc-card" data-svc="2"><span class="sc-n">03</span><span class="sc-t">LIVE Affiliate Mgmt</span></button>
     <button class="svc-card" data-svc="3"><span class="sc-n">04</span><span class="sc-t">Full Service</span></button>
@@ -651,7 +721,7 @@ main{position:relative;z-index:1}
 
     <div class="svc-panel active" data-panel="0">
       <div class="sp-left">
-        <div class="sp-num">01 — Paid Video Campaigns</div>
+        <div class="sp-num">01 — Flat Fee Campaign</div>
         <div class="sp-title">Guaranteed creator output. Defined deliverables.</div>
         <p class="sp-desc">Structured short-video campaigns with defined creator deliverables from TikTok Shop affiliates. The cleanest path when your priority is guaranteed creator output and consistent short-form content volume. We match creators to your product based on demonstrated TikTok Shop GMV — not follower count.</p>
         <p class="sp-desc-2">Campaigns run across a range of creator GMV tiers. Custom quotes are built around your specific creator mix, video volume, campaign length, and product category. Also includes newsletter and Discord community placement and TAP campaign support.</p>
@@ -872,6 +942,7 @@ main{position:relative;z-index:1}
         <div style="position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(232,0,46,.08),transparent 70%);pointer-events:none;border-radius:50%"></div>
         <div class="qr-rec" id="qr-service-label">—</div>
         <div class="qr-title" id="qr-title">—</div>
+        <div class="qr-sub" id="qr-sub">—</div>
         <div class="qr-why" id="qr-why">—</div>
         <div class="qr-btns">
           <a href="https://wkf.ms/4nM7Ix9" target="_blank" rel="noopener" class="panel-cta" style="flex:1;border-radius:12px;text-decoration:none" id="qr-cta">Contact Us →</a>
@@ -1147,7 +1218,7 @@ document.querySelectorAll('.svc-card').forEach(card=>{
 
 /* ── QUIZ LOGIC ── */
 const SERVICES={
-  paid:{label:'Paid Video Campaigns',title:'Guaranteed creator video output from high-GMV affiliates.',why:'Your brand is ready to scale and has a clear product story — what you need is a structured campaign with defined deliverables from creators who have proven TikTok Shop sell-through history. A flat-fee video campaign gives you predictable output, matched creators, and results you can measure.',cta:'Contact Us →',panel:0},
+  paid:{label:'Flat Fee Campaign',title:'Guaranteed creator video output from high-GMV affiliates.',why:'Your brand is ready to scale and has a clear product story — what you need is a structured campaign with defined deliverables from creators who have proven TikTok Shop sell-through history. A flat-fee video campaign gives you predictable output, matched creators, and results you can measure.',cta:'Contact Us →',panel:0},
   affiliate:{label:'Affiliate Management',title:'Full affiliate center operations, built to compound.',why:'You have a product that works but you need someone to run the creator infrastructure around it. Affiliate Management means Thundrr takes over your affiliate center end-to-end — outreach, relationships, Discord community, incentives, flash sales — so your creator engine keeps running and growing month over month.',cta:'Contact Us →',panel:1},
   live:{label:'LIVE Affiliate Management',title:'A managed remote LIVE selling operation for your brand.',why:'You have affiliate traction or a strong brand presence but no structured LIVE Commerce channel. LIVE Affiliate Management gives you a curated roster of remote LIVE sellers, fully coordinated through a branded Discord, with scheduling, scripting, and real-time ops handled by our team.',cta:'Contact Us →',panel:2},
   full:{label:'Full Service Management',title:'Affiliate Management and LIVE Commerce under one roof.',why:'You need everything built from scratch or want to seriously accelerate. Full Service gives you the complete TikTok Shop growth engine — affiliate infrastructure, LIVE operations, Discord community, and creator strategy — all coordinated by one dedicated team. The structure that compounds over time.',cta:'Contact Us →',panel:3},
@@ -1180,8 +1251,9 @@ function getRecommendation(){
 function showResult(){
   const rec=getRecommendation();
   const svc=SERVICES[rec.primary];
-  document.getElementById('qr-service-label').textContent='Recommended: '+svc.label;
-  document.getElementById('qr-title').textContent=svc.title;
+  document.getElementById('qr-service-label').textContent='Recommended';
+  document.getElementById('qr-title').textContent=svc.label;
+  document.getElementById('qr-sub').textContent=svc.title;
   document.getElementById('qr-why').textContent=svc.why;
   const ctaEl=document.getElementById('qr-cta');ctaEl.textContent=svc.cta;ctaEl.href='https://wkf.ms/4nM7Ix9';
   // also show alternatives
@@ -1201,7 +1273,7 @@ function showResult(){
   // switch view
   document.querySelectorAll('.q-wrap').forEach(q=>q.classList.remove('active'));
   const res=document.getElementById('q-result');res.classList.add('active');
-  res.querySelectorAll('.qr-rec,.qr-title,.qr-why,.qr-btns,.qr-also').forEach((el,i)=>{
+  res.querySelectorAll('.qr-rec,.qr-title,.qr-sub,.qr-why,.qr-btns,.qr-also').forEach((el,i)=>{
     el.style.opacity='0';el.style.transform='translateY(12px)';
     setTimeout(()=>{el.style.transition='opacity .45s cubic-bezier(.25,.46,.45,.94),transform .45s cubic-bezier(.25,.46,.45,.94)';el.style.opacity='1';el.style.transform='none'},i*100+80);
   });
