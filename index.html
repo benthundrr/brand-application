@@ -135,6 +135,12 @@ html{scroll-behavior:smooth}
 body{font-family:'Montserrat',sans-serif;background:var(--bk);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 body::after{content:'';position:fixed;inset:0;z-index:1000;pointer-events:none;opacity:.022;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
 
+/* ── EMBED MODE: when inside an iframe, drop the full-viewport hero lock ── */
+html.embedded,html.embedded body{background:var(--bk)}
+html.embedded .hero{min-height:auto!important;padding-top:clamp(64px,7vh,104px)!important;padding-bottom:clamp(48px,6vh,78px)!important}
+/* fixed atmosphere reads off the iframe box when embedded — fine, but keep it contained */
+html.embedded .glow-a,html.embedded .glow-b,html.embedded .vignette,html.embedded #bg{position:absolute}
+
 /* ── BACKGROUND ── */
 #bg{position:fixed;inset:0;z-index:0;pointer-events:none}
 
@@ -914,6 +920,11 @@ main{position:relative;z-index:1}
 
 </main>
 <script>
+/* ── EMBED DETECTION (must run before layout-dependent scripts) ── */
+var THUNDRR_EMBEDDED = false;
+try { THUNDRR_EMBEDDED = (window.self !== window.top); } catch(e){ THUNDRR_EMBEDDED = true; }
+if (THUNDRR_EMBEDDED) document.documentElement.classList.add('embedded');
+
 /* ── ANIMATED BACKGROUND ── */
 (()=>{
   const cv=document.getElementById('bg'),ctx=cv.getContext('2d');let W,H;
@@ -1086,6 +1097,7 @@ document.querySelectorAll('.svc-card').forEach(card=>{
     document.querySelectorAll('.svc-panel').forEach(p=>p.classList.remove('active'));
     card.classList.add('active');
     document.querySelector(`.svc-panel[data-panel="${card.dataset.svc}"]`).classList.add('active');
+    if(window.thundrrPostHeight)setTimeout(window.thundrrPostHeight,60);
   });
 });
 
@@ -1154,6 +1166,7 @@ function showResult(){
   document.querySelectorAll('.svc-panel').forEach(x=>x.classList.remove('active'));
   document.querySelector(`.svc-card[data-svc="${svc.panel}"]`).classList.add('active');
   document.querySelector(`.svc-panel[data-panel="${svc.panel}"]`).classList.add('active');
+  if(window.thundrrPostHeight)setTimeout(window.thundrrPostHeight,80);
 }
 
 function restartQuiz(){
@@ -1162,6 +1175,7 @@ function restartQuiz(){
   document.querySelectorAll('.q-next').forEach(b=>{b.classList.remove('ready')});
   document.getElementById('q-result').classList.remove('active');
   document.getElementById('q1').classList.add('active');
+  if(window.thundrrPostHeight)setTimeout(window.thundrrPostHeight,80);
 }
 
 // Q1
@@ -1205,6 +1219,28 @@ document.getElementById('qn3').addEventListener('click',()=>{
   document.getElementById('q3').classList.remove('active');
   showResult();
 });
+
+/* ── AUTO-RESIZE WHEN EMBEDDED ── */
+(function(){
+  if(!THUNDRR_EMBEDDED)return;
+  var last=0;
+  function postHeight(){
+    var h=Math.max(
+      document.documentElement.scrollHeight,
+      document.body ? document.body.scrollHeight : 0
+    );
+    if(Math.abs(h-last)<2)return; // avoid noise loops
+    last=h;
+    try{ parent.postMessage({thundrrFrameHeight:h},'*'); }catch(e){}
+  }
+  window.thundrrPostHeight=postHeight;
+  window.addEventListener('load',postHeight);
+  window.addEventListener('resize',postHeight);
+  // catch preloader / word-up / reveal settling
+  [400,900,1400,2000,2800].forEach(function(t){setTimeout(postHeight,t)});
+  try{ new ResizeObserver(postHeight).observe(document.body); }catch(e){}
+  // links that open the apply form shouldn't navigate the parent unexpectedly — already target=_blank
+})();
 </script>
 </body>
 </html>
