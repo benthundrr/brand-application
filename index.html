@@ -137,9 +137,53 @@ body::after{content:'';position:fixed;inset:0;z-index:1000;pointer-events:none;o
 
 /* ── EMBED MODE: when inside an iframe, drop the full-viewport hero lock ── */
 html.embedded,html.embedded body{background:var(--bk)}
-html.embedded .hero{min-height:auto!important;padding-top:clamp(64px,7vh,104px)!important;padding-bottom:clamp(48px,6vh,78px)!important}
 /* fixed atmosphere reads off the iframe box when embedded — fine, but keep it contained */
 html.embedded .glow-a,html.embedded .glow-b,html.embedded .vignette,html.embedded #bg{position:absolute}
+
+/* center everything into a readable column instead of full-bleed */
+html.embedded main{max-width:1140px;margin-left:auto;margin-right:auto}
+
+/* consistent, capped side padding (no more viewport-wide gutters) */
+html.embedded .hero,
+html.embedded .svc-selector,
+html.embedded .svc-panel.active,
+html.embedded .mq,
+html.embedded #s-process{padding-left:clamp(22px,4vw,52px)!important;padding-right:clamp(22px,4vw,52px)!important}
+
+/* HERO — un-lock height + cap the oversized type */
+html.embedded .hero{min-height:auto!important;padding-top:clamp(52px,6vh,84px)!important;padding-bottom:clamp(40px,5vh,64px)!important}
+html.embedded .h1{font-size:clamp(2.6rem,5.2vw,4.4rem)!important;margin-bottom:1.2rem}
+html.embedded .h-sub{font-size:.95rem!important;margin-bottom:2rem}
+html.embedded .h-btns{margin-bottom:2.2rem}
+html.embedded .hero-wm{font-size:clamp(9rem,16vw,20rem)}
+
+/* SERVICE PANEL — tighter columns, smaller title, contained reading width */
+html.embedded .svc-panel.active{gap:clamp(32px,4vw,56px)!important;padding-top:clamp(40px,5vw,64px)!important;padding-bottom:clamp(40px,5vw,64px)!important}
+html.embedded .sp-title{font-size:clamp(1.5rem,2.4vw,2.3rem)!important}
+html.embedded .sp-desc{font-size:.92rem!important}
+html.embedded .sp-desc-2{font-size:.88rem!important}
+
+/* QUIZ — compact so the whole card fits without the header scrolling away */
+html.embedded .quiz-inner{padding:clamp(34px,5vw,56px) clamp(24px,4vw,44px)!important;margin-top:clamp(28px,4vw,44px)!important;max-width:720px}
+html.embedded .quiz-title{font-size:clamp(1.6rem,2.6vw,2.4rem)!important;margin-bottom:.7rem}
+html.embedded .quiz-sub{font-size:.9rem!important;margin-bottom:1.8rem!important}
+html.embedded .q-text{font-size:1.02rem!important;margin-bottom:1.1rem}
+html.embedded .q-progress{margin-bottom:1.4rem}
+html.embedded .q-opts{gap:8px!important;margin-bottom:1.4rem!important}
+html.embedded .q-opt{padding:13px 16px!important}
+html.embedded .q-opt-t{font-size:.88rem!important;margin-bottom:2px}
+html.embedded .q-opt-d{font-size:.74rem!important;line-height:1.5}
+html.embedded .q-opt-letter{width:28px;height:28px}
+html.embedded .q-next{height:46px!important}
+html.embedded .qr-title{font-size:clamp(1.6rem,2.6vw,2.4rem)!important}
+html.embedded .qr-why{font-size:.92rem!important;padding:15px 18px}
+
+/* CAMPAIGN PROCESS — slightly smaller heading + cards */
+html.embedded #s-process{padding-top:clamp(56px,7vw,96px)!important;padding-bottom:clamp(56px,7vw,96px)!important}
+html.embedded #s-process h2{font-size:clamp(1.7rem,2.8vw,2.7rem)!important}
+html.embedded .tl-card{padding:16px 15px 18px}
+html.embedded .tl-step-title{font-size:.86rem}
+html.embedded .tl-step-body{font-size:.74rem}
 
 /* ── BACKGROUND ── */
 #bg{position:fixed;inset:0;z-index:0;pointer-events:none}
