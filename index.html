@@ -124,7 +124,11 @@ body.ready .reveal{animation:revUp .72s cubic-bezier(.25,.46,.45,.94) forwards}
 /* scope items hover glow */
 .si:hover{background:rgba(232,0,46,.03);border-radius:6px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+/* FIX: clip horizontal overflow at the html level so absolutely-positioned
+   atmosphere glows (.glow-a / .glow-b) can't create right-scroll on mobile/embed.
+   Vertical scroll + embed auto-resize (scrollHeight) are unaffected. */
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{overflow-x:hidden;max-width:100%}
 ::selection{background:rgba(232,0,46,.22);color:#fff}
 :root{
   --r:#e8002e;
@@ -132,7 +136,7 @@ html{scroll-behavior:smooth}
   --fg:#ece8f2;--fg2:rgba(236,232,242,.52);--fg3:rgba(236,232,242,.22);--fg4:rgba(236,232,242,.08);
   --stroke:rgba(236,232,242,.07);
 }
-body{font-family:'Montserrat',sans-serif;background:var(--bk);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:'Montserrat',sans-serif;background:var(--bk);color:var(--fg);-webkit-font-smoothing:antialiased}
 body::after{content:'';position:fixed;inset:0;z-index:1000;pointer-events:none;opacity:.022;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
 
 /* ── EMBED MODE: when inside an iframe, drop the full-viewport hero lock ── */
@@ -657,6 +661,17 @@ main{position:relative;z-index:1}
   .h1{font-size:3rem}
   .cta-btns{flex-direction:column;align-items:stretch}
 }
+
+/* ── MOBILE ATMOSPHERE CLAMP ──
+   Keep the off-canvas glows from getting harshly sliced once html
+   overflow-x is clipped. Purely cosmetic; the overflow rule above is
+   what actually stops the right-scroll. */
+@media(max-width:768px){
+  .glow-a{width:62vw;max-width:420px;height:62vw;max-height:420px;right:-14vw;top:-130px}
+  .glow-b{width:56vw;max-width:360px;height:56vw;max-height:360px;left:-14vw}
+  .hero-wm{font-size:clamp(9rem,40vw,18rem)}
+}
+
 .wu-red i{color:var(--r);-webkit-text-fill-color:var(--r)}
 @keyframes shimmer{to{background-position:220% 0}}
 </style>
